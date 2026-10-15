@@ -18,12 +18,12 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
   onPhoneClick
 }) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#FAF8F5]/95 backdrop-blur-md border-t border-[#DDD7C6] px-3 py-2.5 md:hidden shadow-lg safe-area-bottom">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-canvas/95 backdrop-blur-md border-t border-hairline px-3 py-2.5 md:hidden pb-[max(0.625rem,env(safe-area-inset-bottom))]">
       <div className="flex items-center gap-2">
         {/* Quick Call */}
         <button
           onClick={onPhoneClick}
-          className="flex-1 py-2.5 px-2 rounded-xl bg-white border border-[#3A55A3]/40 text-[#3A55A3] font-semibold text-xs flex items-center justify-center gap-1.5 shadow-2xs active:scale-98 transition-transform"
+          className="flex-1 py-2.5 px-2 rounded-full bg-white border border-deep/40 text-deep font-semibold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Call Advisor"
         >
           <Phone className="w-3.5 h-3.5 shrink-0" />
@@ -33,7 +33,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
         {/* Quick WhatsApp */}
         <button
           onClick={onWhatsAppClick}
-          className="flex-1 py-2.5 px-2 rounded-xl bg-[#E8F8F0] border border-[#00A859] text-[#00A859] font-semibold text-xs flex items-center justify-center gap-1.5 shadow-2xs active:scale-98 transition-transform"
+          className="flex-1 py-2.5 px-2 rounded-full bg-accent/10 border border-accent text-accent font-semibold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="WhatsApp Advisor"
         >
           <MessageCircle className="w-4 h-4 shrink-0" />
@@ -43,7 +43,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
         {/* Primary Discuss Plan */}
         <button
           onClick={onDiscussClick}
-          className="flex-1.5 py-2.5 px-3 rounded-xl bg-[#00A859] text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm active:scale-98 transition-transform"
+          className="flex-1.5 py-2.5 px-3 rounded-full bg-accent hover:bg-ink text-white font-bold text-xs flex items-center justify-center gap-1 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Discuss a Bespoke Plan"
         >
           <span>Discuss Plan</span>

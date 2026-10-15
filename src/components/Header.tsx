@@ -9,8 +9,7 @@ import {
   MessageCircle,
   Menu,
   X,
-  ArrowRight,
-  ShieldCheck
+  ArrowRight
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 
@@ -45,13 +44,13 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#E7E2D6] transition-all">
+    <header className="sticky top-0 z-30 bg-canvas/95 backdrop-blur-md border-b border-hairline transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 sm:h-22">
           {/* Brand Logo */}
           <a
             href="#"
-            className="flex items-center focus:outline-hidden focus:ring-2 focus:ring-[#00A859] rounded-lg p-1"
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-lg p-1"
             aria-label="FamilyCare Funeral Trust Home"
           >
             <BrandLogo variant="color" className="h-12 w-auto" />
@@ -67,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
                   e.preventDefault();
                   handleLinkClick(link.href);
                 }}
-                className="text-xs xl:text-sm font-medium text-[#52525B] hover:text-[#18181B] transition-colors relative py-1 hover:border-b-2 hover:border-[#00A859]"
+                className="text-xs xl:text-sm font-medium text-muted hover:text-body transition-colors relative py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm hover:border-b-2 hover:border-accent"
               >
                 {link.label}
               </a>
@@ -79,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Phone quick button */}
             <button
               onClick={onPhoneClick}
-              className="p-2.5 rounded-full text-[#3A55A3] bg-[#F2EFE9] hover:bg-[#E7E2D6] border border-[#DDD7C6] transition-colors"
+              className="p-2.5 rounded-full text-deep bg-tint hover:bg-hairline border border-hairline transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               aria-label="Call FamilyCare Advisor"
               title="Call FamilyCare Advisor (+233 30 278 9123)"
             >
@@ -89,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* WhatsApp quick button */}
             <button
               onClick={onWhatsAppClick}
-              className="p-2.5 rounded-full text-[#00A859] bg-[#E8F8F0] hover:bg-[#D2F2E2] border border-[#BCE8D1] transition-colors"
+              className="p-2.5 rounded-full text-accent bg-accent/10 hover:bg-accent/15 border border-accent/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               aria-label="WhatsApp FamilyCare Concierge"
               title="Chat with FamilyCare on WhatsApp"
             >
@@ -99,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Primary Action Button */}
             <button
               onClick={onDiscussClick}
-              className="px-4 py-2.5 rounded-xl bg-[#00A859] hover:bg-[#072A1A] text-white font-semibold text-xs md:text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-2 group cursor-pointer"
+              className="px-5 py-2.5 rounded-full bg-accent hover:bg-ink text-white font-semibold text-xs md:text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               <span>Discuss a Bespoke Plan</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -110,14 +109,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 sm:hidden">
             <button
               onClick={onWhatsAppClick}
-              className="p-2 rounded-lg text-[#00A859] bg-[#E8F8F0] border border-[#BCE8D1]"
+              className="p-2 rounded-lg text-accent bg-accent/10 border border-accent/20"
               aria-label="WhatsApp FamilyCare"
             >
               <MessageCircle className="w-5 h-5" />
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-[#18181B] hover:bg-[#F2EFE9]"
+              className="p-2 rounded-lg text-body hover:bg-tint"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -128,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-t border-[#E7E2D6] bg-[#FAF8F5] px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top duration-200">
+        <div className="sm:hidden border-t border-hairline bg-canvas px-4 pt-3 pb-6 space-y-3">
           <div className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <a
@@ -138,20 +137,20 @@ export const Header: React.FC<HeaderProps> = ({
                   e.preventDefault();
                   handleLinkClick(link.href);
                 }}
-                className="px-3 py-2 text-sm font-medium text-[#18181B] hover:bg-[#F2EFE9] rounded-lg"
+                className="px-3 py-2 text-sm font-medium text-body hover:bg-tint rounded-lg"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="pt-3 border-t border-[#E7E2D6] space-y-2.5">
+          <div className="pt-3 border-t border-hairline space-y-2.5">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onDiscussClick();
               }}
-              className="w-full py-3 px-4 rounded-xl bg-[#00A859] text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm"
+              className="w-full py-3 px-4 rounded-full bg-accent hover:bg-ink text-white font-semibold text-sm flex items-center justify-center gap-2"
             >
               <span>Discuss a Bespoke Plan</span>
               <ArrowRight className="w-4 h-4" />
@@ -163,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                   onWhatsAppClick();
                 }}
-                className="py-2.5 px-3 rounded-lg border border-[#00A859] text-[#00A859] bg-[#E8F8F0] font-medium text-xs flex items-center justify-center gap-1.5"
+                className="py-2.5 px-3 rounded-full border border-accent text-accent bg-accent/10 font-medium text-xs flex items-center justify-center gap-1.5"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp</span>
@@ -173,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                   onPhoneClick();
                 }}
-                className="py-2.5 px-3 rounded-lg border border-[#3A55A3] text-[#3A55A3] bg-[#EEF2FC] font-medium text-xs flex items-center justify-center gap-1.5"
+                className="py-2.5 px-3 rounded-full border border-deep text-deep bg-deep/5 font-medium text-xs flex items-center justify-center gap-1.5"
               >
                 <Phone className="w-4 h-4" />
                 <span>Call Advisor</span>
