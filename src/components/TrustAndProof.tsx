@@ -128,7 +128,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
 
               <button
                 onClick={onDiscussClick}
-                className="px-6 py-3 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
+                className="mx-auto px-6 py-3 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
               >
                 <span>Discuss a Bespoke Plan</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
