@@ -11,6 +11,7 @@ import {
 } from '../utils/conversion';
 import { EnquiryForm } from './EnquiryForm';
 import { WhatsAppConcierge } from './WhatsAppConcierge';
+import { Reveal } from './Reveal';
 
 interface Draft {
   name: string;
@@ -57,15 +58,17 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
     <section id="enquiry-form" className="py-16 sm:py-24 bg-canvas border-b border-hairline scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            Tell us what you need. A FamilyCare advisor will help you understand the next step.
-          </h2>
+        <Reveal>
+          <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
+              Tell us what you need. A FamilyCare advisor will help you understand the next step.
+            </h2>
 
-          <p className="text-base sm:text-lg text-muted leading-relaxed">
-            There is no obligation. We clarify options, check location coverage, and prepare a calm, transparent proposal tailored strictly to your wishes.
-          </p>
-        </div>
+            <p className="text-base sm:text-lg text-muted leading-relaxed">
+              There is no obligation. We clarify options, check location coverage, and prepare a calm, transparent proposal tailored strictly to your wishes.
+            </p>
+          </div>
+        </Reveal>
 
         {/* Dual-Path Container (Form Left, WhatsApp Concierge Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

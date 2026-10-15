@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, MessageCircle, ArrowRight } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 interface FaqItem {
   id: string;
@@ -89,18 +90,21 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
     <section id="faq" className="py-16 sm:py-24 bg-canvas border-b border-hairline scroll-mt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center space-y-3 mb-12 sm:mb-16">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            Frequently Asked Questions
-          </h2>
+        <Reveal>
+          <div className="text-center space-y-3 mb-12 sm:mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
+              Frequently Asked Questions
+            </h2>
 
-          <p className="text-base sm:text-lg text-muted leading-relaxed">
-            Clear, honest answers about how FamilyCare shapes bespoke arrangements, pricing, and timing.
-          </p>
-        </div>
+            <p className="text-base sm:text-lg text-muted leading-relaxed">
+              Clear, honest answers about how FamilyCare shapes bespoke arrangements, pricing, and timing.
+            </p>
+          </div>
+        </Reveal>
 
         {/* Accordion List */}
-        <div className="space-y-3">
+        <Reveal delay={0.05}>
+          <div className="space-y-3">
           {FAQS.map((faq) => {
             const isOpen = !!openItems[faq.id];
             return (
@@ -140,7 +144,8 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
               </div>
             );
           })}
-        </div>
+          </div>
+        </Reveal>
 
         {/* Bottom micro prompt */}
         <div className="mt-10 p-6 rounded-card bg-tint border border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">

@@ -11,6 +11,7 @@ import {
   Award,
   ArrowRight
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 interface HowItWorksProps {
   onStepClick: (stepTitle: string) => void;
@@ -56,15 +57,17 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStepClick }) => {
     <section id="process" className="py-16 sm:py-24 bg-tint border-b border-hairline scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-16">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            A calm, structured path from first conversation to final tribute.
-          </h2>
+        <Reveal>
+          <div className="max-w-3xl mx-auto text-center space-y-3 mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
+              A calm, structured path from first conversation to final tribute.
+            </h2>
 
-          <p className="text-base sm:text-lg text-muted leading-relaxed">
-            Planning a bespoke funeral does not have to be overwhelming. FamilyCare guides you through a clear four-step process where you retain complete control over every decision.
-          </p>
-        </div>
+            <p className="text-base sm:text-lg text-muted leading-relaxed">
+              Planning a bespoke funeral does not have to be overwhelming. FamilyCare guides you through a clear four-step process where you retain complete control over every decision.
+            </p>
+          </div>
+        </Reveal>
 
         {/* 4-Step Grid with Connected Line */}
         <div className="relative">
@@ -72,11 +75,11 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStepClick }) => {
           <div className="hidden lg:block absolute top-14 left-16 right-16 h-0.5 bg-hairline z-0" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
-            {steps.map((step) => (
-              <div
-                key={step.num}
-                className="bg-white rounded-card p-6 sm:p-7 border border-hairline hover:border-muted/40 transition-colors flex flex-col justify-between"
-              >
+            {steps.map((step, index) => (
+              <Reveal key={step.num} delay={index * 0.05}>
+                <div
+                  className="bg-white rounded-card p-6 sm:p-7 border border-hairline hover:border-muted/40 transition-colors flex flex-col justify-between h-full"
+                >
                 <div>
                   {/* Step Number + Icon */}
                   <div className="flex items-center justify-between mb-5">
@@ -113,6 +116,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStepClick }) => {
                   </button>
                 </div>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>

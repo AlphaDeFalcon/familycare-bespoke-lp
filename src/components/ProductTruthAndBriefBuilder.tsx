@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Sparkles
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 export interface TailoringDimension {
   id: string;
@@ -106,7 +107,8 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
     <section id="tailoring" className="py-16 sm:py-24 bg-canvas border-b border-hairline scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section 03: The Product Truth */}
-        <div id="truth" className="max-w-3xl mx-auto text-center space-y-4 mb-16 scroll-mt-24">
+        <Reveal>
+          <div id="truth" className="max-w-3xl mx-auto text-center space-y-4 mb-16 scroll-mt-24">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-ink text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-accent" />
             <span>The FamilyCare Difference</span>
@@ -120,24 +122,25 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
             Fixed funeral packages force families to pay for inclusions they do not want, or compromise on traditions that are sacred to them. FamilyCare&rsquo;s Contract / Bespoke service begins with an open conversation: we listen first, then shape the tribute with precision, empathy, and transparency.
           </p>
         </div>
+        </Reveal>
 
         {/* Section 04: The 6 Tailoring Dimensions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {TAILORING_DIMENSIONS.map((dim) => {
+          {TAILORING_DIMENSIONS.map((dim, index) => {
             const isSelected = selectedDimensions.includes(dim.key);
 
             return (
-              <button
-                key={dim.id}
-                type="button"
-                onClick={() => onToggleDimension(dim.key)}
-                aria-pressed={isSelected}
-                className={`text-left relative rounded-card p-6 sm:p-7 border transition-colors duration-200 flex flex-col justify-between cursor-pointer group bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
-                  isSelected
-                    ? 'border-accent ring-2 ring-accent/20 bg-accent/5'
-                    : 'border-hairline hover:border-deep/40'
-                }`}
-              >
+              <Reveal key={dim.id} delay={index * 0.05}>
+                <button
+                  type="button"
+                  onClick={() => onToggleDimension(dim.key)}
+                  aria-pressed={isSelected}
+                  className={`text-left relative rounded-card p-6 sm:p-7 border transition-colors duration-200 flex flex-col justify-between cursor-pointer group bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full h-full ${
+                    isSelected
+                      ? 'border-accent ring-2 ring-accent/20 bg-accent/5'
+                      : 'border-hairline hover:border-deep/40'
+                  }`}
+                >
                 <div>
                   {/* Top Bar with Icon and Badge */}
                   <div className="flex items-center justify-between mb-4">
@@ -190,6 +193,7 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
                   </span>
                 </div>
               </button>
+              </Reveal>
             );
           })}
         </div>

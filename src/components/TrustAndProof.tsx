@@ -11,6 +11,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { cloudinary, facilityImage, staffSklarbi, staffAtiaviGlime, staffEmmanuelOdame, staffHelen } from '../utils/media';
+import { Reveal } from './Reveal';
 
 interface TrustAndProofProps {
   onDiscussClick: () => void;
@@ -28,70 +29,81 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
     <section id="trust" className="py-16 sm:py-24 bg-tint border-b border-hairline scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-20">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-3">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            Know who you are entrusting with the details.
-          </h2>
+        <Reveal>
+          <div className="max-w-3xl mx-auto text-center space-y-3">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
+              Know who you are entrusting with the details.
+            </h2>
 
-          <p className="text-base sm:text-lg text-muted leading-relaxed">
-            In Ghana, trust is earned through transparent accounting and compassionate human advisors, never through ambiguous sales claims.
-          </p>
-        </div>
+            <p className="text-base sm:text-lg text-muted leading-relaxed">
+              In Ghana, trust is earned through transparent accounting and compassionate human advisors, never through ambiguous sales claims.
+            </p>
+          </div>
+        </Reveal>
 
         {/* Process Proof Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4">
-            <div className="w-12 h-12 rounded-card bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
-              <FileCheck2 className="w-6 h-6" />
+          <Reveal delay={0}>
+            <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4 h-full">
+              <div className="w-12 h-12 rounded-card bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                <FileCheck2 className="w-6 h-6" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-ink">
+                An itemized proposal
+              </h3>
+              <p className="text-xs text-muted leading-relaxed">
+                Every component, from hearse and casket to ceremony and reception, is detailed in writing and approved by you before any commitment.
+              </p>
             </div>
-            <h3 className="font-display text-xl font-bold text-ink">
-              An itemized proposal
-            </h3>
-            <p className="text-xs text-muted leading-relaxed">
-              Every component, from hearse and casket to ceremony and reception, is detailed in writing and approved by you before any commitment.
-            </p>
-          </div>
+          </Reveal>
 
-          <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4">
-            <div className="w-12 h-12 rounded-card bg-deep/10 border border-deep/20 flex items-center justify-center text-deep">
-              <Scale className="w-6 h-6" />
+          <Reveal delay={0.05}>
+            <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4 h-full">
+              <div className="w-12 h-12 rounded-card bg-deep/10 border border-deep/20 flex items-center justify-center text-deep">
+                <Scale className="w-6 h-6" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-ink">
+                Transparent budget discussion
+              </h3>
+              <p className="text-xs text-muted leading-relaxed">
+                Budget is part of the brief from the start. You decide where resources are focused, and every item is documented in your proposal.
+              </p>
             </div>
-            <h3 className="font-display text-xl font-bold text-ink">
-              Transparent budget discussion
-            </h3>
-            <p className="text-xs text-muted leading-relaxed">
-              Budget is part of the brief from the start. You decide where resources are focused, and every item is documented in your proposal.
-            </p>
-          </div>
+          </Reveal>
 
-          <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4">
-            <div className="w-12 h-12 rounded-card bg-tint border border-hairline flex items-center justify-center text-ink">
-              <HeartHandshake className="w-6 h-6" />
+          <Reveal delay={0.1}>
+            <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4 h-full">
+              <div className="w-12 h-12 rounded-card bg-tint border border-hairline flex items-center justify-center text-ink">
+                <HeartHandshake className="w-6 h-6" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-ink">
+                One dedicated advisor
+              </h3>
+              <p className="text-xs text-muted leading-relaxed">
+                A FamilyCare advisor stays with your family from the first conversation through the final tribute.
+              </p>
             </div>
-            <h3 className="font-display text-xl font-bold text-ink">
-              One dedicated advisor
-            </h3>
-            <p className="text-xs text-muted leading-relaxed">
-              A FamilyCare advisor stays with your family from the first conversation through the final tribute.
-            </p>
-          </div>
+          </Reveal>
         </div>
 
         {/* Facility Photo + Team Strip */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <figure className="space-y-3">
-            <img
-              src={cloudinary(facilityImage, 'w_1200,f_auto,q_auto')}
-              alt="A FamilyCare facility"
-              className="w-full rounded-card border border-hairline"
-              loading="lazy"
-            />
-            <figcaption className="text-xs text-muted">
-              A FamilyCare facility.
-            </figcaption>
-          </figure>
+          <Reveal>
+            <figure className="space-y-3">
+              <img
+                src={cloudinary(facilityImage, 'w_1200,f_auto,q_auto')}
+                alt="A FamilyCare facility"
+                className="w-full rounded-card border border-hairline"
+                loading="lazy"
+              />
+              <figcaption className="text-xs text-muted">
+                A FamilyCare facility.
+              </figcaption>
+            </figure>
+          </Reveal>
 
-          <div className="space-y-6">
+          <Reveal delay={0.05}>
+            <div className="space-y-6">
             <div className="space-y-2">
               <h3 className="font-display text-2xl sm:text-3xl font-bold text-ink">
                 A team that listens first
@@ -121,6 +133,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>

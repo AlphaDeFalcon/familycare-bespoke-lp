@@ -14,6 +14,7 @@ import {
   Users2,
   ArrowRight
 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 export interface CapabilityItem {
   id: string;
@@ -92,25 +93,27 @@ export const CapabilityProof: React.FC<CapabilityProofProps> = ({ onSelectCapabi
     <section id="capabilities" className="py-16 sm:py-24 bg-tint border-b border-hairline scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-16">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            One conversation. Multiple details coordinated through the FamilyCare process.
-          </h2>
+        <Reveal>
+          <div className="max-w-3xl mx-auto text-center space-y-3 mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
+              One conversation. Multiple details coordinated through the FamilyCare process.
+            </h2>
 
-          <p className="text-base sm:text-lg text-muted leading-relaxed">
-            Rather than dealing with a dozen separate vendors during an emotional time, FamilyCare provides end-to-end coordination under one accountable roof.
-          </p>
-        </div>
+            <p className="text-base sm:text-lg text-muted leading-relaxed">
+              Rather than dealing with a dozen separate vendors during an emotional time, FamilyCare provides end-to-end coordination under one accountable roof.
+            </p>
+          </div>
+        </Reveal>
 
         {/* 7 Capabilities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {CAPABILITIES.map((cap, idx) => (
-            <div
-              key={cap.id}
-              className={`bg-white rounded-card border border-hairline hover:border-muted/40 transition-colors flex flex-col justify-between group ${
-                idx === 6 ? 'md:col-span-2 lg:col-span-1 xl:col-span-1' : ''
-              }`}
-            >
+            <Reveal key={cap.id} delay={idx * 0.04}>
+              <div
+                className={`bg-white rounded-card border border-hairline hover:border-muted/40 transition-colors flex flex-col justify-between group h-full ${
+                  idx === 6 ? 'md:col-span-2 lg:col-span-1 xl:col-span-1' : ''
+                }`}
+              >
               <div>
                 {/* Icon + Title */}
                 <div className="p-5 pb-0 flex items-center gap-3">
@@ -144,6 +147,7 @@ export const CapabilityProof: React.FC<CapabilityProofProps> = ({ onSelectCapabi
                 </button>
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
       </div>

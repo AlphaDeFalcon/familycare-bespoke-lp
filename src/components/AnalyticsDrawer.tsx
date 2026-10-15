@@ -53,7 +53,7 @@ export const AnalyticsDrawer: React.FC<AnalyticsDrawerProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-xs flex justify-end transition-opacity">
-      <div className="relative w-full max-w-xl bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-300">
+      <div className="relative w-full max-w-xl bg-white h-full shadow-2xl flex flex-col z-10">
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-zinc-200 bg-zinc-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">

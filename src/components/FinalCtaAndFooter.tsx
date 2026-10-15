@@ -10,6 +10,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import { Reveal } from './Reveal';
 
 interface FinalCtaAndFooterProps {
   onDiscussClick: () => void;
@@ -57,7 +58,8 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
     <>
       {/* Final Conversion Banner */}
       <section className="bg-deep text-white py-16 sm:py-20 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+        <Reveal>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             Let&rsquo;s talk about what your family needs.
           </h2>
@@ -92,7 +94,8 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               <span>Call an Advisor</span>
             </button>
           </div>
-        </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* Global Footer */}
