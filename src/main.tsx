@@ -17,8 +17,9 @@ import './index.css';
 // literal can leak into production bundles.
 const gtmId = import.meta.env?.VITE_GTM_ID as string | undefined;
 if (gtmId && gtmId.charAt(0) === 'G') {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+  const w = window as unknown as { dataLayer?: unknown[] };
+  w.dataLayer = w.dataLayer || [];
+  w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
   const script = document.createElement('script');
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
