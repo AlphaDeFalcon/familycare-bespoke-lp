@@ -158,16 +158,6 @@ export default function App() {
     scrollToForm();
   };
 
-  // Handle advisor contact request
-  const handleAdvisorAction = (advisorName: string) => {
-    logEvent({
-      event: 'cta_click',
-      label: `Requested consultation with advisor: ${advisorName}`,
-      section: 'Trust & Proof'
-    });
-    scrollToForm();
-  };
-
   // On lead captured
   const handleLeadCaptured = (lead: CrmLeadPayload) => {
     setCapturedLeads((prev) => [lead, ...prev]);
@@ -215,10 +205,9 @@ export default function App() {
         {/* 6. Section 06: Capability Proof (7 Concrete Modules) */}
         <CapabilityProof onSelectCapability={handleSelectCapability} />
 
-        {/* 7. Section 07 & 08: Trust, Credentials & Real Service Proof (Advisors & Case Story) */}
+        {/* 7. Section 07 & 08: Trust, Process Proof & Team */}
         <TrustAndProof
-          onAdvisorClick={handleAdvisorAction}
-          onConsultationClick={scrollToForm}
+          onDiscussClick={scrollToForm}
         />
 
         {/* 8. Section 09 & 10: Dual-Path Conversion Core (Qualification Form + WhatsApp Concierge) */}
