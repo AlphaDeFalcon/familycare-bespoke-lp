@@ -214,11 +214,31 @@ export default function App() {
         {/* 8. Section 09 & 10: Dual-Path Conversion Core (Qualification Form + WhatsApp Concierge) */}
         <EnquiryAndWhatsApp
           selectedDimensions={selectedDimensions}
-          onToggleDimension={handleToggleDimension}
-          activeUtms={activeUtms}
+          attribution={activeUtms}
           channelName={currentChannelConfig.name}
           onLeadCaptured={handleLeadCaptured}
-          onLogEvent={logEvent}
+          onFormStart={(field) =>
+            logEvent({
+              event: 'form_start',
+              label: `User interacted with field: ${field}`,
+              section: 'Enquiry Form'
+            })
+          }
+          onFormSubmit={(lead) =>
+            logEvent({
+              event: 'form_submit',
+              label: `Bespoke Consultation Lead: ${lead.leadId}`,
+              section: 'Enquiry Form',
+              metadata: {
+                leadId: lead.leadId,
+                location: lead.qualification.location,
+                timing: lead.qualification.timing,
+                needs: lead.qualification.need_type
+              }
+            })
+          }
+          onWhatsAppClick={(section) => handleWhatsAppAction(section)}
+          onPhoneClick={(section) => handlePhoneAction(section)}
         />
 
         {/* 9. Section 11: Accessible FAQ Accordion */}
