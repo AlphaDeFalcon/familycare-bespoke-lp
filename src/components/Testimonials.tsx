@@ -85,14 +85,14 @@ const GOOGLE_REVIEWS_URL = 'https://maps.app.goo.gl/RwtNcH661TzYbdE19?g_st=ic';
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <figure className="w-[19rem] shrink-0 bg-white rounded-card border border-hairline p-6 space-y-3 flex flex-col justify-between">
+    <figure className="w-[19rem] h-64 shrink-0 bg-white rounded-card border border-hairline p-6 flex flex-col">
       <div>
         <Quote className="w-5 h-5 text-accent mb-3" aria-hidden="true" />
-        <blockquote className="text-xs sm:text-sm text-body leading-relaxed">
+        <blockquote className="text-xs sm:text-sm text-body leading-relaxed line-clamp-5">
           &ldquo;{testimonial.quote}&rdquo;
         </blockquote>
       </div>
-      <figcaption className="text-xs text-muted pt-3 border-t border-hairline">
+      <figcaption className="mt-auto pt-3 border-t border-hairline text-xs text-muted">
         <span className="font-semibold text-ink block">{testimonial.name}</span>
         <span className="block" aria-label={`${testimonial.rating} out of 5 stars`}>
           {'★'.repeat(testimonial.rating)}
