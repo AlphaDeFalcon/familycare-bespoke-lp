@@ -95,7 +95,7 @@ export function buildWhatsAppUrl(options: {
   sourceCampaign?: string;
   name?: string;
 }): string {
-  const targetPhone = (options.basePhone || '233302789123').replace(/[^0-9]/g, '');
+  const targetPhone = (options.basePhone || '233262626181').replace(/[^0-9]/g, '');
   return `https://wa.me/${targetPhone}?text=${encodeURIComponent(buildWhatsAppMessage(options))}`;
 }
 

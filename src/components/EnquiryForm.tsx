@@ -61,6 +61,14 @@ const NEED_TYPE_OPTIONS = [
   'Budget Guidance'
 ];
 
+const LOCATION_OPTIONS = [
+  'Accra / Greater Accra',
+  'Tema / Greater Accra',
+  'Kumasi / Ashanti',
+  'Koforidua / Eastern',
+  'Other location'
+];
+
 const TIMING_OPTIONS = [
   'Immediate need (Within days)',
   'Near term (Within 1-3 months)',
@@ -340,27 +348,32 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="space-y-1.5">
           <label htmlFor="form-location" className="block text-xs font-semibold text-body">
-            Location (town or region) <span className="text-red-500">*</span>
+            Location (preferred branch) <span className="text-red-500">*</span>
           </label>
-          <input
+          <select
             id="form-location"
-            type="text"
             value={formData.location}
             onChange={(e) => handleFieldChange('location', e.target.value)}
             onBlur={() => handleFieldBlur('location')}
-            placeholder="e.g. Kumasi, Ashanti Region"
             {...errorProps('location', 'form-location-error')}
             className={`${inputBaseClass} ${
               touched.location && errors.location ? 'border-red-400 bg-red-50/20' : 'border-hairline'
             }`}
-          />
+          >
+            <option value="">Select the nearest branch...</option>
+            {LOCATION_OPTIONS.map((loc) => (
+              <option key={loc} value={loc}>
+                {loc}
+              </option>
+            ))}
+          </select>
           {touched.location && errors.location ? (
             <p role="alert" id="form-location-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.location}</span>
             </p>
           ) : (
-            <p className="text-[10px] text-muted">Tell us the town or region where the service is needed</p>
+            <p className="text-[10px] text-muted">Branches in Accra, Tema, Kumasi, and Koforidua</p>
           )}
         </div>
 

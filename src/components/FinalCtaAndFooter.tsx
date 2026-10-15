@@ -7,7 +7,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Phone,
   MessageCircle,
-  ArrowRight
+  ArrowRight,
+  Mail,
+  Clock
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { Reveal } from './Reveal';
@@ -101,7 +103,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
       {/* Global Footer */}
       <footer className="bg-deep text-zinc-400 pt-16 pb-24 md:pb-16 border-t border-white/10 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Brand Lockup & Mission */}
             <div className="lg:col-span-2 space-y-4">
               <BrandLogo variant="white" className="h-10 w-auto" />
@@ -137,6 +139,35 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               </ul>
             </div>
 
+            {/* Branches */}
+            <div className="space-y-3">
+              <div className="font-semibold text-white uppercase text-xs tracking-wider">
+                Branches
+              </div>
+              <div className="space-y-3 text-xs">
+                <div className="space-y-0.5">
+                  <div className="text-zinc-200 font-medium">Accra (Head Office)</div>
+                  <div className="text-zinc-400 leading-relaxed">3 Vcrac Crabbe Street, Abeka Tesano Road</div>
+                  <a href="https://maps.app.goo.gl/fSN8J9Diumpn9yEa6" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
+                </div>
+                <div className="space-y-0.5">
+                  <div className="text-zinc-200 font-medium">Tema</div>
+                  <div className="text-zinc-400 leading-relaxed">Community 8 Traffic Light, same plaza as Ecobank</div>
+                  <a href="https://www.google.com/maps/search/?api=1&query=Ecobank+Tema+Community+8" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
+                </div>
+                <div className="space-y-0.5">
+                  <div className="text-zinc-200 font-medium">Kumasi</div>
+                  <div className="text-zinc-400 leading-relaxed">Cocobod Building, Jubilee House, Adum</div>
+                  <a href="https://www.google.com/maps/search/?api=1&query=Cocobod+Building+Jubilee+House+Adum+Kumasi" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
+                </div>
+                <div className="space-y-0.5">
+                  <div className="text-zinc-200 font-medium">Koforidua</div>
+                  <div className="text-zinc-400 leading-relaxed">1st Floor, Ofosua House, Central Area, close to the Post Office</div>
+                  <a href="https://www.google.com/maps/search/?api=1&query=Ofosua+House+Post+Office+Koforidua" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
+                </div>
+              </div>
+            </div>
+
             {/* Direct Contact */}
             <div className="space-y-3">
               <div className="font-semibold text-white uppercase text-xs tracking-wider">
@@ -144,19 +175,29 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               </div>
               <ul className="space-y-2 text-xs">
                 <li className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-accent" />
-                  <a href="tel:+233302789123" className="hover:text-white font-mono">
-                    +233 (0)30 278 9123
+                  <Phone className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <a href="tel:+233262626181" className="hover:text-white font-mono">
+                    +233 26 262 6181
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
-                  <MessageCircle className="w-3.5 h-3.5 text-accent" />
+                  <MessageCircle className="w-3.5 h-3.5 text-accent shrink-0" />
                   <button
                     onClick={onWhatsAppClick}
                     className="hover:text-white font-mono"
                   >
                     WhatsApp FamilyCare
                   </button>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <a href="mailto:info@familycaretrust.com" className="hover:text-white truncate">
+                    info@familycaretrust.com
+                  </a>
+                </li>
+                <li className="flex items-start gap-2 pt-1 text-[11px] text-zinc-400">
+                  <Clock className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
+                  <span>24/7 care line, every day. Available day and night, every day of the year.</span>
                 </li>
               </ul>
             </div>

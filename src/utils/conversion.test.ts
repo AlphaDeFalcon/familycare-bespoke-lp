@@ -36,14 +36,14 @@ test('validateGhanaPhoneNumber rejects too short or invalid numbers', () => {
 
 test('buildWhatsAppUrl includes brief items and location', () => {
   const url = buildWhatsAppUrl({
-    basePhone: '+233 30 278 9123',
+    basePhone: '+233 26 262 6181',
     tailoringBrief: ['Scale', 'Cultural Traditions'],
     location: 'Kumasi / Ashanti',
     name: 'Kofi Mensah',
     channel: 'Google Search'
   });
 
-  assert.match(url, /wa\.me\/233302789123/);
+  assert.match(url, /wa\.me\/233262626181/);
   assert.match(url, /Kofi%20Mensah/);
   assert.match(url, /Cultural%20Traditions/);
   assert.match(url, /Kumasi%20%2F%20Ashanti/);
@@ -112,7 +112,7 @@ test('buildWhatsAppUrl caps the tailoring brief at 3 items and stays under lengt
     'Full Bespoke Arrangement'
   ];
   const url = buildWhatsAppUrl({
-    basePhone: '233302789123',
+    basePhone: '233262626181',
     tailoringBrief: nineTypes,
     name: 'Kofi Mensah'
   });
@@ -125,7 +125,7 @@ test('buildWhatsAppUrl caps the tailoring brief at 3 items and stays under lengt
 
 test('buildWhatsAppUrl preserves the source ref when the message is truncated', () => {
   const url = buildWhatsAppUrl({
-    basePhone: '233302789123',
+    basePhone: '233262626181',
     tailoringBrief: ['Scale & Venue', 'Cultural Traditions', 'Caskets'],
     location: 'Kumasi, Ashanti Region, Ghana, West Africa. '.repeat(15),
     name: 'Kofi Mensah-Agyeman '.repeat(40),
@@ -139,7 +139,7 @@ test('buildWhatsAppUrl preserves the source ref when the message is truncated', 
 
 test('buildWhatsAppMessage matches the text encoded into the URL', () => {
   const options = {
-    basePhone: '233302789123',
+    basePhone: '233262626181',
     tailoringBrief: ['Caskets', 'Cultural Traditions'],
     location: 'Accra',
     name: 'Kofi Mensah',

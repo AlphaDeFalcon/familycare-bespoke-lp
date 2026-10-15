@@ -60,7 +60,7 @@ export const FAQS: FaqItem[] = [
   {
     id: 'faq-8',
     question: 'Do I need to visit a branch in person?',
-    answer: 'An in-person visit is not required. Many families, especially those in the diaspora or busy professionals, complete their entire arrangement via WhatsApp, phone, and written proposals. However, if you prefer meeting face-to-face, your advisor can arrange that with you.',
+    answer: 'An in-person visit is not required. Many families, especially those in the diaspora or busy professionals, complete their entire arrangement via WhatsApp, phone, and written proposals. However, if you prefer meeting face-to-face, you are welcome at our branches in Accra, Tema, Kumasi, and Koforidua.',
     conversionRole: 'Removes physical friction'
   }
 ];

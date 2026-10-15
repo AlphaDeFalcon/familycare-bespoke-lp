@@ -78,11 +78,11 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
         </div>
 
         <div className="p-3 rounded-card bg-canvas border border-hairline space-y-1">
-          <div className="text-xs text-muted">National Consultation Desk:</div>
+          <div className="text-xs text-muted">24/7 care line, every day:</div>
           <div className="font-mono text-base font-bold text-body flex items-center justify-between">
-            <span>+233 (0)30 278 9123</span>
+            <span>+233 26 262 6181</span>
             <a
-              href="tel:+233302789123"
+              href="tel:+233262626181"
               onClick={onPhoneClick}
               className="text-xs font-sans text-deep hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
             >

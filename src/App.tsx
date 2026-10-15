@@ -139,7 +139,7 @@ export default function App() {
       metadata: { cta_name: 'WhatsApp FamilyCare' }
     });
     const url = buildWhatsAppUrl({
-      basePhone: '233302789123',
+      basePhone: '233262626181',
       tailoringBrief: selectedDimensions,
       channel: attribution.utm_source,
       name: undefined
@@ -155,7 +155,7 @@ export default function App() {
       section: sourceSection,
       metadata: { cta_name: 'Call an Advisor' }
     });
-    window.location.href = 'tel:+233302789123';
+    window.location.href = 'tel:+233262626181';
   };
 
   // Handle capability card selection
