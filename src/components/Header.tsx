@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center focus:outline-hidden focus:ring-2 focus:ring-[#00A859] rounded-lg p-1"
             aria-label="FamilyCare Funeral Trust Home"
           >
-            <BrandLogo size="md" showTagline={true} />
+            <BrandLogo variant="color" className="h-12 w-auto" />
           </a>
 
           {/* Center Navigation (Desktop) */}

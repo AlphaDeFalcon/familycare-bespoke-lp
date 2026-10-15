@@ -88,7 +88,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
             
             {/* Col 1 & 2: Brand Lockup & Mission */}
             <div className="lg:col-span-2 space-y-4">
-              <BrandLogo variant="white" size="md" showTagline={true} />
+              <BrandLogo variant="white" className="h-10 w-auto" />
               <p className="text-zinc-400 text-xs leading-relaxed max-w-sm pt-2">
                 FamilyCare Funeral Trust is Ghana’s foremost provider of consultative, bespoke funeral arrangements. We protect family dignity and provide complete peace of mind through rigorous planning and heartfelt reverence.
               </p>
