@@ -165,7 +165,7 @@ export interface DataLayerEvent {
   lead_timing?: string;
   lead_needs?: string[];
   preferred_next_step?: string;
-  budget_indicator?: string;
+  decision_process?: string;
   [key: string]: unknown;
 }
 
@@ -225,7 +225,8 @@ export function pushDataLayer(
 
 /**
  * Maps a CRM lead payload to a dataLayer-safe field set.
- * Identity fields (name, phone, email) never leave this function.
+ * Identity fields (name, phone, email) and consent status never leave
+ * this function.
  */
 export function toDataLayerLeadFields(lead: CrmLeadPayload): Record<string, unknown> {
   return {
@@ -234,6 +235,6 @@ export function toDataLayerLeadFields(lead: CrmLeadPayload): Record<string, unkn
     lead_timing: lead.qualification.timing,
     lead_needs: lead.qualification.need_type,
     preferred_next_step: lead.qualification.preferred_next_step,
-    budget_indicator: lead.qualification.budget_indicator
+    decision_process: lead.qualification.decision_process
   };
 }

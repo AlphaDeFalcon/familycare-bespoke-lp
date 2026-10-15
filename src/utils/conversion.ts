@@ -116,8 +116,12 @@ export interface CrmLeadPayload {
     need_type: string[];
     timing: string;
     preferred_next_step: string;
-    budget_indicator?: string;
+    decision_process: string;
     notes?: string;
+  };
+  consent: {
+    permission_status: 'granted';
+    consented_at: string;
   };
   commercial: {
     product: 'Contract / Bespoke Funeral Services';
@@ -135,8 +139,9 @@ export function createCrmLeadPayload(
     need_type: string[];
     timing: string;
     preferred_next_step: string;
+    decision_process: string;
+    consent_granted: boolean;
     email?: string;
-    budget_indicator?: string;
     notes?: string;
   },
   attribution: UtmParams
@@ -166,6 +171,14 @@ export function createCrmLeadPayload(
     return { payload: null, error: 'Please choose your preferred next step.' };
   }
 
+  if (!formData.decision_process) {
+    return { payload: null, error: 'Please indicate who else needs to approve this decision.' };
+  }
+
+  if (!formData.consent_granted) {
+    return { payload: null, error: 'Please confirm you consent to being contacted about this enquiry.' };
+  }
+
   if (formData.email && formData.email.trim() !== '') {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email.trim())) {
@@ -190,8 +203,12 @@ export function createCrmLeadPayload(
       need_type: [...formData.need_type],
       timing: formData.timing,
       preferred_next_step: formData.preferred_next_step,
-      budget_indicator: formData.budget_indicator || 'Prefer to discuss during consultation',
+      decision_process: formData.decision_process,
       notes: formData.notes?.trim() || undefined
+    },
+    consent: {
+      permission_status: 'granted',
+      consented_at: new Date().toISOString()
     },
     commercial: {
       product: 'Contract / Bespoke Funeral Services',
@@ -251,6 +268,14 @@ export function getEnquiryFieldError(field: string, value: unknown): string | nu
     }
     case 'preferred_next_step': {
       if (!value) return 'Please select your preferred next contact step.';
+      return null;
+    }
+    case 'decision_process': {
+      if (!value) return 'Please indicate who else needs to approve this decision.';
+      return null;
+    }
+    case 'consent_granted': {
+      if (value !== true) return 'Please confirm you consent to being contacted about this enquiry.';
       return null;
     }
     case 'email': {

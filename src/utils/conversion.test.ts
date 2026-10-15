@@ -49,46 +49,51 @@ test('buildWhatsAppUrl includes brief items and location', () => {
   assert.match(url, /Kumasi%20%2F%20Ashanti/);
 });
 
-test('createCrmLeadPayload requires name, valid phone, location, need_type, and timing', () => {
+test('createCrmLeadPayload requires qualification fields, decision process, and consent', () => {
   const defaultUtm = {
     utm_source: 'google',
     utm_medium: 'cpc',
     utm_campaign: 'ghana_contract_bespoke_search'
   };
 
+  const baseForm = {
+    name: 'Ama Serwaa',
+    phone_whatsapp: '0244001122',
+    location: 'Accra / Greater Accra',
+    need_type: ['Scale & Venue', 'Logistics & Transport'],
+    timing: 'Immediate need (Within days)',
+    preferred_next_step: 'Phone call from an advisor',
+    decision_process: 'I am the sole decision maker',
+    consent_granted: true,
+    email: 'ama@example.com'
+  };
+
   // Invalid: missing location
-  const badResult = createCrmLeadPayload(
-    {
-      name: 'Ama Serwaa',
-      phone_whatsapp: '0244001122',
-      location: '',
-      need_type: ['Scale & Venue'],
-      timing: 'Immediate need (Within days)',
-      preferred_next_step: 'Phone call from an advisor'
-    },
-    defaultUtm
-  );
-  assert.equal(badResult.payload, null);
-  assert.match(badResult.error || '', /location/i);
+  const badLocation = createCrmLeadPayload({ ...baseForm, location: '' }, defaultUtm);
+  assert.equal(badLocation.payload, null);
+  assert.match(badLocation.error || '', /location/i);
+
+  // Invalid: missing decision process
+  const badDecision = createCrmLeadPayload({ ...baseForm, decision_process: '' }, defaultUtm);
+  assert.equal(badDecision.payload, null);
+  assert.match(badDecision.error || '', /decision|approve/i);
+
+  // Invalid: consent not granted
+  const badConsent = createCrmLeadPayload({ ...baseForm, consent_granted: false }, defaultUtm);
+  assert.equal(badConsent.payload, null);
+  assert.match(badConsent.error || '', /consent/i);
 
   // Valid lead payload
-  const goodResult = createCrmLeadPayload(
-    {
-      name: 'Ama Serwaa',
-      phone_whatsapp: '0244001122',
-      location: 'Accra / Greater Accra',
-      need_type: ['Scale & Venue', 'Logistics & Transport'],
-      timing: 'Immediate need (Within days)',
-      preferred_next_step: 'Phone call from an advisor',
-      email: 'ama@example.com'
-    },
-    defaultUtm
-  );
+  const goodResult = createCrmLeadPayload(baseForm, defaultUtm);
 
   assert.notEqual(goodResult.payload, null);
   assert.equal(goodResult.payload?.identity.name, 'Ama Serwaa');
   assert.equal(goodResult.payload?.identity.normalized_phone, '+233244001122');
   assert.equal(goodResult.payload?.qualification.location, 'Accra / Greater Accra');
+  assert.equal(goodResult.payload?.qualification.decision_process, 'I am the sole decision maker');
+  assert.equal(goodResult.payload?.consent?.permission_status, 'granted');
+  assert.ok(!Number.isNaN(Date.parse(goodResult.payload?.consent?.consented_at || '')));
+  assert.ok(!('budget_indicator' in (goodResult.payload?.qualification || {})));
   assert.equal(goodResult.payload?.attribution.utm_campaign, 'ghana_contract_bespoke_search');
   assert.match(goodResult.payload?.leadId || '', /^FC-BESPOKE-/);
 });
@@ -101,8 +106,12 @@ test('getEnquiryFieldError validates each enquiry field', () => {
   assert.match(getEnquiryFieldError('need_type', []) || '', /requirement/i);
   assert.match(getEnquiryFieldError('preferred_next_step', '') || '', /next/i);
   assert.match(getEnquiryFieldError('email', 'not-an-email') || '', /email/i);
+  assert.match(getEnquiryFieldError('decision_process', '') || '', /decision|approve/i);
+  assert.match(getEnquiryFieldError('consent_granted', false) || '', /consent/i);
   assert.equal(getEnquiryFieldError('email', ''), null);
   assert.equal(getEnquiryFieldError('name', 'Ama Serwaa'), null);
+  assert.equal(getEnquiryFieldError('decision_process', 'I am the sole decision maker'), null);
+  assert.equal(getEnquiryFieldError('consent_granted', true), null);
 });
 
 test('buildWhatsAppUrl caps the tailoring brief at 3 items and stays under length limits', () => {

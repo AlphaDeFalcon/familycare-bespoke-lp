@@ -32,8 +32,9 @@ interface FormData {
   need_type: string[];
   timing: string;
   preferred_next_step: string;
+  decision_process: string;
+  consent_granted: boolean;
   email: string;
-  budget_indicator: string;
   notes: string;
 }
 
@@ -44,8 +45,9 @@ const INITIAL_FORM: FormData = {
   need_type: ['Full Bespoke Arrangement'],
   timing: '',
   preferred_next_step: 'WhatsApp conversation',
+  decision_process: '',
+  consent_granted: false,
   email: '',
-  budget_indicator: 'Prefer to discuss during consultation',
   notes: ''
 };
 
@@ -82,18 +84,19 @@ const NEXT_STEP_OPTIONS = [
   'Private 1-on-1 consultation'
 ];
 
-const BUDGET_OPTIONS = [
-  'Prefer to discuss during consultation',
-  'Modest & dignified',
-  'Mid-range comprehensive',
-  'Large-scale bespoke tribute'
+const DECISION_OPTIONS = [
+  'I am the sole decision maker',
+  'Spouse / partner needs to approve',
+  'Siblings / family members need to approve',
+  'Elders / family council need to approve',
+  'Other decision process'
 ];
 
 /** Which fields each step validates before allowing the visitor to advance. */
 const STEP_FIELDS: Record<number, (keyof FormData)[]> = {
   1: ['name', 'phone_whatsapp', 'location'],
   2: ['need_type', 'timing'],
-  3: ['preferred_next_step', 'email']
+  3: ['preferred_next_step', 'email', 'decision_process', 'consent_granted']
 };
 
 const STEP_TITLES: Record<number, string> = {
@@ -168,7 +171,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     });
   };
 
-  const handleFieldChange = (field: keyof FormData, value: string | string[]) => {
+  const handleFieldChange = (field: keyof FormData, value: string | string[] | boolean) => {
     if (!hasInteracted) {
       setHasInteracted(true);
       onFormStart();
@@ -544,55 +547,65 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       {/* Step 3: Next steps */}
       {step === 3 && (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div className="space-y-1.5">
-              <label htmlFor="form-next-step" className="block text-xs font-semibold text-body">
-                Preferred Next Step <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="form-next-step"
-                value={formData.preferred_next_step}
-                onChange={(e) => handleFieldChange('preferred_next_step', e.target.value)}
-                onBlur={() => handleFieldBlur('preferred_next_step')}
-                {...errorProps('preferred_next_step', 'form-next-step-error')}
-                className={`${inputBaseClass} ${
-                  touched.preferred_next_step && errors.preferred_next_step
-                    ? 'border-red-400 bg-red-50/20'
-                    : 'border-hairline'
-                }`}
-              >
-                {NEXT_STEP_OPTIONS.map((stepOption) => (
-                  <option key={stepOption} value={stepOption}>
-                    {stepOption}
-                  </option>
-                ))}
-              </select>
-              {touched.preferred_next_step && errors.preferred_next_step && (
-                <p role="alert" id="form-next-step-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                  <span>{errors.preferred_next_step}</span>
-                </p>
-              )}
-            </div>
+          <div className="space-y-1.5">
+            <label htmlFor="form-next-step" className="block text-xs font-semibold text-body">
+              Preferred Next Step <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="form-next-step"
+              value={formData.preferred_next_step}
+              onChange={(e) => handleFieldChange('preferred_next_step', e.target.value)}
+              onBlur={() => handleFieldBlur('preferred_next_step')}
+              {...errorProps('preferred_next_step', 'form-next-step-error')}
+              className={`${inputBaseClass} ${
+                touched.preferred_next_step && errors.preferred_next_step
+                  ? 'border-red-400 bg-red-50/20'
+                  : 'border-hairline'
+              }`}
+            >
+              {NEXT_STEP_OPTIONS.map((stepOption) => (
+                <option key={stepOption} value={stepOption}>
+                  {stepOption}
+                </option>
+              ))}
+            </select>
+            {touched.preferred_next_step && errors.preferred_next_step && (
+              <p role="alert" id="form-next-step-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <span>{errors.preferred_next_step}</span>
+              </p>
+            )}
+          </div>
 
-            <div className="space-y-1.5">
-              <label htmlFor="form-budget" className="block text-xs font-semibold text-body">
-                Budget Guidance <span className="text-muted font-normal">(Optional)</span>
-              </label>
-              <select
-                id="form-budget"
-                value={formData.budget_indicator}
-                onChange={(e) => handleFieldChange('budget_indicator', e.target.value)}
-                className={`${inputBaseClass} border-hairline`}
-              >
-                {BUDGET_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-              <p className="text-[10px] text-muted">Transparent itemized proposals; zero hidden fees</p>
-            </div>
+          <div className="space-y-1.5">
+            <label htmlFor="form-decision" className="block text-xs font-semibold text-body">
+              Who else needs to approve this decision? <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="form-decision"
+              value={formData.decision_process}
+              onChange={(e) => handleFieldChange('decision_process', e.target.value)}
+              onBlur={() => handleFieldBlur('decision_process')}
+              {...errorProps('decision_process', 'form-decision-error')}
+              className={`${inputBaseClass} ${
+                touched.decision_process && errors.decision_process ? 'border-red-400 bg-red-50/20' : 'border-hairline'
+              }`}
+            >
+              <option value="">Select who is involved...</option>
+              {DECISION_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            {touched.decision_process && errors.decision_process ? (
+              <p role="alert" id="form-decision-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <span>{errors.decision_process}</span>
+              </p>
+            ) : (
+              <p className="text-[10px] text-muted">Helps the advisor prepare a proposal the whole family can approve</p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -636,6 +649,30 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
               />
               <p className="text-[10px] text-muted">Share any family customs or diaspora attendee considerations</p>
             </div>
+          </div>
+
+          {/* Consent */}
+          <div className="space-y-1.5">
+            <label htmlFor="form-consent" className="flex items-start gap-2.5 cursor-pointer">
+              <input
+                id="form-consent"
+                type="checkbox"
+                checked={formData.consent_granted}
+                onChange={(e) => handleFieldChange('consent_granted', e.target.checked)}
+                onBlur={() => handleFieldBlur('consent_granted')}
+                {...errorProps('consent_granted', 'form-consent-error')}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-hairline accent-[#00A859] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              />
+              <span className="text-xs text-body leading-relaxed">
+                I consent to FamilyCare contacting me about this enquiry and processing the details I have provided. <span className="text-red-500">*</span>
+              </span>
+            </label>
+            {touched.consent_granted && errors.consent_granted ? (
+              <p role="alert" id="form-consent-error" className="text-[11px] text-red-600 flex items-center gap-1.5 pl-6.5">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <span>{errors.consent_granted}</span>
+              </p>
+            ) : null}
           </div>
 
           {/* Privacy & Consent Notice */}

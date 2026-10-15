@@ -141,7 +141,7 @@ test('pushDataLayer initializes the target and appends the envelope', () => {
   assert.equal(ev.utm_source, 'google');
 });
 
-test('toDataLayerLeadFields strips identity fields', () => {
+test('toDataLayerLeadFields strips identity and consent fields', () => {
   const lead = {
     leadId: 'FC-BESPOKE-123456-7890',
     timestamp: '2026-10-15T12:00:00.000Z',
@@ -156,7 +156,11 @@ test('toDataLayerLeadFields strips identity fields', () => {
       need_type: ['Scale & Venue'],
       timing: 'Near term',
       preferred_next_step: 'WhatsApp conversation',
-      budget_indicator: 'Prefer to discuss during consultation'
+      decision_process: 'Siblings / family members need to approve'
+    },
+    consent: {
+      permission_status: 'granted' as const,
+      consented_at: '2026-10-15T12:00:00.000Z'
     },
     commercial: {
       product: 'Contract / Bespoke Funeral Services' as const,
@@ -171,12 +175,16 @@ test('toDataLayerLeadFields strips identity fields', () => {
   assert.equal(fields.lead_timing, 'Near term');
   assert.deepEqual(fields.lead_needs, ['Scale & Venue']);
   assert.equal(fields.preferred_next_step, 'WhatsApp conversation');
-  assert.equal(fields.budget_indicator, 'Prefer to discuss during consultation');
+  assert.equal(fields.decision_process, 'Siblings / family members need to approve');
+  assert.ok(!('budget_indicator' in fields));
   const serialized = JSON.stringify(fields);
   assert.ok(!serialized.includes('Kofi'));
   assert.ok(!serialized.includes('0244'));
   assert.ok(!serialized.includes('kofi@'));
   assert.ok(!serialized.includes('identity'));
+  assert.ok(!serialized.includes('consent'));
+  assert.ok(!serialized.includes('granted'));
+  assert.ok(!serialized.includes('budget'));
 });
 
 test('cloudinary inserts transforms after /upload/', () => {
