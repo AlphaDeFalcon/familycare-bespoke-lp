@@ -12,6 +12,7 @@ import {
   Truck,
   Scale,
   CheckCircle2,
+  X,
   ArrowRight
 } from 'lucide-react';
 import { Reveal } from './Reveal';
@@ -20,6 +21,7 @@ export interface TailoringDimension {
   id: string;
   key: string;
   title: string;
+  shortDesc: string;
   icon: React.ReactNode;
 }
 
@@ -28,36 +30,42 @@ export const TAILORING_DIMENSIONS: TailoringDimension[] = [
     id: 'scale',
     key: 'Scale & Venue',
     title: 'Scale & Venue',
+    shortDesc: 'Intimate gatherings to large public tributes',
     icon: <Users className="w-5 h-5" />
   },
   {
     id: 'traditions',
     key: 'Cultural Traditions',
     title: 'Customary & Cultural Traditions',
+    shortDesc: 'Cultural, regional, and religious customs respected',
     icon: <Compass className="w-5 h-5" />
   },
   {
     id: 'catering',
     key: 'Catering / Hospitality',
     title: 'Catering & Hospitality Care',
+    shortDesc: 'Guest care and refreshment coordination',
     icon: <UtensilsCrossed className="w-5 h-5" />
   },
   {
     id: 'caskets',
     key: 'Caskets',
     title: 'Curated Caskets & Urns',
+    shortDesc: 'A dignified, curated casket selection',
     icon: <Package className="w-5 h-5" />
   },
   {
     id: 'logistics',
     key: 'Logistics & Transport',
     title: 'Logistics & Escorted Transport',
+    shortDesc: 'Hearse fleet and end-to-end timing',
     icon: <Truck className="w-5 h-5" />
   },
   {
     id: 'budget',
     key: 'Budget Guidance',
     title: 'Transparent Budget Alignment',
+    shortDesc: 'No rigid tiers, no hidden costs',
     icon: <Scale className="w-5 h-5" />
   }
 ];
@@ -92,6 +100,13 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
           </div>
         </Reveal>
 
+        {/* Short explainer before the selectable options */}
+        <Reveal>
+          <p className="text-center text-sm sm:text-base text-body font-medium max-w-2xl mx-auto mb-8 lg:mb-10">
+            Tap every area that applies to your family. Your selections build the brief your advisor works from.
+          </p>
+        </Reveal>
+
         {/* Section 04: The 6 Tailoring Dimensions as Colorful Selectable Pills */}
         <div className="flex flex-wrap justify-center gap-4">
           {TAILORING_DIMENSIONS.map((dim, index) => {
@@ -103,15 +118,24 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
                   type="button"
                   onClick={() => onToggleDimension(dim.key)}
                   aria-pressed={isSelected}
-                  className={`px-6 py-3.5 rounded-full border-2 flex items-center gap-2.5 text-sm font-semibold transition-[border-color,background-color,color,transform] duration-200 active:scale-[0.97] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
+                  className={`px-6 py-3.5 rounded-full border-2 text-left transition-[border-color,background-color,color,transform] duration-200 active:scale-[0.97] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
                     isSelected
                       ? 'bg-accent text-white border-transparent'
                       : 'bg-white text-body border-hairline hover:border-accent/60 hover:bg-accent/5'
                   }`}
                 >
-                  <span className={isSelected ? 'text-white' : 'text-accent-deep'}>{dim.icon}</span>
-                  <span>{dim.title}</span>
-                  {isSelected && <CheckCircle2 className="w-4 h-4 text-white shrink-0" />}
+                  <span className="flex items-center gap-2.5">
+                    <span className={`shrink-0 ${isSelected ? 'text-white' : 'text-accent-deep'}`}>{dim.icon}</span>
+                    <span className="font-semibold text-sm">{dim.title}</span>
+                    {isSelected && <CheckCircle2 className="w-4 h-4 text-white shrink-0" />}
+                  </span>
+                  <span
+                    className={`block text-[11px] leading-snug mt-1 pl-[30px] ${
+                      isSelected ? 'text-white/80' : 'text-muted'
+                    }`}
+                  >
+                    {dim.shortDesc}
+                  </span>
                 </button>
               </Reveal>
             );
@@ -138,9 +162,17 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
                 selectedDimensions.map((dimKey) => (
                   <span
                     key={dimKey}
-                    className="px-2.5 py-1 rounded-md bg-white/15 text-white text-xs font-medium border border-white/20"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/15 text-white text-xs font-medium border border-white/20"
                   >
                     ✓ {dimKey}
+                    <button
+                      type="button"
+                      onClick={() => onToggleDimension(dimKey)}
+                      aria-label={`Remove ${dimKey} from your brief`}
+                      className="-mr-1 p-0.5 rounded-full hover:bg-white/25 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
                   </span>
                 ))
               )}

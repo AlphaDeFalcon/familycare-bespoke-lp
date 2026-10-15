@@ -44,11 +44,9 @@ export default function App() {
   const channelSource = resolveChannel(attribution);
   const heroCopy = HERO_COPY[debugChannelOverride ?? channelSource];
 
-  // Selected tailoring dimensions from Bespoke Brief Builder
-  const [selectedDimensions, setSelectedDimensions] = useState<string[]>([
-    'Scale & Venue',
-    'Cultural Traditions'
-  ]);
+  // Selected tailoring dimensions from Bespoke Brief Builder (starts empty;
+  // visitors choose what applies to their family)
+  const [selectedDimensions, setSelectedDimensions] = useState<string[]>([]);
 
   // Analytics & CRM event log stream (kept always so ?debug=1 shows history)
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);

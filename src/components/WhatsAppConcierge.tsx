@@ -61,7 +61,7 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
 
       {/* Phone: secondary contact path, separated by one hairline */}
       <div className="p-6 border-t border-white/10">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex flex-col items-center text-center gap-4 sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-card bg-white/10 text-[#7FDDAB]">
               <Phone className="w-5 h-5" />
@@ -73,7 +73,7 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
               <div className="text-xs text-[#A9C6B6]">24/7 care line, every day</div>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-center sm:text-right">
             <div className="font-mono text-base font-bold text-white">
               +233 26 262 6181
             </div>
