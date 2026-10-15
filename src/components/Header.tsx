@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Primary Action Button */}
             <button
               onClick={onDiscussClick}
-              className="px-5 py-2.5 rounded-full bg-accent hover:bg-ink text-white font-semibold text-xs md:text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              className="px-5 py-2.5 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-xs md:text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               <span>Discuss a Bespoke Plan</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -109,14 +109,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 sm:hidden">
             <button
               onClick={onWhatsAppClick}
-              className="p-2 rounded-lg text-accent bg-accent/10 border border-accent/20"
+              className="p-3 rounded-lg text-accent bg-accent/10 border border-accent/20"
               aria-label="WhatsApp FamilyCare"
             >
               <MessageCircle className="w-5 h-5" />
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-body hover:bg-tint"
+              className="p-3 rounded-lg text-body hover:bg-tint"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
                 setMobileMenuOpen(false);
                 onDiscussClick();
               }}
-              className="w-full py-3 px-4 rounded-full bg-accent hover:bg-ink text-white font-semibold text-sm flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm flex items-center justify-center gap-2"
             >
               <span>Discuss a Bespoke Plan</span>
               <ArrowRight className="w-4 h-4" />
@@ -172,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                   onPhoneClick();
                 }}
-                className="py-2.5 px-3 rounded-full border border-deep text-deep bg-deep/5 font-medium text-xs flex items-center justify-center gap-1.5"
+                className="py-2.5 px-3 rounded-full border border-accent text-accent bg-accent/10 font-medium text-xs flex items-center justify-center gap-1.5"
               >
                 <Phone className="w-4 h-4" />
                 <span>Call Advisor</span>

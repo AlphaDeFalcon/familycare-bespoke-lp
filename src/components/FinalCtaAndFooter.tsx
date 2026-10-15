@@ -13,7 +13,8 @@ import {
   Facebook,
   Instagram,
   Linkedin,
-  Twitter
+  Twitter,
+  ChevronDown
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { Reveal } from './Reveal';
@@ -24,12 +25,88 @@ interface FinalCtaAndFooterProps {
   onPhoneClick: () => void;
 }
 
+interface BranchInfo {
+  id: string;
+  name: string;
+  address: string;
+  directionsUrl: string;
+}
+
+const BRANCHES: BranchInfo[] = [
+  {
+    id: 'accra-head-office',
+    name: 'Accra (Head Office)',
+    address: '3 Vcrac Crabbe Street, Abeka Tesano Road',
+    directionsUrl: 'https://maps.app.goo.gl/fSN8J9Diumpn9yEa6'
+  },
+  {
+    id: 'tema',
+    name: 'Tema',
+    address: 'Community 8 Traffic Light, same plaza as Ecobank',
+    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Ecobank+Tema+Community+8'
+  },
+  {
+    id: 'kumasi',
+    name: 'Kumasi',
+    address: 'Cocobod Building, Jubilee House, Adum',
+    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Cocobod+Building+Jubilee+House+Adum+Kumasi'
+  },
+  {
+    id: 'koforidua',
+    name: 'Koforidua',
+    address: '1st Floor, Ofosua House, Central Area, close to the Post Office',
+    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Ofosua+House+Post+Office+Koforidua'
+  }
+];
+
+function BranchAccordionItem({
+  branch,
+  isOpen,
+  onToggle
+}: {
+  branch: BranchInfo;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls={`branch-${branch.id}`}
+        className="w-full flex items-center justify-between gap-2 text-zinc-200 font-medium hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
+      >
+        <span>{branch.name}</span>
+        <ChevronDown
+          aria-hidden="true"
+          className={`w-3 h-3 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
+      {isOpen && (
+        <div id={`branch-${branch.id}`} className="pt-1.5 pb-2 space-y-1">
+          <div className="text-zinc-400 leading-relaxed">{branch.address}</div>
+          <a
+            href={branch.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#7FDDAB] hover:text-white transition-colors"
+          >
+            Directions
+          </a>
+        </div>
+      )}
+    </li>
+  );
+}
+
 export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
   onDiscussClick,
   onWhatsAppClick,
   onPhoneClick
 }) => {
   const [modalType, setModalType] = useState<'privacy' | 'terms' | null>(null);
+  const [openBranches, setOpenBranches] = useState<string[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -63,7 +140,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
   return (
     <>
       {/* Final Conversion Banner */}
-      <section className="bg-deep text-white py-16 sm:py-20 relative overflow-hidden">
+      <section className="bg-forest text-white py-16 sm:py-20 relative overflow-hidden">
         <Reveal>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -78,7 +155,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onDiscussClick}
-              className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-ink text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-deep"
+              className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
             >
               <span>Discuss a Bespoke Plan</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -86,7 +163,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
 
             <button
               onClick={onWhatsAppClick}
-              className="w-full sm:w-auto px-6 py-4 rounded-full bg-white hover:bg-zinc-100 text-ink font-semibold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-deep"
+              className="w-full sm:w-auto px-6 py-4 rounded-full bg-white hover:bg-zinc-100 text-ink font-semibold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
             >
               <MessageCircle className="w-5 h-5 text-accent" />
               <span>WhatsApp FamilyCare</span>
@@ -94,9 +171,9 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
 
             <button
               onClick={onPhoneClick}
-              className="w-full sm:w-auto px-5 py-4 rounded-full border border-white/30 hover:border-white text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-deep"
+              className="w-full sm:w-auto px-5 py-4 rounded-full border border-white/30 hover:border-white text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
             >
-              <Phone className="w-4 h-4 text-emerald-300" />
+              <Phone className="w-4 h-4 text-[#7FDDAB]" />
               <span>Call an Advisor</span>
             </button>
           </div>
@@ -105,12 +182,12 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
       </section>
 
       {/* Global Footer */}
-      <footer className="bg-deep text-zinc-400 pt-16 pb-24 md:pb-16 border-t border-white/10 text-xs">
+      <footer className="bg-forest text-zinc-400 pt-16 pb-24 md:pb-16 border-t border-white/10 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Brand Lockup & Mission */}
             <div className="lg:col-span-2 space-y-4">
-              <BrandLogo variant="white" className="h-10 w-auto" />
+              <BrandLogo variant="white" className="h-30 w-auto" />
               <p className="text-zinc-400 text-xs leading-relaxed max-w-sm pt-2">
                 FamilyCare Funeral Trust provides consultative, bespoke funeral arrangements. We protect family dignity and provide peace of mind through careful planning and clear communication.
               </p>
@@ -120,7 +197,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="FamilyCare Funeral Trust on Facebook"
-                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   <Facebook className="w-4 h-4" />
                 </a>
@@ -129,7 +206,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="FamilyCare Funeral Trust on Instagram"
-                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   <Instagram className="w-4 h-4" />
                 </a>
@@ -138,7 +215,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="FamilyCare Funeral Trust on LinkedIn"
-                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   <Linkedin className="w-4 h-4" />
                 </a>
@@ -147,7 +224,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="FamilyCare Funeral Trust on X (Twitter)"
-                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   <Twitter className="w-4 h-4" />
                 </a>
@@ -186,28 +263,22 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               <div className="font-semibold text-white uppercase text-xs tracking-wider">
                 Branches
               </div>
-              <div className="space-y-3 text-xs">
-                <div className="space-y-0.5">
-                  <div className="text-zinc-200 font-medium">Accra (Head Office)</div>
-                  <div className="text-zinc-400 leading-relaxed">3 Vcrac Crabbe Street, Abeka Tesano Road</div>
-                  <a href="https://maps.app.goo.gl/fSN8J9Diumpn9yEa6" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-zinc-200 font-medium">Tema</div>
-                  <div className="text-zinc-400 leading-relaxed">Community 8 Traffic Light, same plaza as Ecobank</div>
-                  <a href="https://www.google.com/maps/search/?api=1&query=Ecobank+Tema+Community+8" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-zinc-200 font-medium">Kumasi</div>
-                  <div className="text-zinc-400 leading-relaxed">Cocobod Building, Jubilee House, Adum</div>
-                  <a href="https://www.google.com/maps/search/?api=1&query=Cocobod+Building+Jubilee+House+Adum+Kumasi" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
-                </div>
-                <div className="space-y-0.5">
-                  <div className="text-zinc-200 font-medium">Koforidua</div>
-                  <div className="text-zinc-400 leading-relaxed">1st Floor, Ofosua House, Central Area, close to the Post Office</div>
-                  <a href="https://www.google.com/maps/search/?api=1&query=Ofosua+House+Post+Office+Koforidua" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-white transition-colors">Directions</a>
-                </div>
-              </div>
+              <ul className="space-y-2 text-xs">
+                {BRANCHES.map((branch) => (
+                  <BranchAccordionItem
+                    key={branch.id}
+                    branch={branch}
+                    isOpen={openBranches.includes(branch.id)}
+                    onToggle={() =>
+                      setOpenBranches((prev) =>
+                        prev.includes(branch.id)
+                          ? prev.filter((id) => id !== branch.id)
+                          : [...prev, branch.id]
+                      )
+                    }
+                  />
+                ))}
+              </ul>
             </div>
 
             {/* Direct Contact */}
@@ -217,13 +288,13 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               </div>
               <ul className="space-y-2 text-xs">
                 <li className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <Phone className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0" />
                   <a href="tel:+233262626181" className="hover:text-white font-mono">
                     +233 26 262 6181
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
-                  <MessageCircle className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <MessageCircle className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0" />
                   <button
                     onClick={onWhatsAppClick}
                     className="hover:text-white font-mono"
@@ -232,13 +303,13 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                   </button>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0" />
                   <a href="mailto:info@familycaretrust.com" className="hover:text-white truncate">
                     info@familycaretrust.com
                   </a>
                 </li>
                 <li className="flex items-start gap-2 pt-1 text-[11px] text-zinc-400">
-                  <Clock className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
+                  <Clock className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0 mt-0.5" />
                   <span>24/7 care line, every day. Available day and night, every day of the year.</span>
                 </li>
               </ul>
@@ -246,7 +317,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           </div>
 
           {/* Bottom Bar & Legal */}
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
+          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
             <div>
               © 2026 FamilyCare Funeral Trust Ghana. All rights reserved.
             </div>
@@ -254,14 +325,14 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setModalType('privacy')}
-                className="hover:text-zinc-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                className="hover:text-zinc-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
               >
                 Privacy Policy &amp; Data Consent
               </button>
               <span>•</span>
               <button
                 onClick={() => setModalType('terms')}
-                className="hover:text-zinc-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                className="hover:text-zinc-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
               >
                 Terms of Bespoke Service
               </button>

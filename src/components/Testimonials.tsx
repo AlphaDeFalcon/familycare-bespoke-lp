@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Quote } from 'lucide-react';
+import { BadgeCheck } from 'lucide-react';
 
 export interface Testimonial {
   quote: string;
@@ -78,43 +78,138 @@ export const TESTIMONIALS: Testimonial[] = [
     name: 'CALEB AMENKU',
     context: 'Google Maps review',
     rating: 5
+  },
+  {
+    quote: "In the beginning I thought it was one of those, but 5 years on I can say it is here to stay with us. This is a reliable package you can invest in for tomorrow's peace of mind.",
+    name: 'WHITE BEAM CONCEPTS',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'The best funeral policy in Ghana with excellent services that guarantees client satisfaction and peace of mind during the most difficult time.',
+    name: 'MICHAEL ODUETEY',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'Well, very nice people especially Cynthia Osei Osafo. She really cares for her customers.',
+    name: 'Isaac Mante Acquah',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'Familycare provides great funeral and burial services. You can check out our testimonials on our YouTube account.',
+    name: 'Michelle Y. Deri',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'I really enjoy your customer relationship, especially from my relationship officer Foster Asomani. Thanks for this assistance.',
+    name: 'Jesse Addo',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: "The service was okay, first time seeing such a thing in Ghana and it's a good thing. Keep it up.",
+    name: 'Abigail Nortey',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'Irrespective of the location of your hometown or religion, FamilyCare delivers up to your standards. FamilyCare all the way.',
+    name: 'Owusu-Ansah Paul',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'Great customer service, affable staff! Simply the best at what they do.',
+    name: 'Benjamin PKC Danquah',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'No need to worry about how to organize funerals. Ask me how? Don\'t borrow money.',
+    name: 'M Anochi',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'The burden and stress of planning and executing a funeral when you lose a loved one is greatly reduced with FamilyCare! Thank you for what you do.',
+    name: 'Colouredby PKC',
+    context: 'Google Maps review',
+    rating: 5
   }
 ];
 
 const GOOGLE_REVIEWS_URL = 'https://maps.app.goo.gl/RwtNcH661TzYbdE19?g_st=ic';
 
-function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+type CardVariant = 'standard' | 'featured';
+
+function TestimonialCard({ testimonial, variant = 'standard' }: { testimonial: Testimonial; variant?: CardVariant }) {
+  const isFeatured = variant === 'featured';
+
   return (
-    <figure className="w-[19rem] h-64 shrink-0 bg-white rounded-card border border-hairline p-6 flex flex-col">
-      <div>
-        <Quote className="w-5 h-5 text-accent mb-3" aria-hidden="true" />
-        <blockquote className="text-xs sm:text-sm text-body leading-relaxed line-clamp-5">
-          &ldquo;{testimonial.quote}&rdquo;
-        </blockquote>
-      </div>
-      <figcaption className="mt-auto pt-3 border-t border-hairline text-xs text-muted">
-        <span className="font-semibold text-ink block">{testimonial.name}</span>
-        <span className="block" aria-label={`${testimonial.rating} out of 5 stars`}>
-          {'★'.repeat(testimonial.rating)}
-          <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
+    <figure
+      className={`${isFeatured ? 'w-[20rem]' : 'w-[16rem]'} h-56 shrink-0 bg-white rounded-card border border-hairline border-l-2 border-l-accent p-5 flex flex-col shadow-[0_8px_24px_rgba(11,61,38,0.08)]`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span className="font-display text-4xl leading-none text-accent" aria-hidden="true">
+          &ldquo;
         </span>
-        {testimonial.context}
+        {isFeatured ? (
+          <span className="block text-sm leading-none" aria-label={`${testimonial.rating} out of 5 stars`}>
+            <span className="text-amber-400">{'★'.repeat(testimonial.rating)}</span>
+            <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent-deep text-[10px] font-semibold shrink-0">
+            <BadgeCheck className="w-3 h-3" aria-hidden="true" />
+            {testimonial.context}
+          </span>
+        )}
+      </div>
+
+      <blockquote
+        className={`${isFeatured ? 'text-sm line-clamp-5' : 'text-xs line-clamp-4'} leading-relaxed mt-1 text-body`}
+      >
+        {testimonial.quote}
+      </blockquote>
+
+      <figcaption className="mt-auto pt-3 border-t border-hairline">
+        <span className="font-semibold text-ink block text-xs">{testimonial.name}</span>
+        {isFeatured ? (
+          <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent-deep text-[10px] font-semibold">
+            <BadgeCheck className="w-3 h-3" aria-hidden="true" />
+            {testimonial.context}
+          </span>
+        ) : (
+          <span className="block text-sm leading-none mt-1" aria-label={`${testimonial.rating} out of 5 stars`}>
+            <span className="text-amber-400">{'★'.repeat(testimonial.rating)}</span>
+            <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
+          </span>
+        )}
       </figcaption>
     </figure>
   );
 }
 
 function MarqueeRow({ testimonials, reverse = false }: { testimonials: Testimonial[]; reverse?: boolean }) {
+  const VARIANTS: CardVariant[] = ['standard', 'featured'];
+
   return (
     <div className="marquee-viewport relative overflow-hidden">
       <div className={`marquee-track ${reverse ? 'marquee-reverse' : ''}`}>
-        {testimonials.map((testimonial) => (
-          <TestimonialCard key={testimonial.name} testimonial={testimonial} />
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard
+            key={testimonial.name}
+            testimonial={testimonial}
+            variant={VARIANTS[index % VARIANTS.length]}
+          />
         ))}
         {/* Duplicate set for the seamless loop; hidden from screen readers */}
-        {testimonials.map((testimonial) => (
+        {testimonials.map((testimonial, index) => (
           <div key={`${testimonial.name}-dup`} aria-hidden="true" className="marquee-duplicate">
-            <TestimonialCard testimonial={testimonial} />
+            <TestimonialCard testimonial={testimonial} variant={VARIANTS[index % VARIANTS.length]} />
           </div>
         ))}
       </div>
@@ -161,7 +256,7 @@ export const Testimonials: React.FC = () => {
           href={GOOGLE_REVIEWS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs font-semibold text-deep hover:text-accent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+          className="text-xs font-semibold text-accent-deep hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
         >
           Read more reviews on Google Maps
         </a>

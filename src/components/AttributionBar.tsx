@@ -61,7 +61,7 @@ export const AttributionBar: React.FC<AttributionBarProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenAnalytics}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#00A859] hover:bg-[#072A1A] text-white font-medium text-[11px] transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#00A859] hover:bg-[#007F43] text-white font-medium text-[11px] transition-colors shadow-xs"
             aria-label="Open live analytics drawer"
           >
             <Activity className="w-3 h-3" />

@@ -72,7 +72,7 @@ export const EnquirySuccess: React.FC<EnquirySuccessProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           onClick={onWhatsAppClick}
-          className="py-3 px-4 rounded-full bg-accent hover:bg-ink text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+          className="py-3 px-4 rounded-full bg-accent hover:bg-accent-deep text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
         >
           <MessageCircle className="w-4 h-4" />
           <span>Open WhatsApp Right Now</span>

@@ -60,7 +60,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
 
           <Reveal delay={0.05}>
             <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4 h-full">
-              <div className="w-12 h-12 rounded-card bg-deep/10 border border-deep/20 flex items-center justify-center text-deep">
+              <div className="w-12 h-12 rounded-card bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
                 <Scale className="w-6 h-6" />
               </div>
               <h3 className="font-display text-xl font-bold text-ink">
@@ -74,7 +74,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
 
           <Reveal delay={0.1}>
             <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4 h-full">
-              <div className="w-12 h-12 rounded-card bg-tint border border-hairline flex items-center justify-center text-ink">
+              <div className="w-12 h-12 rounded-card bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
                 <HeartHandshake className="w-6 h-6" />
               </div>
               <h3 className="font-display text-xl font-bold text-ink">
@@ -87,55 +87,55 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
           </Reveal>
         </div>
 
-        {/* Facility Photo + Team Strip */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <Reveal>
-            <figure className="space-y-3">
+        {/* Facility Photo + Team: one dark forest panel */}
+        <Reveal>
+          <div className="bg-forest rounded-card overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            {/* Facility photo, flush left edge */}
+            <figure className="lg:col-span-5 relative min-h-[240px] lg:min-h-full">
               <img
                 src={cloudinary(facilityBuildingImage, 'w_1200,f_auto,q_auto')}
                 alt="A FamilyCare facility"
-                className="w-full rounded-card border border-hairline"
+                className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
               />
-              <figcaption className="text-xs text-muted">
+              <figcaption className="absolute bottom-3 left-4 text-xs text-white/80 [text-shadow:0_1px_8px_rgba(7,42,26,0.6)]">
                 A FamilyCare facility.
               </figcaption>
             </figure>
-          </Reveal>
 
-          <Reveal delay={0.05}>
-            <div className="space-y-6">
-            <div className="space-y-2">
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-ink">
-                A team that listens first
-              </h3>
-              <p className="text-sm text-muted leading-relaxed">
-                Every arrangement is handled by FamilyCare advisors who work with your family from first conversation to final tribute.
-              </p>
+            {/* Team + CTA */}
+            <div className="lg:col-span-7 p-7 sm:p-10 space-y-6">
+              <div className="space-y-2">
+                <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">
+                  A team that listens first
+                </h3>
+                <p className="text-sm text-[#A9C6B6] leading-relaxed">
+                  Every arrangement is handled by FamilyCare advisors who work with your family from first conversation to final tribute.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {teamPhotos.map((photo, idx) => (
+                  <img
+                    key={idx}
+                    src={cloudinary(photo.src, 'w_600,f_auto,q_auto')}
+                    alt={photo.alt}
+                    className="w-full aspect-[3/4] object-cover rounded-card border border-white/10"
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={onDiscussClick}
+                className="px-6 py-3 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
+              >
+                <span>Discuss a Bespoke Plan</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {teamPhotos.map((photo, idx) => (
-                <img
-                  key={idx}
-                  src={cloudinary(photo.src, 'w_600,f_auto,q_auto')}
-                  alt={photo.alt}
-                  className="w-full aspect-[3/4] object-cover rounded-card border border-hairline"
-                  loading="lazy"
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={onDiscussClick}
-              className="px-6 py-3 rounded-full bg-accent hover:bg-ink text-white font-semibold text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-            >
-              <span>Discuss a Bespoke Plan</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
-          </Reveal>
-        </div>
+        </Reveal>
       </div>
 
       {/* Permissioned customer reviews: full-bleed marquee below the container */}

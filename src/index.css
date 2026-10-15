@@ -7,11 +7,17 @@
   --color-body: #1E2421;
   --color-muted: #525B56;
   --color-accent: #00A859;
+  --color-accent-deep: #007F43;
   --color-deep: #1E2B4F;
+  --color-forest: #0B3D26;
   --color-hairline: #E3E9E6;
   --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --radius-card: 12px;
+  /* Strong custom easing curves (easing.dev): ease-out for UI entrances,
+     ease-in-out for on-screen movement. */
+  --ease-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-move: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @layer base {

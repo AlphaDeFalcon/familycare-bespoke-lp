@@ -80,7 +80,7 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
         {/* Dual-Path Container (Form Left, WhatsApp Concierge Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column (7 Columns): Qualification Form or Success State */}
-          <div className="lg:col-span-7 bg-white rounded-card border border-hairline p-6 sm:p-9">
+          <div className="order-2 lg:order-1 lg:col-span-7 bg-white rounded-card border border-hairline border-t-[3px] border-t-accent p-6 sm:p-9">
             <EnquiryForm
               initialNeedTypes={selectedDimensions}
               attribution={attribution}
@@ -96,8 +96,10 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
             />
           </div>
 
-          {/* Right Column (5 Columns): Direct WhatsApp Concierge */}
-          <div className="lg:col-span-5">
+          {/* Right Column (5 Columns): Direct WhatsApp Concierge. Sticky on
+              desktop so the conversation path stays beside the form; floats
+              above the form on mobile (low-friction path first). */}
+          <div className="order-1 lg:order-2 lg:col-span-5 lg:sticky lg:top-24">
             <WhatsAppConcierge
               whatsAppUrl={whatsAppUrl}
               whatsAppMessage={whatsAppMessage}

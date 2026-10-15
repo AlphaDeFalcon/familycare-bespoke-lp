@@ -20,71 +20,67 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
   onPhoneClick
 }) => {
   return (
-    <div className="space-y-6">
-      {/* Primary WhatsApp Concierge Card */}
-      <div className="bg-white rounded-card border border-accent/30 p-6 sm:p-7">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-card bg-accent/10 text-accent">
-              <MessageCircle className="w-6 h-6" />
-            </div>
-            <h4 className="font-display text-xl font-bold text-ink">
-              WhatsApp FamilyCare
-            </h4>
+    <div className="bg-forest rounded-card overflow-hidden shadow-[0_12px_32px_rgba(11,61,38,0.18)]">
+      {/* WhatsApp: primary conversation path */}
+      <div className="p-6 sm:p-7 space-y-4">
+        <div className="flex items-center gap-2">
+          <div className="p-2 rounded-card bg-accent/15 text-[#7FDDAB]">
+            <MessageCircle className="w-6 h-6" />
           </div>
-
-          <p className="text-xs text-muted leading-relaxed">
-            Prefer a direct chat? Start a private conversation with a FamilyCare advisor right now. Your tailoring brief and enquiry intent are pre-formatted automatically.
-          </p>
-
-          {/* Live Message Preview Bubble */}
-          <div className="space-y-1.5">
-            <div className="text-[11px] font-semibold text-muted uppercase tracking-wider">
-              Live pre-filled message preview
-            </div>
-            <div className="p-3.5 rounded-card bg-accent/5 border border-accent/20 text-xs text-ink leading-relaxed">
-              &ldquo;{whatsAppMessage}&rdquo;
-            </div>
-          </div>
-
-          {/* WhatsApp Action Button */}
-          <a
-            href={whatsAppUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={onWhatsAppClick}
-            className="w-full py-3.5 px-4 rounded-full bg-accent hover:bg-ink text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-          >
-            <MessageCircle className="w-5 h-5" />
-            <span>WhatsApp FamilyCare Now</span>
-          </a>
+          <h4 className="font-display text-xl font-bold text-white">
+            WhatsApp FamilyCare
+          </h4>
         </div>
+
+        <p className="text-xs text-[#A9C6B6] leading-relaxed">
+          Prefer a direct chat? Start a private conversation with a FamilyCare advisor right now. Your tailoring brief and enquiry intent are pre-formatted automatically.
+        </p>
+
+        {/* Live Message Preview Bubble */}
+        <div className="space-y-1.5">
+          <div className="text-[11px] font-semibold text-[#7FDDAB] uppercase tracking-wider">
+            Live pre-filled message preview
+          </div>
+          <div className="p-3.5 rounded-card bg-tint border border-white/20 text-xs text-ink leading-relaxed">
+            &ldquo;{whatsAppMessage}&rdquo;
+          </div>
+        </div>
+
+        {/* WhatsApp Action Button */}
+        <a
+          href={whatsAppUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onWhatsAppClick}
+          className="w-full py-3.5 px-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
+        >
+          <MessageCircle className="w-5 h-5" />
+          <span>WhatsApp FamilyCare Now</span>
+        </a>
       </div>
 
-      {/* Direct Telephone Consultation Card */}
-      <div className="bg-white rounded-card border border-hairline p-6 space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-card bg-deep/10 text-deep">
-            <Phone className="w-5 h-5" />
-          </div>
-          <div>
-            <h4 className="font-display text-lg font-bold text-ink">
-              Direct Telephone Line
-            </h4>
-            <div className="text-xs text-muted">
-              Speak with a duty advisor
+      {/* Phone: secondary contact path, separated by one hairline */}
+      <div className="p-6 border-t border-white/10">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-card bg-white/10 text-[#7FDDAB]">
+              <Phone className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-display text-lg font-bold text-white">
+                Direct Telephone Line
+              </h4>
+              <div className="text-xs text-[#A9C6B6]">24/7 care line, every day</div>
             </div>
           </div>
-        </div>
-
-        <div className="p-3 rounded-card bg-canvas border border-hairline space-y-1">
-          <div className="text-xs text-muted">24/7 care line, every day:</div>
-          <div className="font-mono text-base font-bold text-body flex items-center justify-between">
-            <span>+233 26 262 6181</span>
+          <div className="text-right">
+            <div className="font-mono text-base font-bold text-white">
+              +233 26 262 6181
+            </div>
             <a
               href="tel:+233262626181"
               onClick={onPhoneClick}
-              className="text-xs font-sans text-deep hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+              className="text-xs font-sans text-[#7FDDAB] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
             >
               Tap to Call
             </a>

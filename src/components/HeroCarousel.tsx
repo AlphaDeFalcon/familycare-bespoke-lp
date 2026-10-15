@@ -38,7 +38,13 @@ const HERO_SLIDES: HeroSlide[] = [
 
 const SLIDE_INTERVAL_MS = 6000;
 
-export const HeroCarousel: React.FC = () => {
+interface HeroCarouselProps {
+  /** 'card' renders the framed figure with caption; 'background' fills its
+      parent with full-bleed imagery for overlay heroes. */
+  mode?: 'card' | 'background';
+}
+
+export const HeroCarousel: React.FC<HeroCarouselProps> = ({ mode = 'card' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReduced = useReducedMotion();
@@ -58,6 +64,52 @@ export const HeroCarousel: React.FC = () => {
     }, SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
   }, [prefersReduced, isPaused]);
+
+  if (mode === 'background') {
+    return (
+      <div
+        className="absolute inset-0"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
+      >
+        {HERO_SLIDES.map((slide, index) => (
+          <img
+            key={slide.id}
+            src={cloudinary(slide.src, 'w_2000,f_auto,q_auto')}
+            alt=""
+            role="presentation"
+            width={2000}
+            height={1333}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchPriority={index === 0 ? 'high' : undefined}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+
+        {/* Slide indicators */}
+        {!prefersReduced && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
+            {HERO_SLIDES.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => goTo(index)}
+                aria-label={`Show photo ${index + 1}: ${slide.caption}`}
+                aria-current={index === currentIndex}
+                className={`w-2.5 h-2.5 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                  index === currentIndex ? 'bg-accent' : 'bg-white/50 hover:bg-white'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   const activeSlide = HERO_SLIDES[currentIndex];
 
@@ -80,7 +132,7 @@ export const HeroCarousel: React.FC = () => {
             loading={index === 0 ? 'eager' : 'lazy'}
             fetchPriority={index === 0 ? 'high' : undefined}
             aria-hidden={index !== currentIndex}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out ${
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           />

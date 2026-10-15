@@ -116,7 +116,16 @@ export default function App() {
     });
   };
 
-  // Smooth scroll to form
+  // Smooth scroll to form without logging: for handlers that already log
+  // their own CTA event, so a single tap emits exactly one cta_click.
+  const scrollToFormElement = () => {
+    const formEl = document.getElementById('enquiry-form');
+    if (formEl) {
+      formEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Smooth scroll to form (logs the primary CTA click)
   const scrollToForm = (section: string = 'Global Navigation / Hero') => {
     logEvent({
       event: 'cta_click',
@@ -124,20 +133,33 @@ export default function App() {
       section,
       metadata: { cta_name: 'Discuss a Bespoke Plan' }
     });
-    const formEl = document.getElementById('enquiry-form');
-    if (formEl) {
-      formEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToFormElement();
   };
 
-  // Open WhatsApp directly
-  const handleWhatsAppAction = (sourceSection: string = 'Header') => {
+  // Log-only variants used by anchor-based CTAs (WhatsApp concierge and the
+  // success state): the anchor's own href performs the single navigation, so
+  // the click handler must not open a second tab.
+  const logWhatsAppClick = (sourceSection: string) => {
     logEvent({
       event: 'whatsapp_click',
       label: `Tapped WhatsApp CTA from ${sourceSection}`,
       section: sourceSection,
       metadata: { cta_name: 'WhatsApp FamilyCare' }
     });
+  };
+
+  const logPhoneClick = (sourceSection: string) => {
+    logEvent({
+      event: 'phone_click',
+      label: `Tapped Call Advisor CTA from ${sourceSection}`,
+      section: sourceSection,
+      metadata: { cta_name: 'Call an Advisor' }
+    });
+  };
+
+  // Open WhatsApp directly
+  const handleWhatsAppAction = (sourceSection: string = 'Header') => {
+    logWhatsAppClick(sourceSection);
     const url = buildWhatsAppUrl({
       basePhone: '233262626181',
       tailoringBrief: selectedDimensions,
@@ -149,12 +171,7 @@ export default function App() {
 
   // Direct phone click
   const handlePhoneAction = (sourceSection: string = 'Header') => {
-    logEvent({
-      event: 'phone_click',
-      label: `Tapped Call Advisor CTA from ${sourceSection}`,
-      section: sourceSection,
-      metadata: { cta_name: 'Call an Advisor' }
-    });
+    logPhoneClick(sourceSection);
     window.location.href = 'tel:+233262626181';
   };
 
@@ -169,7 +186,7 @@ export default function App() {
       section: 'capabilities',
       metadata: { cta_name: 'Discuss this with an advisor' }
     });
-    scrollToForm('capabilities');
+    scrollToFormElement();
   };
 
   // Handle step click from How It Works
@@ -180,7 +197,7 @@ export default function App() {
       section: 'how_it_works',
       metadata: { cta_name: 'Discuss a Bespoke Plan' }
     });
-    scrollToForm('how_it_works');
+    scrollToFormElement();
   };
 
   // On lead captured
@@ -217,7 +234,7 @@ export default function App() {
         </Suspense>
       )}
 
-      {/* 2. Section 01: Sticky Global Header */}
+      {/* 2. Wireframe 01: Sticky Global Header */}
       <Header
         onDiscussClick={() => scrollToForm('header')}
         onWhatsAppClick={() => handleWhatsAppAction('header')}
@@ -225,7 +242,7 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* 3. Section 02: Hero with Real Facility Photography */}
+        {/* 3. Wireframe 02: Hero with Real Facility Photography */}
         <Hero
           heroCopy={heroCopy}
           onDiscussClick={() => scrollToForm('hero')}
@@ -233,23 +250,17 @@ export default function App() {
           onPhoneClick={() => handlePhoneAction('hero')}
         />
 
-        {/* 4. Section 03 & 04: Product Truth + Bespoke Brief Builder (6 Dimensions) */}
+        {/* 4. Wireframe 03 & 04: Product Truth + Bespoke Brief Builder (6 Dimensions) */}
         <ProductTruthAndBriefBuilder
           selectedDimensions={selectedDimensions}
           onToggleDimension={handleToggleDimension}
           onScrollToForm={() => scrollToForm('brief_builder')}
         />
 
-        {/* 5. Section 05: How It Works (4-Step Story) */}
-        <HowItWorks onStepClick={handleStepAction} />
-
-        {/* 6. Section 06: Capability Proof (7 Concrete Modules) */}
-        <CapabilityProof onSelectCapability={handleSelectCapability} />
-
-        {/* 7. Section 07 & 08: Trust, Process Proof & Team */}
-        <TrustAndProof onDiscussClick={() => scrollToForm('trust')} />
-
-        {/* 8. Section 09 & 10: Dual-Path Conversion Core (Qualification Form + WhatsApp Concierge) */}
+        {/* 5. Wireframe 09 & 10: Dual-Path Conversion Core (Qualification Form + WhatsApp Concierge)
+            Early Capture (2026-10-15): deliberately placed before the education and
+            proof sections. This overrides the wireframe.txt page architecture, which
+            fixes the form after Trust / Service Proof. */}
         <EnquiryAndWhatsApp
           selectedDimensions={selectedDimensions}
           attribution={attribution}
@@ -263,17 +274,26 @@ export default function App() {
             })
           }
           onFormSubmit={handleFormSubmit}
-          onWhatsAppClick={(section) => handleWhatsAppAction(section)}
-          onPhoneClick={(section) => handlePhoneAction(section)}
+          onWhatsAppClick={(section) => logWhatsAppClick(section)}
+          onPhoneClick={(section) => logPhoneClick(section)}
         />
 
-        {/* 9. Section 11: Accessible FAQ Accordion */}
+        {/* 6. Wireframe 05: How It Works (4-Step Story) */}
+        <HowItWorks onStepClick={handleStepAction} />
+
+        {/* 7. Wireframe 06: Capability Proof (7 Concrete Modules) */}
+        <CapabilityProof onSelectCapability={handleSelectCapability} />
+
+        {/* 8. Wireframe 07 & 08: Trust, Process Proof & Team */}
+        <TrustAndProof onDiscussClick={() => scrollToForm('trust')} />
+
+        {/* 9. Wireframe 10: Accessible FAQ Accordion */}
         <FaqSection
           onDiscussClick={() => scrollToForm('faq')}
           onWhatsAppClick={() => handleWhatsAppAction('faq')}
         />
 
-        {/* 10. Section 12: Final Conversion Banner & Global Footer */}
+        {/* 10. Wireframe 11 & 12: Final Conversion Banner & Global Footer */}
         <FinalCtaAndFooter
           onDiscussClick={() => scrollToForm('final_cta')}
           onWhatsAppClick={() => handleWhatsAppAction('final_cta')}
