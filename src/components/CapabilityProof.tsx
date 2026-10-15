@@ -110,7 +110,7 @@ export const CapabilityProof: React.FC<CapabilityProofProps> = ({ onSelectCapabi
           {CAPABILITIES.map((cap, idx) => (
             <Reveal key={cap.id} delay={idx * 0.04}>
               <div
-                className={`bg-white rounded-card border border-hairline hover:border-muted/40 transition-colors flex flex-col justify-between group h-full ${
+                className={`card-hover-lines bg-white rounded-card border border-hairline hover:border-muted/40 hover:bg-accent/5 transition-colors flex flex-col justify-between group h-full ${
                   idx === 6 ? 'md:col-span-2 lg:col-span-1 xl:col-span-1' : ''
                 }`}
               >

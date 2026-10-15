@@ -135,10 +135,10 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
                   type="button"
                   onClick={() => onToggleDimension(dim.key)}
                   aria-pressed={isSelected}
-                  className={`text-left relative rounded-card p-6 sm:p-7 border transition-colors duration-200 flex flex-col justify-between cursor-pointer group bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full h-full ${
+                  className={`card-hover-lines text-left relative rounded-card p-6 sm:p-7 border transition-colors duration-200 flex flex-col justify-between cursor-pointer group bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full h-full ${
                     isSelected
                       ? 'border-accent ring-2 ring-accent/20 bg-accent/5'
-                      : 'border-hairline hover:border-deep/40'
+                      : 'border-hairline hover:border-deep/40 hover:bg-accent/5'
                   }`}
                 >
                 <div>

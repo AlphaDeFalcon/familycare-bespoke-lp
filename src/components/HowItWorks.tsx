@@ -78,7 +78,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStepClick }) => {
             {steps.map((step, index) => (
               <Reveal key={step.num} delay={index * 0.05}>
                 <div
-                  className="bg-white rounded-card p-6 sm:p-7 border border-hairline hover:border-muted/40 transition-colors flex flex-col justify-between h-full"
+                  className="card-hover-lines bg-white rounded-card p-6 sm:p-7 border border-hairline hover:border-muted/40 hover:bg-accent/5 transition-colors flex flex-col justify-between h-full"
                 >
                 <div>
                   {/* Step Number + Icon */}

@@ -21,6 +21,40 @@
   }
 }
 
+/* Card hover accent lines: top and bottom rules scale in from the
+   center on hover, inset to respect the rounded-card corners.
+   Disabled for touch-only and reduced-motion users. */
+.card-hover-lines {
+  position: relative;
+}
+.card-hover-lines::before,
+.card-hover-lines::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
+  pointer-events: none;
+}
+.card-hover-lines::before {
+  top: 0;
+}
+.card-hover-lines::after {
+  bottom: 0;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card-hover-lines:hover::before,
+  .card-hover-lines:hover::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
 /* Custom scrollbar for modern subtle appearance */
 ::-webkit-scrollbar {
   width: 8px;
