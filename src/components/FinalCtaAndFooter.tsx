@@ -9,7 +9,11 @@ import {
   MessageCircle,
   ArrowRight,
   Mail,
-  Clock
+  Clock,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { Reveal } from './Reveal';
@@ -110,6 +114,44 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               <p className="text-zinc-400 text-xs leading-relaxed max-w-sm pt-2">
                 FamilyCare Funeral Trust provides consultative, bespoke funeral arrangements. We protect family dignity and provide peace of mind through careful planning and clear communication.
               </p>
+              <div className="flex items-center gap-2 pt-1">
+                <a
+                  href="https://www.facebook.com/FamilyCareFuneralTrust"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="FamilyCare Funeral Trust on Facebook"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.instagram.com/familycareft_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="FamilyCare Funeral Trust on Instagram"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/familycaretrust"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="FamilyCare Funeral Trust on LinkedIn"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://twitter.com/familycareft"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="FamilyCare Funeral Trust on X (Twitter)"
+                  className="p-2 rounded-full border border-white/15 text-zinc-300 hover:text-white hover:border-white/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+              </div>
             </div>
 
             {/* Navigation */}
