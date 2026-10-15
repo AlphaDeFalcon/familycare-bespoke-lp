@@ -23,7 +23,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
         {/* Quick Call */}
         <button
           onClick={onPhoneClick}
-          className="flex-1 py-2.5 px-2 rounded-full bg-white border border-deep/40 text-deep font-semibold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="flex-1 py-2.5 px-2 rounded-full bg-white border border-deep/40 text-deep font-semibold text-xs flex items-center justify-center gap-1.5 whitespace-nowrap active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Call Advisor"
         >
           <Phone className="w-3.5 h-3.5 shrink-0" />
@@ -33,7 +33,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
         {/* Quick WhatsApp */}
         <button
           onClick={onWhatsAppClick}
-          className="flex-1 py-2.5 px-2 rounded-full bg-accent/10 border border-accent text-accent font-semibold text-xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="flex-1 py-2.5 px-2 rounded-full bg-accent/10 border border-accent text-accent font-semibold text-xs flex items-center justify-center gap-1.5 whitespace-nowrap active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="WhatsApp Advisor"
         >
           <MessageCircle className="w-4 h-4 shrink-0" />
@@ -43,7 +43,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
         {/* Primary Discuss Plan */}
         <button
           onClick={onDiscussClick}
-          className="flex-[1.5] py-2.5 px-3 rounded-full bg-accent hover:bg-ink text-white font-bold text-xs flex items-center justify-center gap-1 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="flex-[1.6] py-2.5 px-2 rounded-full bg-accent hover:bg-ink text-white font-bold text-xs flex items-center justify-center gap-1 whitespace-nowrap active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Discuss a Bespoke Plan"
         >
           <span>Discuss Plan</span>

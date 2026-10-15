@@ -53,7 +53,7 @@ export const Hero: React.FC<HeroProps> = ({
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 pt-1">
               <button
                 onClick={onDiscussClick}
-                className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-ink text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-ink text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 <span>Discuss a Bespoke Plan</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -61,7 +61,7 @@ export const Hero: React.FC<HeroProps> = ({
 
               <button
                 onClick={onWhatsAppClick}
-                className="w-full sm:w-auto px-6 py-4 rounded-full border border-accent text-accent hover:bg-accent/5 font-semibold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                className="w-full sm:w-auto px-6 py-4 rounded-full border border-accent text-accent hover:bg-accent/5 font-semibold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 <MessageCircle className="w-5 h-5" />
                 <span>WhatsApp FamilyCare</span>
@@ -69,7 +69,7 @@ export const Hero: React.FC<HeroProps> = ({
 
               <button
                 onClick={onPhoneClick}
-                className="w-full sm:w-auto px-4 py-4 text-deep hover:text-ink font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full focus-visible:ring-offset-2"
+                className="w-full sm:w-auto px-4 py-4 text-deep hover:text-ink font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full focus-visible:ring-offset-2"
               >
                 <Phone className="w-4 h-4" />
                 <span>Call an Advisor</span>
