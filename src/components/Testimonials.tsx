@@ -106,7 +106,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 
 function MarqueeRow({ testimonials, reverse = false }: { testimonials: Testimonial[]; reverse?: boolean }) {
   return (
-    <div className="marquee-viewport overflow-hidden">
+    <div className="marquee-viewport relative overflow-hidden">
       <div className={`marquee-track ${reverse ? 'marquee-reverse' : ''}`}>
         {testimonials.map((testimonial) => (
           <TestimonialCard key={testimonial.name} testimonial={testimonial} />
@@ -118,6 +118,15 @@ function MarqueeRow({ testimonials, reverse = false }: { testimonials: Testimoni
           </div>
         ))}
       </div>
+      {/* Edge fades so the clipped cards read as intentional */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-10 sm:w-20 bg-gradient-to-r from-tint to-transparent pointer-events-none"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 right-0 w-10 sm:w-20 bg-gradient-to-l from-tint to-transparent pointer-events-none"
+      />
     </div>
   );
 }
@@ -132,8 +141,8 @@ export const Testimonials: React.FC = () => {
   const rowTwo = TESTIMONIALS.slice(midPoint);
 
   return (
-    <div className="space-y-8">
-      <div className="text-center max-w-2xl mx-auto space-y-2">
+    <div className="mt-16 sm:mt-20 space-y-8">
+      <div className="text-center max-w-2xl mx-auto px-4 space-y-2">
         <h3 className="font-display text-2xl sm:text-3xl font-bold text-ink">
           What families say
         </h3>

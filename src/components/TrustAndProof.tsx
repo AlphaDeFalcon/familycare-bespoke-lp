@@ -136,10 +136,10 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
           </div>
           </Reveal>
         </div>
-
-        {/* Permissioned customer reviews (renders once reviews are added) */}
-        <Testimonials />
       </div>
+
+      {/* Permissioned customer reviews: full-bleed marquee below the container */}
+      <Testimonials />
     </section>
   );
 };
