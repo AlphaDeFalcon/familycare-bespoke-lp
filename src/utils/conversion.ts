@@ -148,14 +148,16 @@ export function buildWhatsAppUrl(options: {
   name?: string;
 }): string {
   const targetPhone = (options.basePhone || '233302789123').replace(/[^0-9]/g, '');
-  const briefText = options.tailoringBrief && options.tailoringBrief.length > 0
-    ? `\nKey areas to tailor: ${options.tailoringBrief.join(', ')}.`
+  const briefItems = (options.tailoringBrief || []).slice(0, 3);
+  const briefText = briefItems.length > 0
+    ? `\nKey areas to tailor: ${briefItems.join(', ')}.`
     : '';
   const locText = options.location ? `\nLocation: ${options.location}.` : '';
   const nameText = options.name ? ` My name is ${options.name}.` : '';
   const srcText = options.channel ? ` (Ref: ${options.channel})` : '';
 
-  const message = `Hello FamilyCare, I would like to discuss a Contract / Bespoke funeral arrangement.${nameText} I would like help understanding the next steps and shaping a tribute around our family's wishes.${locText}${briefText}${srcText}`;
+  const base = `Hello FamilyCare, I would like to discuss a Contract / Bespoke funeral arrangement.${nameText} I would like help understanding the next steps and shaping a tribute around our family's wishes.${locText}${briefText}${srcText}`;
+  const message = base.length > 700 ? `${base.slice(0, 697)}...` : base;
 
   return `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
 }
@@ -273,4 +275,105 @@ export interface AnalyticsEvent {
   section?: string;
   channel: string;
   metadata?: Record<string, any>;
+}
+
+/**
+ * Per-field validation for the enquiry form. Returns an error message
+ * or null when the field is valid.
+ */
+export function getEnquiryFieldError(field: string, value: unknown): string | null {
+  switch (field) {
+    case 'name': {
+      const trimmed = typeof value === 'string' ? value.trim() : '';
+      if (!trimmed) return 'Please provide your full name (at least 2 characters).';
+      if (trimmed.length < 2) return 'Name must be at least 2 characters.';
+      return null;
+    }
+    case 'phone_whatsapp': {
+      const valStr = typeof value === 'string' ? value : '';
+      if (!valStr.trim()) return 'Phone or WhatsApp number is required.';
+      const res = validateGhanaPhoneNumber(valStr);
+      if (!res.isValid) {
+        return res.error || 'Please enter a valid Ghana or international phone number.';
+      }
+      return null;
+    }
+    case 'location': {
+      if (!value) return 'Please select the primary location for the service.';
+      return null;
+    }
+    case 'timing': {
+      if (!value) return 'Please indicate when you require assistance.';
+      return null;
+    }
+    case 'need_type': {
+      if (!Array.isArray(value) || value.length === 0) {
+        return 'Please select at least one requirement area.';
+      }
+      return null;
+    }
+    case 'preferred_next_step': {
+      if (!value) return 'Please select your preferred next contact step.';
+      return null;
+    }
+    case 'email': {
+      const emailStr = typeof value === 'string' ? value.trim() : '';
+      if (emailStr) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailStr)) {
+          return 'Please provide a valid email format (e.g. family@domain.com) or leave blank.';
+        }
+      }
+      return null;
+    }
+    default:
+      return null;
+  }
+}
+
+const LEAD_POST_TIMEOUT_MS = 8000;
+
+/**
+ * POSTs a CRM lead payload as JSON to the configured endpoint.
+ * Returns true only on a 2xx response; network errors and timeouts
+ * resolve to false so the caller can surface a retryable error.
+ */
+export async function postLeadPayload(
+  endpoint: string,
+  payload: CrmLeadPayload,
+  fetchFn: typeof fetch = fetch
+): Promise<boolean> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), LEAD_POST_TIMEOUT_MS);
+  try {
+    const response = await fetchFn(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    return response.ok;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Submits an enquiry to the configured lead endpoint when one exists
+ * (VITE_LEAD_ENDPOINT). Without an endpoint the submission is accepted
+ * locally, which is the normal case until the client wires a CRM.
+ */
+export async function submitEnquiry(
+  payload: CrmLeadPayload,
+  attribution: UtmParams,
+  fetchFn: typeof fetch = fetch
+): Promise<boolean> {
+  const endpoint = import.meta.env?.VITE_LEAD_ENDPOINT as string | undefined;
+  if (endpoint) {
+    return postLeadPayload(endpoint, payload, fetchFn);
+  }
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  return true;
 }

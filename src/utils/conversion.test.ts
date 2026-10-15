@@ -4,6 +4,9 @@ import {
   validateGhanaPhoneNumber,
   buildWhatsAppUrl,
   createCrmLeadPayload,
+  getEnquiryFieldError,
+  postLeadPayload,
+  submitEnquiry,
   CAMPAIGN_CHANNELS
 } from './conversion.ts';
 
@@ -84,4 +87,62 @@ test('createCrmLeadPayload requires name, valid phone, location, need_type, and 
   assert.equal(goodResult.payload?.qualification.location, 'Accra / Greater Accra');
   assert.equal(goodResult.payload?.attribution.utm_campaign, 'ghana_contract_bespoke_search');
   assert.match(goodResult.payload?.leadId || '', /^FC-BESPOKE-/);
+});
+
+test('getEnquiryFieldError validates each enquiry field', () => {
+  assert.match(getEnquiryFieldError('name', 'a') || '', /name/i);
+  assert.match(getEnquiryFieldError('phone_whatsapp', '123') || '', /phone|number/i);
+  assert.match(getEnquiryFieldError('location', '') || '', /location/i);
+  assert.match(getEnquiryFieldError('timing', '') || '', /when|timing/i);
+  assert.match(getEnquiryFieldError('need_type', []) || '', /requirement/i);
+  assert.match(getEnquiryFieldError('preferred_next_step', '') || '', /next/i);
+  assert.match(getEnquiryFieldError('email', 'not-an-email') || '', /email/i);
+  assert.equal(getEnquiryFieldError('email', ''), null);
+  assert.equal(getEnquiryFieldError('name', 'Ama Serwaa'), null);
+});
+
+test('buildWhatsAppUrl caps the tailoring brief at 3 items and stays under length limits', () => {
+  const nineTypes = [
+    'Scale & Venue', 'Cultural Traditions', 'Caskets', 'Logistics & Transport',
+    'Catering / Hospitality', 'Repatriation', 'Cemetery Support', 'Budget Guidance',
+    'Full Bespoke Arrangement'
+  ];
+  const url = buildWhatsAppUrl({
+    basePhone: '233302789123',
+    tailoringBrief: nineTypes,
+    name: 'Kofi Mensah'
+  });
+  assert.match(url, /Scale%20%26%20Venue/);
+  assert.match(url, /Cultural%20Traditions/);
+  assert.match(url, /Caskets/);
+  assert.doesNotMatch(url, /Repatriation/);
+  assert.ok(url.length < 800);
+});
+
+test('postLeadPayload returns true on 2xx and false otherwise', async () => {
+  const okFetch = async () => ({ ok: true } as Response);
+  assert.equal(await postLeadPayload('https://example.test/lead', {} as never, okFetch as typeof fetch), true);
+
+  const badFetch = async () => ({ ok: false } as Response);
+  assert.equal(await postLeadPayload('https://example.test/lead', {} as never, badFetch as typeof fetch), false);
+
+  const rejectFetch = async () => {
+    throw new Error('network down');
+  };
+  assert.equal(await postLeadPayload('https://example.test/lead', {} as never, rejectFetch as typeof fetch), false);
+});
+
+test('submitEnquiry resolves true without an endpoint configured', async () => {
+  let fetchCalled = false;
+  const spyFetch = async () => {
+    fetchCalled = true;
+    return { ok: true } as Response;
+  };
+  const result = await submitEnquiry(
+    {} as never,
+    { utm_source: 'google', utm_medium: 'cpc' },
+    spyFetch as typeof fetch
+  );
+  assert.equal(result, true);
+  assert.equal(fetchCalled, false);
 });
