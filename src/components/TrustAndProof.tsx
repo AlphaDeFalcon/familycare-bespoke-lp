@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { cloudinary, facilityBuildingImage, staffSklarbi, staffAtiaviGlime, staffEmmanuelOdame, staffHelen } from '../utils/media';
 import { Reveal } from './Reveal';
+import { Testimonials } from './Testimonials';
 
 interface TrustAndProofProps {
   onDiscussClick: () => void;
@@ -135,6 +136,9 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
           </div>
           </Reveal>
         </div>
+
+        {/* Permissioned customer reviews (renders once reviews are added) */}
+        <Testimonials />
       </div>
     </section>
   );

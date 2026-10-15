@@ -119,7 +119,7 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
           </h2>
 
           <p className="text-base sm:text-lg text-muted leading-relaxed">
-            Fixed funeral packages force families to pay for inclusions they do not want, or compromise on traditions that are sacred to them. FamilyCare&rsquo;s Contract / Bespoke service begins with an open conversation: we listen first, then shape the tribute with precision, empathy, and transparency.
+            Fixed funeral packages force families to pay for inclusions they do not want, or compromise on traditions that are sacred to them. FamilyCare&rsquo;s Contract / Bespoke service begins with an open conversation: we listen first, then shape the tribute with precision, empathy, and transparency. Whether you are planning ahead or facing an immediate need, it begins the same way: a conversation.
           </p>
         </div>
         </Reveal>

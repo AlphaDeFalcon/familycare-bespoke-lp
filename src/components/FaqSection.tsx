@@ -62,6 +62,12 @@ export const FAQS: FaqItem[] = [
     question: 'Do I need to visit a branch in person?',
     answer: 'An in-person visit is not required. Many families, especially those in the diaspora or busy professionals, complete their entire arrangement via WhatsApp, phone, and written proposals. However, if you prefer meeting face-to-face, you are welcome at our branches in Accra, Tema, Kumasi, and Koforidua.',
     conversionRole: 'Removes physical friction'
+  },
+  {
+    id: 'faq-9',
+    question: 'Can I plan ahead for a future need?',
+    answer: 'Yes. Many families choose to plan ahead so decisions are made calmly rather than under pressure. Your wishes, traditions, and budget guidance are documented in a written brief, and nothing is committed until your family approves a proposal.',
+    conversionRole: 'Opens the pre-planning audience'
   }
 ];
 

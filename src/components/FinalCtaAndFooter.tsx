@@ -71,7 +71,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           </h2>
 
           <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
-            Tell us what matters to you, and a FamilyCare advisor can help shape the next step with complete dignity, transparency, and peace of mind.
+            Tell us what matters to you, and a FamilyCare advisor can help shape the next step. Today&rsquo;s wisdom, tomorrow&rsquo;s peace of mind.
           </p>
 
           {/* 3 Primary Actions */}
