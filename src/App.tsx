@@ -15,7 +15,8 @@ import {
 import { AttributionBar } from './components/AttributionBar';
 import { AnalyticsDrawer } from './components/AnalyticsDrawer';
 import { Header } from './components/Header';
-import { HeroCarousel } from './components/HeroCarousel';
+import { Hero } from './components/Hero';
+import { HERO_COPY } from './utils/attribution';
 import { ProductTruthAndBriefBuilder } from './components/ProductTruthAndBriefBuilder';
 import { HowItWorks } from './components/HowItWorks';
 import { CapabilityProof } from './components/CapabilityProof';
@@ -184,9 +185,9 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* 3. Section 02: Hero Section with 5-Slot Carousel */}
-        <HeroCarousel
-          channelConfig={currentChannelConfig}
+        {/* 3. Section 02: Hero with Real Facility Photography */}
+        <Hero
+          heroCopy={HERO_COPY.direct}
           onDiscussClick={scrollToForm}
           onWhatsAppClick={() => handleWhatsAppAction('Hero Cluster')}
           onPhoneClick={() => handlePhoneAction('Hero Cluster')}
