@@ -33,7 +33,10 @@ export const EnquirySuccess: React.FC<EnquirySuccessProps> = ({
             Thank you, {lead.identity.name}.
           </h4>
           <p className="text-xs sm:text-sm text-body/80 mt-1">
-            A FamilyCare advisor will contact you by {lead.qualification.preferred_next_step.toLowerCase()} to shape the next step.
+            A FamilyCare advisor will contact you to shape the next step.
+          </p>
+          <p className="text-xs sm:text-sm text-body/80 mt-1">
+            Preferred route: {lead.qualification.preferred_next_step}.
           </p>
           <div className="mt-2 text-xs font-mono font-bold text-accent">
             Reference: {lead.leadId}
@@ -53,7 +56,7 @@ export const EnquirySuccess: React.FC<EnquirySuccessProps> = ({
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-deep mt-1.5 shrink-0" aria-hidden="true" />
-            <span>We will contact you via {lead.qualification.preferred_next_step.toLowerCase()}.</span>
+            <span>We will contact you through your preferred route ({lead.qualification.preferred_next_step}).</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" aria-hidden="true" />

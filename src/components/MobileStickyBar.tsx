@@ -43,7 +43,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({
         {/* Primary Discuss Plan */}
         <button
           onClick={onDiscussClick}
-          className="flex-1.5 py-2.5 px-3 rounded-full bg-accent hover:bg-ink text-white font-bold text-xs flex items-center justify-center gap-1 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="flex-[1.5] py-2.5 px-3 rounded-full bg-accent hover:bg-ink text-white font-bold text-xs flex items-center justify-center gap-1 active:scale-[0.98] transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Discuss a Bespoke Plan"
         >
           <span>Discuss Plan</span>

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   validateGhanaPhoneNumber,
   buildWhatsAppUrl,
+  buildWhatsAppMessage,
   createCrmLeadPayload,
   getEnquiryFieldError,
   postLeadPayload,
@@ -119,7 +120,34 @@ test('buildWhatsAppUrl caps the tailoring brief at 3 items and stays under lengt
   assert.match(url, /Cultural%20Traditions/);
   assert.match(url, /Caskets/);
   assert.doesNotMatch(url, /Repatriation/);
-  assert.ok(url.length < 800);
+  assert.ok(url.length < 1200);
+});
+
+test('buildWhatsAppUrl preserves the source ref when the message is truncated', () => {
+  const url = buildWhatsAppUrl({
+    basePhone: '233302789123',
+    tailoringBrief: ['Scale & Venue', 'Cultural Traditions', 'Caskets'],
+    location: 'Kumasi, Ashanti Region, Ghana, West Africa. '.repeat(15),
+    name: 'Kofi Mensah-Agyeman '.repeat(40),
+    channel: 'google'
+  });
+  const text = decodeURIComponent(url.split('text=')[1]);
+  assert.ok(text.includes('(Ref: google)'));
+  assert.ok(text.endsWith('(Ref: google)'));
+  assert.ok(url.length < 1200);
+});
+
+test('buildWhatsAppMessage matches the text encoded into the URL', () => {
+  const options = {
+    basePhone: '233302789123',
+    tailoringBrief: ['Caskets', 'Cultural Traditions'],
+    location: 'Accra',
+    name: 'Kofi Mensah',
+    channel: 'google'
+  };
+  const url = buildWhatsAppUrl(options);
+  const encoded = decodeURIComponent(url.split('text=')[1]);
+  assert.equal(encoded, buildWhatsAppMessage(options));
 });
 
 test('postLeadPayload returns true on 2xx and false otherwise', async () => {

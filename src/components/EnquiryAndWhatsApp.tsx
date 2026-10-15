@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import {
   buildWhatsAppUrl,
+  buildWhatsAppMessage,
   type CrmLeadPayload,
   type UtmParams
 } from '../utils/conversion';
@@ -22,7 +23,6 @@ interface Draft {
 interface EnquiryAndWhatsAppProps {
   selectedDimensions: string[];
   attribution: UtmParams;
-  channelName: string;
   onLeadCaptured: (lead: CrmLeadPayload) => void;
   onFormStart: (field: string) => void;
   onFormSubmit: (lead: CrmLeadPayload) => void;
@@ -33,7 +33,6 @@ interface EnquiryAndWhatsAppProps {
 export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
   selectedDimensions,
   attribution,
-  channelName,
   onLeadCaptured,
   onFormStart,
   onFormSubmit,
@@ -46,13 +45,21 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
     needTypes: selectedDimensions
   });
 
-  const whatsAppUrl = buildWhatsAppUrl({
-    basePhone: '233302789123',
+  // Single source of truth for the pre-filled message: the same options
+  // build both the URL and the live preview, so they can never drift.
+  const messageOptions = {
     tailoringBrief: draft.needTypes,
     location: draft.location || undefined,
-    channel: channelName,
+    channel: attribution.utm_source,
     name: draft.name || undefined
+  };
+
+  const whatsAppUrl = buildWhatsAppUrl({
+    basePhone: '233302789123',
+    ...messageOptions
   });
+
+  const whatsAppMessage = buildWhatsAppMessage(messageOptions);
 
   return (
     <section id="enquiry-form" className="py-16 sm:py-24 bg-canvas border-b border-hairline scroll-mt-16">
@@ -93,8 +100,7 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
           <div className="lg:col-span-5">
             <WhatsAppConcierge
               whatsAppUrl={whatsAppUrl}
-              draft={draft}
-              sourceLabel={channelName}
+              whatsAppMessage={whatsAppMessage}
               onWhatsAppClick={() => onWhatsAppClick('enquiry_form')}
               onPhoneClick={() => onPhoneClick('enquiry_form')}
             />

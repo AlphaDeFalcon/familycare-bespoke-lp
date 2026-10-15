@@ -291,7 +291,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             }`}
           />
           {touched.name && errors.name ? (
-            <p id="form-name-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+            <p role="alert" id="form-name-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.name}</span>
             </p>
@@ -326,7 +326,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             }`}
           />
           {touched.phone_whatsapp && errors.phone_whatsapp ? (
-            <p id="form-phone-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+            <p role="alert" id="form-phone-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.phone_whatsapp}</span>
             </p>
@@ -355,7 +355,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             }`}
           />
           {touched.location && errors.location ? (
-            <p id="form-location-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+            <p role="alert" id="form-location-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.location}</span>
             </p>
@@ -386,7 +386,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             ))}
           </select>
           {touched.timing && errors.timing ? (
-            <p id="form-timing-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+            <p role="alert" id="form-timing-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.timing}</span>
             </p>
@@ -416,6 +416,9 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 type="button"
                 onClick={() => toggleNeedType(opt)}
                 aria-pressed={isSelected}
+                aria-describedby={
+                  touched.need_type && errors.need_type ? 'form-need-type-error' : undefined
+                }
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
                   isSelected
                     ? 'bg-accent text-white border-accent'
@@ -429,7 +432,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
           })}
         </div>
         {touched.need_type && errors.need_type ? (
-          <p id="form-need-type-error" className="text-[11px] text-red-600 flex items-center gap-1.5 pt-1">
+          <p role="alert" id="form-need-type-error" className="text-[11px] text-red-600 flex items-center gap-1.5 pt-1">
             <AlertCircle className="w-3.5 h-3.5 shrink-0" />
             <span>{errors.need_type}</span>
           </p>
@@ -466,7 +469,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             ))}
           </select>
           {touched.preferred_next_step && errors.preferred_next_step && (
-            <p id="form-next-step-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+            <p role="alert" id="form-next-step-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.preferred_next_step}</span>
             </p>
@@ -512,7 +515,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             }`}
           />
           {touched.email && errors.email ? (
-            <p id="form-email-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
+            <p role="alert" id="form-email-error" className="text-[11px] text-red-600 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{errors.email}</span>
             </p>

@@ -57,6 +57,34 @@ export function validateGhanaPhoneNumber(phone: string): { isValid: boolean; nor
 }
 
 /**
+ * Builds the prefilled WhatsApp message text. The source ref suffix is
+ * appended AFTER truncation so attribution survives long messages.
+ */
+export function buildWhatsAppMessage(options: {
+  tailoringBrief?: string[];
+  location?: string;
+  channel?: string;
+  name?: string;
+}): string {
+  const briefItems = (options.tailoringBrief || []).slice(0, 3);
+  const briefText = briefItems.length > 0
+    ? `\nKey areas to tailor: ${briefItems.join(', ')}.`
+    : '';
+  const locText = options.location ? `\nLocation: ${options.location}.` : '';
+  const nameText = options.name ? ` My name is ${options.name}.` : '';
+  const srcText = options.channel ? ` (Ref: ${options.channel})` : '';
+
+  const body = `Hello FamilyCare, I would like to discuss a Contract / Bespoke funeral arrangement.${nameText} I would like help understanding the next steps and shaping a tribute around our family's wishes.${locText}${briefText}`;
+
+  const MAX_MESSAGE_LENGTH = 700;
+  if ((body + srcText).length <= MAX_MESSAGE_LENGTH) {
+    return body + srcText;
+  }
+  const available = MAX_MESSAGE_LENGTH - srcText.length;
+  return `${body.slice(0, Math.max(0, available - 3))}...${srcText}`;
+}
+
+/**
  * Builds a tailored WhatsApp click-to-chat URL with prefilled text
  */
 export function buildWhatsAppUrl(options: {
@@ -68,18 +96,7 @@ export function buildWhatsAppUrl(options: {
   name?: string;
 }): string {
   const targetPhone = (options.basePhone || '233302789123').replace(/[^0-9]/g, '');
-  const briefItems = (options.tailoringBrief || []).slice(0, 3);
-  const briefText = briefItems.length > 0
-    ? `\nKey areas to tailor: ${briefItems.join(', ')}.`
-    : '';
-  const locText = options.location ? `\nLocation: ${options.location}.` : '';
-  const nameText = options.name ? ` My name is ${options.name}.` : '';
-  const srcText = options.channel ? ` (Ref: ${options.channel})` : '';
-
-  const base = `Hello FamilyCare, I would like to discuss a Contract / Bespoke funeral arrangement.${nameText} I would like help understanding the next steps and shaping a tribute around our family's wishes.${locText}${briefText}${srcText}`;
-  const message = base.length > 700 ? `${base.slice(0, 697)}...` : base;
-
-  return `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${targetPhone}?text=${encodeURIComponent(buildWhatsAppMessage(options))}`;
 }
 
 /**

@@ -78,13 +78,12 @@ export default function App() {
     [channelSource, attribution]
   );
 
-  // Initial page view event
+  // Initial page view event (single path: logEvent also pushes dataLayer)
   useEffect(() => {
-    pushDataLayer({ event: 'page_view', section: 'landing' }, undefined, attribution);
     logEvent({
       event: 'page_view',
       label: `Page viewed via ${HERO_COPY[channelSource].name}`,
-      section: 'Landing Experience',
+      section: 'landing',
       metadata: { utms: attribution }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -254,7 +253,6 @@ export default function App() {
         <EnquiryAndWhatsApp
           selectedDimensions={selectedDimensions}
           attribution={attribution}
-          channelName={heroCopy.name}
           onLeadCaptured={handleLeadCaptured}
           onFormStart={(field) =>
             logEvent({

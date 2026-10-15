@@ -54,13 +54,13 @@ export const FAQS: FaqItem[] = [
   {
     id: 'faq-7',
     question: 'Can I use WhatsApp to start planning?',
-    answer: 'Yes, absolutely. WhatsApp is a primary conversational route at FamilyCare. You can message our duty desk at any time to ask questions, share preliminary wishes, and receive advisor guidance.',
+    answer: 'Yes, absolutely. WhatsApp is a primary conversational route at FamilyCare. You can message the FamilyCare desk to ask questions, share preliminary wishes, and receive advisor guidance.',
     conversionRole: 'Enables low-friction contact'
   },
   {
     id: 'faq-8',
     question: 'Do I need to visit a branch in person?',
-    answer: 'An in-person visit is not required. Many families, especially those in the diaspora or busy professionals, complete their entire arrangement via WhatsApp, phone, and written proposals. However, if you prefer meeting face-to-face, our private consultation suites are always open to you.',
+    answer: 'An in-person visit is not required. Many families, especially those in the diaspora or busy professionals, complete their entire arrangement via WhatsApp, phone, and written proposals. However, if you prefer meeting face-to-face, your advisor can arrange that with you.',
     conversionRole: 'Removes physical friction'
   }
 ];

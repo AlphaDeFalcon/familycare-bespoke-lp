@@ -6,24 +6,16 @@
 import React from 'react';
 import { MessageCircle, Phone } from 'lucide-react';
 
-interface Draft {
-  name: string;
-  location: string;
-  needTypes: string[];
-}
-
 interface WhatsAppConciergeProps {
   whatsAppUrl: string;
-  draft: Draft;
-  sourceLabel: string;
+  whatsAppMessage: string;
   onWhatsAppClick: () => void;
   onPhoneClick: () => void;
 }
 
 export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
   whatsAppUrl,
-  draft,
-  sourceLabel,
+  whatsAppMessage,
   onWhatsAppClick,
   onPhoneClick
 }) => {
@@ -51,11 +43,7 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
               Live pre-filled message preview
             </div>
             <div className="p-3.5 rounded-card bg-accent/5 border border-accent/20 text-xs text-ink leading-relaxed">
-              &ldquo;Hello FamilyCare, I would like to discuss a Contract / Bespoke funeral arrangement
-              {draft.name ? ` for ${draft.name}` : ''}. I would like help understanding the next steps and shaping a tribute around our family&rsquo;s wishes.
-              {draft.location ? ` Location: ${draft.location}.` : ''}
-              {draft.needTypes.length > 0 ? ` Key areas: ${draft.needTypes.join(', ')}.` : ''}
-              {sourceLabel ? ` (Ref: ${sourceLabel})` : ''}&rdquo;
+              &ldquo;{whatsAppMessage}&rdquo;
             </div>
           </div>
 
