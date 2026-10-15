@@ -6,10 +6,11 @@
 export interface UtmParams {
   utm_source: string;
   utm_medium: string;
-  utm_campaign: string;
+  utm_campaign?: string;
   utm_content?: string;
   utm_term?: string;
   gclid?: string;
+  fbclid?: string;
 }
 
 export type ChannelSource = 'google_search' | 'meta_instagram' | 'linkedin' | 'youtube' | 'direct';
