@@ -55,6 +55,43 @@
   }
 }
 
+/* Testimonials marquee: slow, calm drift; one row reversed.
+   Pauses on hover, collapses to a scrollable static row under
+   reduced motion. */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: marquee-left 70s linear infinite;
+}
+.marquee-track.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee-paused:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    width: auto;
+    flex-wrap: nowrap;
+  }
+  .marquee-track .marquee-duplicate {
+    display: none;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+  }
+}
+
 /* Custom scrollbar for modern subtle appearance */
 ::-webkit-scrollbar {
   width: 8px;
