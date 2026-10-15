@@ -117,7 +117,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
               {teamPhotos.map((photo, idx) => (
                 <img
                   key={idx}
-                  src={cloudinary(photo.src, 'w_600,ar_3_4,c_fill,f_auto,q_auto')}
+                  src={cloudinary(photo.src, 'w_600,f_auto,q_auto')}
                   alt={photo.alt}
                   className="w-full aspect-[3/4] object-cover rounded-card border border-hairline"
                   loading="lazy"
