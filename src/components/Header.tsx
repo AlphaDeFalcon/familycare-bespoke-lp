@@ -12,7 +12,6 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
-import { NavMenuLink } from './ui/menu-hover-effects';
 
 interface HeaderProps {
   onDiscussClick: () => void;
@@ -58,19 +57,19 @@ export const Header: React.FC<HeaderProps> = ({
           </a>
 
           {/* Center Navigation (Desktop) */}
-          <nav className="hidden lg:flex items-center gap-2 xl:gap-4" aria-label="Main Navigation">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Main Navigation">
             {navLinks.map((link) => (
-              <NavMenuLink
+              <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
                   handleLinkClick(link.href);
                 }}
-                className="text-xs xl:text-sm text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
+                className="text-xs xl:text-sm font-medium text-muted hover:text-body transition-colors relative py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm hover:border-b-2 hover:border-accent"
               >
                 {link.label}
-              </NavMenuLink>
+              </a>
             ))}
           </nav>
 
@@ -129,19 +128,19 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="sm:hidden border-t border-hairline bg-canvas px-4 pt-3 pb-6 space-y-3">
-          <div className="flex flex-col space-y-1">
+          <div className="flex flex-col space-y-2">
             {navLinks.map((link) => (
-              <NavMenuLink
+              <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
                   handleLinkClick(link.href);
                 }}
-                className="text-sm text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+                className="px-3 py-2 text-sm font-medium text-body hover:bg-tint rounded-lg"
               >
                 {link.label}
-              </NavMenuLink>
+              </a>
             ))}
           </div>
 

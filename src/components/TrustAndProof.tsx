@@ -10,7 +10,7 @@ import {
   HeartHandshake,
   ArrowRight
 } from 'lucide-react';
-import { cloudinary, facilityImage, staffSklarbi, staffAtiaviGlime, staffEmmanuelOdame, staffHelen } from '../utils/media';
+import { cloudinary, facilityBuildingImage, staffSklarbi, staffAtiaviGlime, staffEmmanuelOdame, staffHelen } from '../utils/media';
 import { Reveal } from './Reveal';
 
 interface TrustAndProofProps {
@@ -91,7 +91,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
           <Reveal>
             <figure className="space-y-3">
               <img
-                src={cloudinary(facilityImage, 'w_1200,f_auto,q_auto')}
+                src={cloudinary(facilityBuildingImage, 'w_1200,f_auto,q_auto')}
                 alt="A FamilyCare facility"
                 className="w-full rounded-card border border-hairline"
                 loading="lazy"

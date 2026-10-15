@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { ArrowRight, MessageCircle, Phone } from 'lucide-react';
-import { cloudinary, heroImage } from '../utils/media';
+import { HeroCarousel } from './HeroCarousel';
 
 interface HeroCopy {
   heroBadge: string;
@@ -89,17 +89,9 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
 
-          {/* Image */}
+          {/* Image Carousel */}
           <div className="lg:col-span-5">
-            <img
-              src={cloudinary(heroImage, 'w_1600,f_auto,q_auto,c_fill')}
-              alt="A FamilyCare facility prepared to welcome families for consultation"
-              width={1600}
-              height={1067}
-              className="w-full aspect-[3/2] object-cover rounded-card border border-hairline"
-              loading="eager"
-              fetchPriority="high"
-            />
+            <HeroCarousel />
           </div>
         </div>
       </div>
