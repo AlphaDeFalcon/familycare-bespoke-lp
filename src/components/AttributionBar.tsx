@@ -16,7 +16,8 @@ import {
   Activity,
   Check
 } from 'lucide-react';
-import { CAMPAIGN_CHANNELS, ChannelSource, UtmParams } from '../utils/conversion';
+import { HERO_COPY, ChannelSource } from '../utils/attribution';
+import type { UtmParams } from '../utils/conversion';
 
 interface AttributionBarProps {
   currentChannel: ChannelSource;
@@ -50,10 +51,10 @@ export const AttributionBar: React.FC<AttributionBarProps> = ({
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 font-semibold text-[11px]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00A859] animate-pulse" />
-            CAMPAIGN ATTRIBUTION SIMULATOR
+            QA Attribution Console
           </span>
           <span className="hidden md:inline text-zinc-400 text-[11px]">
-            Simulate incoming traffic channels to test message adaptation & CRM persistence
+            Inspect detected UTM context and the live event stream (debug mode only)
           </span>
         </div>
 
@@ -82,7 +83,7 @@ export const AttributionBar: React.FC<AttributionBarProps> = ({
               </>
             ) : (
               <>
-                <span className="hidden sm:inline">Channel: {CAMPAIGN_CHANNELS[currentChannel].name}</span>
+                <span className="hidden sm:inline">Channel: {HERO_COPY[currentChannel].name}</span>
                 <ChevronDown className="w-3.5 h-3.5" />
               </>
             )}
@@ -100,8 +101,8 @@ export const AttributionBar: React.FC<AttributionBarProps> = ({
                 <Sliders className="w-3 h-3" />
                 Select Channel:
               </span>
-              {(Object.keys(CAMPAIGN_CHANNELS) as ChannelSource[]).map((key) => {
-                const config = CAMPAIGN_CHANNELS[key];
+              {(Object.keys(HERO_COPY) as ChannelSource[]).map((key) => {
+                const config = HERO_COPY[key];
                 const isSelected = currentChannel === key;
                 return (
                   <button

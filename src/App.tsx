@@ -3,20 +3,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
-  CAMPAIGN_CHANNELS,
-  ChannelSource,
+  CrmLeadPayload,
   UtmParams,
   AnalyticsEvent,
-  CrmLeadPayload,
   buildWhatsAppUrl
 } from './utils/conversion';
-import { AttributionBar } from './components/AttributionBar';
-import { AnalyticsDrawer } from './components/AnalyticsDrawer';
+import {
+  captureAttribution,
+  isDebugMode,
+  resolveChannel,
+  pushDataLayer,
+  toDataLayerLeadFields,
+  HERO_COPY,
+  ChannelSource,
+  DataLayerEvent
+} from './utils/attribution';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { HERO_COPY } from './utils/attribution';
 import { ProductTruthAndBriefBuilder } from './components/ProductTruthAndBriefBuilder';
 import { HowItWorks } from './components/HowItWorks';
 import { CapabilityProof } from './components/CapabilityProof';
@@ -26,12 +31,18 @@ import { FaqSection } from './components/FaqSection';
 import { FinalCtaAndFooter } from './components/FinalCtaAndFooter';
 import { MobileStickyBar } from './components/MobileStickyBar';
 
+const DebugTools = lazy(() =>
+  import('./components/DebugTools').then((module) => ({ default: module.DebugTools }))
+);
+
 export default function App() {
-  // Current simulated campaign channel
-  const [currentChannel, setCurrentChannel] = useState<ChannelSource>('google_search');
-  const [activeUtms, setActiveUtms] = useState<UtmParams>(
-    CAMPAIGN_CHANNELS.google_search.defaultUtms
-  );
+  // Debug gate + real first-touch attribution, resolved once at load
+  const [debug] = useState(() => isDebugMode(window.location.search));
+  const [attribution] = useState<UtmParams>(() => captureAttribution(window.location.search));
+  const [debugChannelOverride, setDebugChannelOverride] = useState<ChannelSource | null>(null);
+
+  const channelSource = resolveChannel(attribution);
+  const heroCopy = HERO_COPY[debugChannelOverride ?? channelSource];
 
   // Selected tailoring dimensions from Bespoke Brief Builder
   const [selectedDimensions, setSelectedDimensions] = useState<string[]>([
@@ -39,46 +50,54 @@ export default function App() {
     'Cultural Traditions'
   ]);
 
-  // Analytics & CRM event log stream
+  // Analytics & CRM event log stream (kept always so ?debug=1 shows history)
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [capturedLeads, setCapturedLeads] = useState<CrmLeadPayload[]>([]);
   const [isAnalyticsDrawerOpen, setIsAnalyticsDrawerOpen] = useState(false);
 
-  // Log an analytics action
+  // Log an analytics action: internal event log + GTM-ready dataLayer push
   const logEvent = useCallback(
-    (eventData: Omit<AnalyticsEvent, 'id' | 'timestamp' | 'channel'>) => {
+    (eventData: Omit<AnalyticsEvent, 'id' | 'timestamp' | 'channel'> & { section?: string }) => {
       const newEvent: AnalyticsEvent = {
         id: `EVT-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
         timestamp: new Date().toISOString(),
-        channel: CAMPAIGN_CHANNELS[currentChannel].name,
+        channel: HERO_COPY[channelSource].name,
         ...eventData
       };
       setEvents((prev) => [newEvent, ...prev]);
+
+      const dataLayerEvent: DataLayerEvent = {
+        event: eventData.event,
+        section: eventData.section,
+        ...(eventData.metadata && typeof eventData.metadata === 'object'
+          ? { ...(eventData.metadata as Record<string, unknown>) }
+          : {})
+      };
+      pushDataLayer(dataLayerEvent, undefined, attribution);
     },
-    [currentChannel]
+    [channelSource, attribution]
   );
 
   // Initial page view event
   useEffect(() => {
+    pushDataLayer({ event: 'page_view', section: 'landing' }, undefined, attribution);
     logEvent({
       event: 'page_view',
-      label: `Page viewed via ${CAMPAIGN_CHANNELS[currentChannel].name}`,
+      label: `Page viewed via ${HERO_COPY[channelSource].name}`,
       section: 'Landing Experience',
-      metadata: { utms: activeUtms }
+      metadata: { utms: attribution }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Handle changing the simulated ad traffic channel
+  // Handle changing the QA channel override (debug only)
   const handleSelectChannel = (channel: ChannelSource) => {
-    setCurrentChannel(channel);
-    const newUtms = CAMPAIGN_CHANNELS[channel].defaultUtms;
-    setActiveUtms(newUtms);
-
+    setDebugChannelOverride(channel);
     logEvent({
       event: 'page_view',
-      label: `Simulated incoming traffic channel switched to: ${CAMPAIGN_CHANNELS[channel].name}`,
-      section: 'Attribution Simulator',
-      metadata: { newUtms }
+      label: `QA channel override switched to: ${HERO_COPY[channel].name}`,
+      section: 'QA Console',
+      metadata: {}
     });
   };
 
@@ -93,17 +112,18 @@ export default function App() {
     logEvent({
       event: 'brief_tailor_toggle',
       label: `${exists ? 'Removed' : 'Added'} brief dimension: ${dimensionKey}`,
-      section: 'Bespoke Brief Builder',
+      section: 'brief_builder',
       metadata: { currentSelection: updated }
     });
   };
 
   // Smooth scroll to form
-  const scrollToForm = () => {
+  const scrollToForm = (section: string = 'Global Navigation / Hero') => {
     logEvent({
       event: 'cta_click',
       label: 'Clicked Discuss a Bespoke Plan CTA',
-      section: 'Global Navigation / Hero'
+      section,
+      metadata: { cta_name: 'Discuss a Bespoke Plan' }
     });
     const formEl = document.getElementById('enquiry-form');
     if (formEl) {
@@ -116,12 +136,14 @@ export default function App() {
     logEvent({
       event: 'whatsapp_click',
       label: `Tapped WhatsApp CTA from ${sourceSection}`,
-      section: sourceSection
+      section: sourceSection,
+      metadata: { cta_name: 'WhatsApp FamilyCare' }
     });
     const url = buildWhatsAppUrl({
       basePhone: '233302789123',
       tailoringBrief: selectedDimensions,
-      channel: CAMPAIGN_CHANNELS[currentChannel].name
+      channel: attribution.utm_source,
+      name: undefined
     });
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -131,7 +153,8 @@ export default function App() {
     logEvent({
       event: 'phone_click',
       label: `Tapped Call Advisor CTA from ${sourceSection}`,
-      section: sourceSection
+      section: sourceSection,
+      metadata: { cta_name: 'Call an Advisor' }
     });
     window.location.href = 'tel:+233302789123';
   };
@@ -144,9 +167,10 @@ export default function App() {
     logEvent({
       event: 'cta_click',
       label: `Selected capability to discuss: ${needType}`,
-      section: 'Capabilities Proof'
+      section: 'capabilities',
+      metadata: { cta_name: 'Discuss this with an advisor' }
     });
-    scrollToForm();
+    scrollToForm('capabilities');
   };
 
   // Handle step click from How It Works
@@ -154,9 +178,10 @@ export default function App() {
     logEvent({
       event: 'cta_click',
       label: `Selected step: ${stepTitle}`,
-      section: 'How It Works'
+      section: 'how_it_works',
+      metadata: { cta_name: 'Discuss a Bespoke Plan' }
     });
-    scrollToForm();
+    scrollToForm('how_it_works');
   };
 
   // On lead captured
@@ -164,40 +189,56 @@ export default function App() {
     setCapturedLeads((prev) => [lead, ...prev]);
   };
 
-  const currentChannelConfig = CAMPAIGN_CHANNELS[currentChannel];
+  // On form submit success
+  const handleFormSubmit = (lead: CrmLeadPayload) => {
+    logEvent({
+      event: 'form_submit',
+      label: `Bespoke Consultation Lead: ${lead.leadId}`,
+      section: 'enquiry_form',
+      metadata: { form_id: 'enquiry-form', ...toDataLayerLeadFields(lead) }
+    });
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#18181B] relative">
-      {/* 1. Channel-Adaptive Top Bar & Attribution Simulator (QA Tool) */}
-      <AttributionBar
-        currentChannel={currentChannel}
-        onSelectChannel={handleSelectChannel}
-        activeUtms={activeUtms}
-        onOpenAnalytics={() => setIsAnalyticsDrawerOpen(true)}
-        eventCount={events.length}
-      />
+    <div className="min-h-screen flex flex-col bg-canvas text-body relative">
+      {/* 1. QA-only debug console (lazy-loaded, ?debug=1 only) */}
+      {debug && (
+        <Suspense fallback={null}>
+          <DebugTools
+            currentChannel={debugChannelOverride ?? channelSource}
+            onSelectChannel={handleSelectChannel}
+            activeUtms={attribution}
+            isDrawerOpen={isAnalyticsDrawerOpen}
+            onOpenDrawer={() => setIsAnalyticsDrawerOpen(true)}
+            onCloseDrawer={() => setIsAnalyticsDrawerOpen(false)}
+            events={events}
+            leads={capturedLeads}
+            onClearEvents={() => setEvents([])}
+          />
+        </Suspense>
+      )}
 
       {/* 2. Section 01: Sticky Global Header */}
       <Header
-        onDiscussClick={scrollToForm}
-        onWhatsAppClick={() => handleWhatsAppAction('Header')}
-        onPhoneClick={() => handlePhoneAction('Header')}
+        onDiscussClick={() => scrollToForm('header')}
+        onWhatsAppClick={() => handleWhatsAppAction('header')}
+        onPhoneClick={() => handlePhoneAction('header')}
       />
 
       <main className="flex-1">
         {/* 3. Section 02: Hero with Real Facility Photography */}
         <Hero
-          heroCopy={HERO_COPY.direct}
-          onDiscussClick={scrollToForm}
-          onWhatsAppClick={() => handleWhatsAppAction('Hero Cluster')}
-          onPhoneClick={() => handlePhoneAction('Hero Cluster')}
+          heroCopy={heroCopy}
+          onDiscussClick={() => scrollToForm('hero')}
+          onWhatsAppClick={() => handleWhatsAppAction('hero')}
+          onPhoneClick={() => handlePhoneAction('hero')}
         />
 
         {/* 4. Section 03 & 04: Product Truth + Bespoke Brief Builder (6 Dimensions) */}
         <ProductTruthAndBriefBuilder
           selectedDimensions={selectedDimensions}
           onToggleDimension={handleToggleDimension}
-          onScrollToForm={scrollToForm}
+          onScrollToForm={() => scrollToForm('brief_builder')}
         />
 
         {/* 5. Section 05: How It Works (4-Step Story) */}
@@ -207,69 +248,46 @@ export default function App() {
         <CapabilityProof onSelectCapability={handleSelectCapability} />
 
         {/* 7. Section 07 & 08: Trust, Process Proof & Team */}
-        <TrustAndProof
-          onDiscussClick={scrollToForm}
-        />
+        <TrustAndProof onDiscussClick={() => scrollToForm('trust')} />
 
         {/* 8. Section 09 & 10: Dual-Path Conversion Core (Qualification Form + WhatsApp Concierge) */}
         <EnquiryAndWhatsApp
           selectedDimensions={selectedDimensions}
-          attribution={activeUtms}
-          channelName={currentChannelConfig.name}
+          attribution={attribution}
+          channelName={heroCopy.name}
           onLeadCaptured={handleLeadCaptured}
           onFormStart={(field) =>
             logEvent({
               event: 'form_start',
               label: `User interacted with field: ${field}`,
-              section: 'Enquiry Form'
+              section: 'enquiry_form',
+              metadata: { form_id: 'enquiry-form' }
             })
           }
-          onFormSubmit={(lead) =>
-            logEvent({
-              event: 'form_submit',
-              label: `Bespoke Consultation Lead: ${lead.leadId}`,
-              section: 'Enquiry Form',
-              metadata: {
-                leadId: lead.leadId,
-                location: lead.qualification.location,
-                timing: lead.qualification.timing,
-                needs: lead.qualification.need_type
-              }
-            })
-          }
+          onFormSubmit={handleFormSubmit}
           onWhatsAppClick={(section) => handleWhatsAppAction(section)}
           onPhoneClick={(section) => handlePhoneAction(section)}
         />
 
         {/* 9. Section 11: Accessible FAQ Accordion */}
         <FaqSection
-          onDiscussClick={scrollToForm}
-          onWhatsAppClick={() => handleWhatsAppAction('FAQ')}
+          onDiscussClick={() => scrollToForm('faq')}
+          onWhatsAppClick={() => handleWhatsAppAction('faq')}
         />
 
         {/* 10. Section 12: Final Conversion Banner & Global Footer */}
         <FinalCtaAndFooter
-          onDiscussClick={scrollToForm}
-          onWhatsAppClick={() => handleWhatsAppAction('Final Banner')}
-          onPhoneClick={() => handlePhoneAction('Final Banner')}
+          onDiscussClick={() => scrollToForm('final_cta')}
+          onWhatsAppClick={() => handleWhatsAppAction('final_cta')}
+          onPhoneClick={() => handlePhoneAction('final_cta')}
         />
       </main>
 
       {/* 11. Persistent Mobile Sticky Bar (Visible on mobile screens) */}
       <MobileStickyBar
-        onDiscussClick={scrollToForm}
-        onWhatsAppClick={() => handleWhatsAppAction('Mobile Sticky Bar')}
-        onPhoneClick={() => handlePhoneAction('Mobile Sticky Bar')}
-      />
-
-      {/* 12. Slide-out Live Analytics & CRM Payload Drawer */}
-      <AnalyticsDrawer
-        isOpen={isAnalyticsDrawerOpen}
-        onClose={() => setIsAnalyticsDrawerOpen(false)}
-        events={events}
-        leads={capturedLeads}
-        activeUtms={activeUtms}
-        onClearEvents={() => setEvents([])}
+        onDiscussClick={() => scrollToForm('mobile_sticky')}
+        onWhatsAppClick={() => handleWhatsAppAction('mobile_sticky')}
+        onPhoneClick={() => handlePhoneAction('mobile_sticky')}
       />
     </div>
   );

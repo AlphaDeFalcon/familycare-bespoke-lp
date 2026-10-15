@@ -62,7 +62,7 @@ export const AnalyticsDrawer: React.FC<AnalyticsDrawerProps> = ({
             </div>
             <div>
               <div className="font-bold text-sm tracking-wide">Live Attribution & CRM Pipeline</div>
-              <div className="text-xs text-zinc-400">Sales-First Audit Console • Dennis Djan Rockson Strategy</div>
+              <div className="text-xs text-zinc-400">QA console (debug mode only)</div>
             </div>
           </div>
           <button

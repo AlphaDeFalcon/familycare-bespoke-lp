@@ -6,8 +6,7 @@ import {
   createCrmLeadPayload,
   getEnquiryFieldError,
   postLeadPayload,
-  submitEnquiry,
-  CAMPAIGN_CHANNELS
+  submitEnquiry
 } from './conversion.ts';
 
 test('validateGhanaPhoneNumber accepts standard Ghana 10-digit formats', () => {
@@ -50,7 +49,11 @@ test('buildWhatsAppUrl includes brief items and location', () => {
 });
 
 test('createCrmLeadPayload requires name, valid phone, location, need_type, and timing', () => {
-  const defaultUtm = CAMPAIGN_CHANNELS.google_search.defaultUtms;
+  const defaultUtm = {
+    utm_source: 'google',
+    utm_medium: 'cpc',
+    utm_campaign: 'ghana_contract_bespoke_search'
+  };
 
   // Invalid: missing location
   const badResult = createCrmLeadPayload(
