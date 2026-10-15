@@ -10,13 +10,34 @@ export interface Testimonial {
   quote: string;
   name: string;
   context: string;
+  rating: number;
 }
 
 /**
- * Real, permissioned customer reviews. Populate from the company's
- * Google Maps listing; the section renders only once reviews exist.
+ * Real customer reviews from the company's Google Maps listing
+ * (https://maps.app.goo.gl/RwtNcH661TzYbdE19), lightly trimmed for
+ * length; full reviews remain on Google Maps.
  */
-export const TESTIMONIALS: Testimonial[] = [];
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote: 'Everyone was so kind, gentle and caring during a very sad time in my life. They truly listened to the little details I wanted to help my family and I express our love to our uncle.',
+    name: 'Clara Nyarkoah Anim',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: "At first, I doubted their promises. I said to myself, this is too good to be true but sincerely, they've won my heart.",
+    name: 'Ike Gee kpodzo',
+    context: 'Google Maps review',
+    rating: 5
+  },
+  {
+    quote: 'I laid my head on their shoulders when I lost my dearest mother and everything they said was perfectly done.',
+    name: 'Yaa Asantewah Obeng Opoku',
+    context: 'Google Maps review',
+    rating: 5
+  }
+];
 
 const GOOGLE_REVIEWS_URL = 'https://maps.app.goo.gl/RwtNcH661TzYbdE19?g_st=ic';
 
@@ -50,6 +71,10 @@ export const Testimonials: React.FC = () => {
             </div>
             <figcaption className="text-xs text-muted pt-3 border-t border-hairline">
               <span className="font-semibold text-ink block">{testimonial.name}</span>
+              <span className="block" aria-label={`${testimonial.rating} out of 5 stars`}>
+                {'★'.repeat(testimonial.rating)}
+                <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
+              </span>
               {testimonial.context}
             </figcaption>
           </figure>
