@@ -29,10 +29,15 @@ const clickSubmit = () =>
     btn?.click();
   });
 
-// Step 1: contact details
+// Step 1: contact details (location select should offer all 16 regions)
+const locationOptions = await page.evaluate(
+  () => [...document.querySelectorAll('#form-location option')].map((o) => o.textContent)
+);
+console.log('location options:', locationOptions.length - 1, 'regions (16 expected)');
+
 await page.type('#form-name', 'Kofi Mensah');
 await page.type('#form-phone', '0244123456');
-await page.select('#form-location', 'Accra / Greater Accra');
+await page.select('#form-location', 'Greater Accra');
 await clickSubmit();
 await new Promise((r) => setTimeout(r, 400));
 

@@ -13,6 +13,7 @@ import {
   type UtmParams
 } from '../utils/conversion';
 import { EnquirySuccess } from './EnquirySuccess';
+import { GHANA_REGIONS } from '../utils/regions';
 
 interface EnquiryFormProps {
   initialNeedTypes: string[];
@@ -61,14 +62,6 @@ const NEED_TYPE_OPTIONS = [
   'Repatriation',
   'Cemetery Support',
   'Budget Guidance'
-];
-
-const LOCATION_OPTIONS = [
-  'Accra / Greater Accra',
-  'Tema / Greater Accra',
-  'Kumasi / Ashanti',
-  'Koforidua / Eastern',
-  'Other location'
 ];
 
 const TIMING_OPTIONS = [
@@ -430,7 +423,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
           <div className="space-y-1.5">
             <label htmlFor="form-location" className="block text-xs font-semibold text-body">
-              Location (preferred branch) <span className="text-red-500">*</span>
+              Location (Region) <span className="text-red-500">*</span>
             </label>
             <select
               id="form-location"
@@ -442,8 +435,8 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 touched.location && errors.location ? 'border-red-400 bg-red-50/20' : 'border-hairline'
               }`}
             >
-              <option value="">Select the nearest branch...</option>
-              {LOCATION_OPTIONS.map((loc) => (
+              <option value="">Select your region...</option>
+              {GHANA_REGIONS.map((loc) => (
                 <option key={loc} value={loc}>
                   {loc}
                 </option>
@@ -455,7 +448,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 <span>{errors.location}</span>
               </p>
             ) : (
-              <p className="text-[10px] text-muted">Branches in Accra, Tema, Kumasi, and Koforidua</p>
+              <p className="text-[10px] text-muted">We coordinate across all 16 regions; branches in Accra, Tema, Kumasi, and Koforidua</p>
             )}
           </div>
         </>
