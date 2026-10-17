@@ -105,11 +105,11 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 sm:hidden">
+          {/* Mobile / Tablet Menu Button */}
+          <div className="flex items-center gap-2 lg:hidden">
             <button
               onClick={onWhatsAppClick}
-              className="p-3 rounded-lg text-accent bg-accent/10 border border-accent/20"
+              className="p-3 rounded-lg text-accent bg-accent/10 border border-accent/20 sm:hidden"
               aria-label="WhatsApp FamilyCare"
             >
               <MessageCircle className="w-5 h-5" />
@@ -125,9 +125,15 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile / Tablet Drawer: absolutely positioned overlay so opening or
+          closing it never changes document flow. A flow drawer collapses
+          after a link click and shifts the page mid-scroll, landing the
+          smooth scroll past the section. */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-t border-hairline bg-canvas px-4 pt-3 pb-6 space-y-3">
+        <div
+          data-nav-drawer
+          className="lg:hidden absolute top-full left-0 right-0 border-t border-hairline bg-canvas shadow-lg px-4 pt-3 pb-6 space-y-3 max-h-[80vh] overflow-y-auto"
+        >
           <div className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <a
