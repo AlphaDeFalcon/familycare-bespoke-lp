@@ -15,10 +15,164 @@
     <meta name="twitter:title" content="FamilyCare Funeral Trust - Contract &amp; Bespoke Services" />
     <meta name="twitter:description" content="FamilyCare Funeral Trust Ghana: A farewell shaped around your wishes. Bespoke and contract funeral planning with transparent coordination, cultural honours, and personal advisors." />
     <meta name="twitter:image" content="https://res.cloudinary.com/fcufbtuc/image/upload/w_1200,f_auto,q_auto/IMG_0109.jpg" />
-    <meta name="theme-color" content="#F6F8F7" />
+    <meta name="theme-color" content="#0B3D26" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preload" as="image" href="/logo-icon.png" />
+    <noscript>
+      <style>
+        #boot-splash {
+          display: none !important;
+        }
+      </style>
+    </noscript>
     <!-- Update to the deployed landing page URL before launch -->
     <link rel="canonical" href="https://familycaretrust.com/" />
+
+    <!-- Boot splash: inline critical CSS so it paints before the app bundle
+         downloads. main.tsx fades it out once React has mounted. -->
+    <style>
+      #boot-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #0b3d26;
+        background-image:
+          radial-gradient(58% 46% at 50% 44%, rgba(0, 168, 89, 0.22) 0%, rgba(0, 168, 89, 0) 72%),
+          linear-gradient(165deg, #0e4a2e 0%, #0b3d26 54%, #072a1a 100%);
+        font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+        opacity: 1;
+        transition: opacity 320ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      #boot-splash.boot-splash--done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .boot-splash__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 24px;
+      }
+      .boot-splash__emblem {
+        position: relative;
+        width: 132px;
+        height: 132px;
+        margin-bottom: 26px;
+        animation: boot-splash-emblem-in 560ms cubic-bezier(0.23, 1, 0.32, 1) both;
+      }
+      .boot-splash__ring {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        animation: boot-splash-spin 1.25s linear infinite;
+      }
+      .boot-splash__ring-track {
+        fill: none;
+        stroke: rgba(246, 248, 247, 0.16);
+        stroke-width: 2.5;
+      }
+      .boot-splash__ring-arc {
+        fill: none;
+        stroke: url(#boot-splash-gradient);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-dasharray: 90 269;
+      }
+      .boot-splash__disc {
+        position: absolute;
+        inset: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f6f8f7;
+        box-shadow:
+          0 0 0 1px rgba(7, 42, 26, 0.06),
+          0 22px 48px -24px rgba(0, 0, 0, 0.55);
+      }
+      .boot-splash__mark {
+        width: 72px;
+        height: auto;
+      }
+      .boot-splash__name {
+        color: #f6f8f7;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        animation: boot-splash-text-in 460ms cubic-bezier(0.23, 1, 0.32, 1) 120ms both;
+      }
+      .boot-splash__tagline {
+        margin-top: 10px;
+        color: #bfd9ca;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-style: italic;
+        font-size: 18px;
+        line-height: 1.4;
+        animation: boot-splash-text-in 460ms cubic-bezier(0.23, 1, 0.32, 1) 200ms both;
+      }
+      @keyframes boot-splash-emblem-in {
+        from {
+          opacity: 0;
+          transform: scale(0.92);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes boot-splash-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes boot-splash-text-in {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (min-width: 640px) {
+        .boot-splash__emblem {
+          width: 156px;
+          height: 156px;
+          margin-bottom: 30px;
+        }
+        .boot-splash__disc {
+          inset: 20px;
+        }
+        .boot-splash__mark {
+          width: 86px;
+        }
+        .boot-splash__name {
+          font-size: 13px;
+        }
+        .boot-splash__tagline {
+          font-size: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot-splash {
+          transition: none;
+        }
+        .boot-splash__emblem,
+        .boot-splash__name,
+        .boot-splash__tagline,
+        .boot-splash__ring {
+          animation: none;
+        }
+      }
+    </style>
 
     <!-- Schema.org JSON-LD for the funeral service -->
     <script type="application/ld+json">
@@ -29,7 +183,7 @@
       "alternateName": "FamilyCare Funeral Trust Ghana",
       "description": "Provider of contract and bespoke funeral services, logistics, casket curation, cultural honours, and cemetery coordination in Ghana.",
       "url": "https://familycaretrust.com",
-      "telephone": "+233262626181",
+      "telephone": "+233597434114",
       "email": "info@familycaretrust.com",
       "priceRange": "$$",
       "address": {
@@ -54,6 +208,54 @@
     </script>
   </head>
   <body class="bg-canvas text-body antialiased selection:bg-accent/20 selection:text-ink">
+    <!-- Branded boot splash, removed by main.tsx after mount -->
+    <div id="boot-splash" role="status" aria-label="Loading FamilyCare Funeral Trust">
+      <div class="boot-splash__inner">
+        <div class="boot-splash__emblem">
+          <svg
+            class="boot-splash__ring"
+            data-splash-ring
+            viewBox="0 0 120 120"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <defs>
+              <linearGradient
+                id="boot-splash-gradient"
+                x1="24"
+                y1="26"
+                x2="96"
+                y2="94"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0" stop-color="#0fbf67" />
+                <stop offset="1" stop-color="#b5f3d0" />
+              </linearGradient>
+            </defs>
+            <circle class="boot-splash__ring-track" cx="60" cy="60" r="57" />
+            <circle class="boot-splash__ring-arc" cx="60" cy="60" r="57" />
+          </svg>
+          <span class="boot-splash__disc">
+            <img
+              class="boot-splash__mark"
+              src="/logo-icon.png"
+              alt=""
+              width="128"
+              height="131"
+              fetchpriority="high"
+            />
+          </span>
+        </div>
+        <div class="boot-splash__name">FamilyCare Funeral Trust</div>
+        <div class="boot-splash__tagline">Today&rsquo;s Wisdom, Tomorrow&rsquo;s Peace of Mind</div>
+      </div>
+    </div>
+    <noscript>
+      <p style="padding: 24px; font-family: system-ui, sans-serif; color: #1e2421">
+        FamilyCare Funeral Trust needs JavaScript to display this page. Please call
+        <a href="tel:+233597434114" style="color: #007f43">+233 59 743 4114</a> and an advisor will help you.
+      </p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
