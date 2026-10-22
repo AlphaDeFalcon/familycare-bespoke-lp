@@ -159,7 +159,7 @@ export default function App() {
   const handleWhatsAppAction = (sourceSection: string = 'Header') => {
     logWhatsAppClick(sourceSection);
     const url = buildWhatsAppUrl({
-      basePhone: '233262626181',
+      basePhone: '233597434114',
       tailoringBrief: selectedDimensions,
       channel: attribution.utm_source,
       name: undefined
@@ -170,7 +170,7 @@ export default function App() {
   // Direct phone click
   const handlePhoneAction = (sourceSection: string = 'Header') => {
     logPhoneClick(sourceSection);
-    window.location.href = 'tel:+233262626181';
+    window.location.href = 'tel:+233597434114';
   };
 
   // Handle capability card selection

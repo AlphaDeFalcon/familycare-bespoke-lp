@@ -80,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onPhoneClick}
               className="p-2.5 rounded-full text-deep bg-tint hover:bg-hairline border border-hairline transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               aria-label="Call FamilyCare Advisor"
-              title="Call FamilyCare Advisor (+233 26 262 6181)"
+              title="Call FamilyCare Advisor (+233 59 743 4114)"
             >
               <Phone className="w-4 h-4" />
             </button>

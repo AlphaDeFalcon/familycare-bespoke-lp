@@ -289,8 +289,8 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               <ul className="space-y-2 text-xs">
                 <li className="flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0" />
-                  <a href="tel:+233262626181" className="hover:text-white font-mono">
-                    +233 26 262 6181
+                  <a href="tel:+233597434114" className="hover:text-white font-mono">
+                    +233 59 743 4114
                   </a>
                 </li>
                 <li className="flex items-center gap-2">

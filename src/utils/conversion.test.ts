@@ -34,6 +34,11 @@ test('validateGhanaPhoneNumber rejects too short or invalid numbers', () => {
   assert.equal(resultInvalid.isValid, false);
 });
 
+test('buildWhatsAppUrl falls back to the FamilyCare contact number', () => {
+  const url = buildWhatsAppUrl({});
+  assert.match(url, /wa\.me\/233597434114/);
+});
+
 test('buildWhatsAppUrl includes brief items and location', () => {
   const url = buildWhatsAppUrl({
     basePhone: '+233 26 262 6181',

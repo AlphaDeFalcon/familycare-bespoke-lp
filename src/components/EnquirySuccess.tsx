@@ -79,7 +79,7 @@ export const EnquirySuccess: React.FC<EnquirySuccessProps> = ({
         </a>
 
         <a
-          href="tel:+233262626181"
+          href="tel:+233597434114"
           onClick={onPhoneClick}
           className="py-3 px-4 rounded-full border border-deep bg-deep/5 hover:bg-deep/10 text-deep text-xs font-semibold flex items-center justify-center gap-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
         >

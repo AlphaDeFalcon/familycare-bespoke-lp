@@ -55,7 +55,7 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
   };
 
   const whatsAppUrl = buildWhatsAppUrl({
-    basePhone: '233262626181',
+    basePhone: '233597434114',
     ...messageOptions
   });
 
