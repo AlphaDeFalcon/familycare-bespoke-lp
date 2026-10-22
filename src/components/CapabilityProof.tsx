@@ -12,10 +12,13 @@ import {
   Plane,
   Landmark,
   Users2,
-  ArrowRight,
-  Image as ImageIcon
+  ArrowRight
 } from 'lucide-react';
 import { Reveal } from './Reveal';
+import { cloudinary, capabilityImages } from '../utils/media';
+
+/** Card photos are served at 2x the largest rendered width (4:3 crop). */
+const PHOTO_TRANSFORMS = 'w_800,f_auto,q_auto';
 
 export interface CapabilityItem {
   id: string;
@@ -23,10 +26,9 @@ export interface CapabilityItem {
   question: string;
   icon: React.ReactNode;
   needTypeMapping: string;
-  /** Photo demonstrating the capability (4:3). Until provided, the card
-      renders a labeled placeholder slot. */
-  photoUrl?: string;
-  photoAlt?: string;
+  /** Photo demonstrating the capability, rendered in a 4:3 frame. */
+  photoUrl: string;
+  photoAlt: string;
 }
 
 export const CAPABILITIES: CapabilityItem[] = [
@@ -35,49 +37,63 @@ export const CAPABILITIES: CapabilityItem[] = [
     name: 'Event Coordination',
     question: 'Can someone coordinate all the moving parts?',
     icon: <CalendarDays className="w-5 h-5" />,
-    needTypeMapping: 'Full Bespoke Arrangement'
+    needTypeMapping: 'Full Bespoke Arrangement',
+    photoUrl: cloudinary(capabilityImages.eventCoordination, PHOTO_TRANSFORMS),
+    photoAlt: 'Rows of white chairs arranged beneath event tents for a ceremony'
   },
   {
     id: 'logistics-fleet',
     name: 'Logistics & Transport',
     question: 'Can the practical movement and timing be handled?',
     icon: <Truck className="w-5 h-5" />,
-    needTypeMapping: 'Logistics & Transport'
+    needTypeMapping: 'Logistics & Transport',
+    photoUrl: cloudinary(capabilityImages.logisticsTransport, PHOTO_TRANSFORMS),
+    photoAlt: 'A white hearse van parked on a paved yard'
   },
   {
     id: 'caskets-craft',
     name: 'Caskets',
     question: 'Can I discuss an appropriate, dignified casket option?',
     icon: <Package className="w-5 h-5" />,
-    needTypeMapping: 'Caskets'
+    needTypeMapping: 'Caskets',
+    photoUrl: cloudinary(capabilityImages.caskets, PHOTO_TRANSFORMS),
+    photoAlt: 'A white casket surrounded by white and green floral arrangements'
   },
   {
     id: 'hospitality-care',
     name: 'Catering & Hospitality',
     question: 'Can the family discuss guest reception and hospitality requirements?',
     icon: <Utensils className="w-5 h-5" />,
-    needTypeMapping: 'Catering / Hospitality'
+    needTypeMapping: 'Catering / Hospitality',
+    photoUrl: cloudinary(capabilityImages.catering, PHOTO_TRANSFORMS),
+    photoAlt: 'Catering staff serving guests from buffet chafing dishes'
   },
   {
     id: 'global-repatriation',
     name: 'Repatriation',
     question: 'Can FamilyCare guide and manage international or regional repatriation?',
     icon: <Plane className="w-5 h-5" />,
-    needTypeMapping: 'Repatriation'
+    needTypeMapping: 'Repatriation',
+    photoUrl: cloudinary(capabilityImages.repatriation, PHOTO_TRANSFORMS),
+    photoAlt: 'A hearse and procession accompanying a floral wreath along a road'
   },
   {
     id: 'cemetery-support',
     name: 'Cemetery Support',
     question: 'Can FamilyCare help coordinate cemetery and burial requirements?',
     icon: <Landmark className="w-5 h-5" />,
-    needTypeMapping: 'Cemetery Support'
+    needTypeMapping: 'Cemetery Support',
+    photoUrl: cloudinary(capabilityImages.cemeterySupport, PHOTO_TRANSFORMS),
+    photoAlt: 'A family gathered at a graveside among headstones'
   },
   {
     id: 'pall-bearing',
     name: 'Pallbearing',
     question: 'Is dignified pallbearing supported as part of the service?',
     icon: <Users2 className="w-5 h-5" />,
-    needTypeMapping: 'Cultural Traditions'
+    needTypeMapping: 'Cultural Traditions',
+    photoUrl: cloudinary(capabilityImages.pallbearing, PHOTO_TRANSFORMS),
+    photoAlt: 'Pallbearers in black suits carrying a casket'
   }
 ];
 
@@ -113,19 +129,14 @@ export const CapabilityProof: React.FC<CapabilityProofProps> = ({ onSelectCapabi
               >
                 {/* Photo demonstrating the capability (4:3) */}
                 <span className="relative block aspect-[4/3] w-full bg-tint border-b border-hairline overflow-hidden">
-                  {cap.photoUrl ? (
-                    <img
-                      src={cap.photoUrl}
-                      alt={cap.photoAlt ?? `${cap.name} photo`}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted">
-                      <ImageIcon className="w-8 h-8 text-muted/60" aria-hidden="true" />
-                      <span className="text-[11px] font-medium">{cap.name} photo</span>
-                    </span>
-                  )}
+                  <img
+                    src={cap.photoUrl}
+                    alt={cap.photoAlt}
+                    width={800}
+                    height={600}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
                 </span>
 
                 {/* Content */}
