@@ -19,12 +19,13 @@ Without `VITE_LEAD_ENDPOINT`, the enquiry form validates and shows its success s
 
 ## Environment variables
 
-Vite inlines both values at build time. Rebuild the site after changing either one.
+Vite inlines the value at build time. Rebuild the site after changing it.
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `VITE_LEAD_ENDPOINT` | No | HTTPS URL or same-origin path that receives enquiry submissions as POST JSON. |
-| `VITE_GTM_ID` | No | Google Tag Manager container ID (for example `GTM-ABC1234`). GTM is skipped when blank. |
+
+Google Tag Manager is loaded from `index.html` with container `GTM-MWNHNDJ2`.
 
 ## Scripts
 
