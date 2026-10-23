@@ -15,7 +15,7 @@ import './index.css';
 // Load the GTM container only when a container ID is configured.
 // import.meta.env is statically replaced at build time, so no placeholder
 // literal can leak into production bundles.
-const gtmId = import.meta.env?.VITE_GTM_ID as string | undefined;
+const gtmId = import.meta.env?.VITE_GTM_ID;
 if (gtmId && gtmId.charAt(0) === 'G') {
   const w = window as unknown as { dataLayer?: unknown[] };
   w.dataLayer = w.dataLayer || [];

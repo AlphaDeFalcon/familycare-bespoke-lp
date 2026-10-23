@@ -186,8 +186,40 @@ test('submitEnquiry resolves true without an endpoint configured', async () => {
   const result = await submitEnquiry(
     {} as never,
     { utm_source: 'google', utm_medium: 'cpc' },
-    spyFetch as typeof fetch
+    spyFetch as typeof fetch,
+    ''
   );
   assert.equal(result, true);
   assert.equal(fetchCalled, false);
+});
+
+test('submitEnquiry posts to the configured endpoint', async () => {
+  let calledUrl = '';
+  const spyFetch = async (url: RequestInfo | URL) => {
+    calledUrl = String(url);
+    return { ok: true } as Response;
+  };
+
+  const result = await submitEnquiry(
+    {} as never,
+    { utm_source: 'google', utm_medium: 'cpc' },
+    spyFetch as typeof fetch,
+    'https://crm.example.test/leads'
+  );
+
+  assert.equal(result, true);
+  assert.equal(calledUrl, 'https://crm.example.test/leads');
+});
+
+test('submitEnquiry returns false when the endpoint rejects the lead', async () => {
+  const failingFetch = async () => ({ ok: false } as Response);
+
+  const result = await submitEnquiry(
+    {} as never,
+    { utm_source: 'google', utm_medium: 'cpc' },
+    failingFetch as typeof fetch,
+    'https://crm.example.test/leads'
+  );
+
+  assert.equal(result, false);
 });

@@ -326,15 +326,19 @@ export async function postLeadPayload(
  * Submits an enquiry to the configured lead endpoint when one exists
  * (VITE_LEAD_ENDPOINT). Without an endpoint the submission is accepted
  * locally, which is the normal case until the client wires a CRM.
+ *
+ * `endpoint` is an optional override for tests and non-Vite hosts; it
+ * defaults to the build-time environment value.
  */
 export async function submitEnquiry(
   payload: CrmLeadPayload,
   attribution: UtmParams,
-  fetchFn: typeof fetch = fetch
+  fetchFn: typeof fetch = fetch,
+  endpoint: string | undefined = import.meta.env?.VITE_LEAD_ENDPOINT
 ): Promise<boolean> {
-  const endpoint = import.meta.env?.VITE_LEAD_ENDPOINT as string | undefined;
-  if (endpoint) {
-    return postLeadPayload(endpoint, payload, fetchFn);
+  const target = endpoint?.trim();
+  if (target) {
+    return postLeadPayload(target, payload, fetchFn);
   }
   await new Promise((resolve) => setTimeout(resolve, 400));
   return true;
