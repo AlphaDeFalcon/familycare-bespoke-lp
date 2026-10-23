@@ -23,7 +23,7 @@ export const EnquirySuccess: React.FC<EnquirySuccessProps> = ({
   onPhoneClick
 }) => {
   return (
-    <div className="space-y-6" role="status">
+    <div id="enquiry-success" className="space-y-6" role="status">
       <div className="p-4 rounded-card bg-accent/10 border border-accent/20 flex items-start gap-4">
         <div className="p-2 rounded-card bg-accent text-white">
           <CheckCircle2 className="w-6 h-6" />
