@@ -100,8 +100,8 @@ export interface HeroCopy {
 export const HERO_COPY: Record<ChannelSource, HeroCopy> = {
   google_search: {
     name: 'Google Search (High Intent)',
-    heroBadge: 'Direct Bespoke Consultation • Immediate & Planned Assistance',
-    heroEmphasis: 'Bespoke funeral services in Ghana. Transparent planning, coordination, and a custom quote shaped around your requirements.'
+    heroBadge: 'Direct Consultation • Immediate & Planned Assistance',
+    heroEmphasis: 'Custom funeral services in Ghana. Transparent planning, coordination, and a quote shaped around your requirements.'
   },
   meta_instagram: {
     name: 'Meta / Instagram (Visual & Coordination)',

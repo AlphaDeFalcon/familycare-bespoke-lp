@@ -9,12 +9,10 @@ import {
   MessageCircle,
   ArrowRight,
   Mail,
-  Clock,
   Facebook,
   Instagram,
   Linkedin,
   Twitter,
-  ChevronDown
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { Reveal } from './Reveal';
@@ -25,88 +23,12 @@ interface FinalCtaAndFooterProps {
   onPhoneClick: () => void;
 }
 
-interface BranchInfo {
-  id: string;
-  name: string;
-  address: string;
-  directionsUrl: string;
-}
-
-const BRANCHES: BranchInfo[] = [
-  {
-    id: 'accra-head-office',
-    name: 'Accra (Head Office)',
-    address: '3 Vcrac Crabbe Street, Abeka Tesano Road',
-    directionsUrl: 'https://maps.app.goo.gl/fSN8J9Diumpn9yEa6'
-  },
-  {
-    id: 'tema',
-    name: 'Tema',
-    address: 'Community 8 Traffic Light, same plaza as Ecobank',
-    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Ecobank+Tema+Community+8'
-  },
-  {
-    id: 'kumasi',
-    name: 'Kumasi',
-    address: 'Cocobod Building, Jubilee House, Adum',
-    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Cocobod+Building+Jubilee+House+Adum+Kumasi'
-  },
-  {
-    id: 'koforidua',
-    name: 'Koforidua',
-    address: '1st Floor, Ofosua House, Central Area, close to the Post Office',
-    directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Ofosua+House+Post+Office+Koforidua'
-  }
-];
-
-function BranchAccordionItem({
-  branch,
-  isOpen,
-  onToggle
-}: {
-  branch: BranchInfo;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <li>
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isOpen}
-        aria-controls={`branch-${branch.id}`}
-        className="w-full flex items-center justify-between gap-2 text-zinc-200 font-medium hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
-      >
-        <span>{branch.name}</span>
-        <ChevronDown
-          aria-hidden="true"
-          className={`w-3 h-3 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-        />
-      </button>
-      {isOpen && (
-        <div id={`branch-${branch.id}`} className="pt-1.5 pb-2 space-y-1">
-          <div className="text-zinc-400 leading-relaxed">{branch.address}</div>
-          <a
-            href={branch.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#7FDDAB] hover:text-white transition-colors"
-          >
-            Directions
-          </a>
-        </div>
-      )}
-    </li>
-  );
-}
-
 export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
   onDiscussClick,
   onWhatsAppClick,
   onPhoneClick
 }) => {
   const [modalType, setModalType] = useState<'privacy' | 'terms' | null>(null);
-  const [openBranches, setOpenBranches] = useState<string[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -139,25 +61,17 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
 
   return (
     <>
-      {/* Final Conversion Banner */}
+      {/* Final Conversion Banner — commented out per request */}
+      {/*
       <section className="bg-forest text-white py-16 sm:py-20 relative overflow-hidden">
         <Reveal>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-            Let&rsquo;s talk about what your family needs.
-          </h2>
-
-          <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
-            Tell us what matters to you, and a FamilyCare advisor can help shape the next step. Today&rsquo;s wisdom, tomorrow&rsquo;s peace of mind.
-          </p>
-
-          {/* 3 Primary Actions */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={onDiscussClick}
               className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
             >
-              <span>Discuss a Bespoke Plan</span>
+              <span>Discuss a Plan</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
 
@@ -180,16 +94,17 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           </div>
         </Reveal>
       </section>
+      */}
 
       {/* Global Footer */}
       <footer className="bg-forest text-zinc-400 pt-16 pb-24 md:pb-16 border-t border-white/10 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.5fr)_minmax(220px,0.8fr)] items-start gap-10 md:gap-20">
             {/* Brand Lockup & Mission */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="space-y-4 max-w-xl">
               <BrandLogo variant="white" className="h-30 w-auto" />
               <p className="text-zinc-400 text-xs leading-relaxed max-w-sm pt-2">
-                FamilyCare Funeral Trust provides consultative, bespoke funeral arrangements. We protect family dignity and provide peace of mind through careful planning and clear communication.
+                FamilyCare Funeral Trust provides consultative, custom funeral arrangements. We protect family dignity and provide peace of mind through careful planning and clear communication.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <a
@@ -231,14 +146,15 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               </div>
             </div>
 
-            {/* Navigation */}
+            {/* Services & Navigation — commented out per request */}
+            {/*
             <div className="space-y-3">
               <div className="font-semibold text-white uppercase text-xs tracking-wider">
                 Services &amp; Navigation
               </div>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <a href="#tailoring" className="hover:text-white transition-colors">Contract / Bespoke</a>
+                  <a href="#tailoring" className="hover:text-white transition-colors">Contract / Custom</a>
                 </li>
                 <li>
                   <a href="#truth" className="hover:text-white transition-colors">Our Product Truth</a>
@@ -257,8 +173,10 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 </li>
               </ul>
             </div>
+            */}
 
-            {/* Branches */}
+            {/* Branches — commented out per request */}
+            {/*
             <div className="space-y-3">
               <div className="font-semibold text-white uppercase text-xs tracking-wider">
                 Branches
@@ -280,6 +198,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 ))}
               </ul>
             </div>
+            */}
 
             {/* Direct Contact */}
             <div className="space-y-3">
@@ -308,10 +227,6 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                     info@familycaretrust.com
                   </a>
                 </li>
-                <li className="flex items-start gap-2 pt-1 text-[11px] text-zinc-400">
-                  <Clock className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0 mt-0.5" />
-                  <span>24/7 care line, every day. Available day and night, every day of the year.</span>
-                </li>
               </ul>
             </div>
           </div>
@@ -334,7 +249,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 onClick={() => setModalType('terms')}
                 className="hover:text-zinc-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
               >
-                Terms of Bespoke Service
+                Terms of Service
               </button>
             </div>
           </div>
@@ -348,12 +263,12 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
             ref={modalRef}
             role="dialog"
             aria-modal="true"
-            aria-label={modalType === 'privacy' ? 'Privacy Policy & Data Handling' : 'Terms of Bespoke Consultation'}
+            aria-label={modalType === 'privacy' ? 'Privacy Policy & Data Handling' : 'Terms of Consultation'}
             className="bg-white rounded-card max-w-xl w-full p-6 text-body space-y-4"
           >
             <div className="flex items-center justify-between border-b border-hairline pb-3">
               <h3 className="font-display text-xl font-bold">
-                {modalType === 'privacy' ? 'Privacy Policy & Data Handling' : 'Terms of Bespoke Consultation'}
+                {modalType === 'privacy' ? 'Privacy Policy & Data Handling' : 'Terms of Consultation'}
               </h3>
               <button
                 onClick={() => setModalType(null)}
@@ -380,7 +295,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               ) : (
                 <>
                   <p>
-                    FamilyCare Contract / Bespoke service operates on a consultative basis with no fixed package. Submitting an enquiry or WhatsApp message does not constitute a legally binding commercial contract until a written, itemized proposal is approved and signed by both parties.
+                    FamilyCare Contract / Custom service operates on a consultative basis with no fixed package. Submitting an enquiry or WhatsApp message does not constitute a legally binding commercial contract until a written, itemized proposal is approved and signed by both parties.
                   </p>
                   <p>
                     All services, including hearse transit, floral tributes, casket delivery, and cemetery protocol, are subject to formal confirmation of schedules, municipal cemetery availability, and mutual agreement on itemized costs.

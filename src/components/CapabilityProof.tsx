@@ -37,7 +37,7 @@ export const CAPABILITIES: CapabilityItem[] = [
     name: 'Event Coordination',
     question: 'Can someone coordinate all the moving parts?',
     icon: <CalendarDays className="w-5 h-5" />,
-    needTypeMapping: 'Full Bespoke Arrangement',
+    needTypeMapping: 'Full Funeral Arrangement',
     photoUrl: cloudinary(capabilityImages.eventCoordination, PHOTO_TRANSFORMS),
     photoAlt: 'Rows of white chairs arranged beneath event tents for a ceremony'
   },

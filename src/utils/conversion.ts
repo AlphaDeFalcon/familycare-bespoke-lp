@@ -74,7 +74,7 @@ export function buildWhatsAppMessage(options: {
   const nameText = options.name ? ` My name is ${options.name}.` : '';
   const srcText = options.channel ? ` (Ref: ${options.channel})` : '';
 
-  const body = `Hello FamilyCare, I would like to discuss a Contract / Bespoke funeral arrangement.${nameText} I would like help understanding the next steps and shaping a tribute around our family's wishes.${locText}${briefText}`;
+  const body = `Hello FamilyCare, I would like to discuss a Contract / Custom funeral arrangement.${nameText} I would like help understanding the next steps and shaping a tribute around our family's wishes.${locText}${briefText}`;
 
   const MAX_MESSAGE_LENGTH = 700;
   if ((body + srcText).length <= MAX_MESSAGE_LENGTH) {
@@ -124,7 +124,7 @@ export interface CrmLeadPayload {
     consented_at: string;
   };
   commercial: {
-    product: 'Contract / Bespoke Funeral Services';
+    product: 'Contract / Custom Funeral Services';
     journeyStage: 'Qualified Opportunity';
     status: 'New Enquiry Captured';
   };
@@ -211,7 +211,7 @@ export function createCrmLeadPayload(
       consented_at: new Date().toISOString()
     },
     commercial: {
-      product: 'Contract / Bespoke Funeral Services',
+      product: 'Contract / Custom Funeral Services',
       journeyStage: 'Qualified Opportunity',
       status: 'New Enquiry Captured'
     },

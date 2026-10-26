@@ -124,7 +124,7 @@ test('pushDataLayer initializes the target and appends the envelope', () => {
     {
       event: 'cta_click',
       section: 'hero',
-      cta_name: 'Discuss a Bespoke Plan',
+      cta_name: 'Discuss a Plan',
       utm_source: 'google'
     },
     events
@@ -137,7 +137,7 @@ test('pushDataLayer initializes the target and appends the envelope', () => {
   assert.ok('page_location' in ev);
   assert.ok('page_referrer' in ev);
   assert.equal(ev.section, 'hero');
-  assert.equal(ev.cta_name, 'Discuss a Bespoke Plan');
+  assert.equal(ev.cta_name, 'Discuss a Plan');
   assert.equal(ev.utm_source, 'google');
 });
 
@@ -163,7 +163,7 @@ test('toDataLayerLeadFields strips identity and consent fields', () => {
       consented_at: '2026-10-15T12:00:00.000Z'
     },
     commercial: {
-      product: 'Contract / Bespoke Funeral Services' as const,
+      product: 'Contract / Custom Funeral Services' as const,
       journeyStage: 'Qualified Opportunity' as const,
       status: 'New Enquiry Captured' as const
     },

@@ -43,7 +43,7 @@ const INITIAL_FORM: FormData = {
   name: '',
   phone_whatsapp: '',
   location: '',
-  need_type: ['Full Bespoke Arrangement'],
+  need_type: ['Full Funeral Arrangement'],
   timing: '',
   preferred_next_step: 'WhatsApp conversation',
   decision_process: '',
@@ -53,7 +53,7 @@ const INITIAL_FORM: FormData = {
 };
 
 const NEED_TYPE_OPTIONS = [
-  'Full Bespoke Arrangement',
+  'Full Funeral Arrangement',
   'Scale & Venue',
   'Cultural Traditions',
   'Caskets',
@@ -322,7 +322,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     >
       <div className="border-b border-hairline pb-4">
         <h3 className="font-display text-2xl font-bold text-ink">
-          Request a Bespoke Consultation
+          Request a Consultation
         </h3>
         <p className="text-xs text-muted mt-1">
           Three short steps. An advisor uses your answers to prepare the next step.
@@ -704,7 +704,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
               <span>Sending...</span>
             ) : (
               <>
-                <span>Request My Bespoke Consultation</span>
+                <span>Request My Consultation</span>
                 <Send className="w-4 h-4" />
               </>
             )}

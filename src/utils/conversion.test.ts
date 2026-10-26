@@ -123,7 +123,7 @@ test('buildWhatsAppUrl caps the tailoring brief at 3 items and stays under lengt
   const nineTypes = [
     'Scale & Venue', 'Cultural Traditions', 'Caskets', 'Logistics & Transport',
     'Catering / Hospitality', 'Repatriation', 'Cemetery Support', 'Budget Guidance',
-    'Full Bespoke Arrangement'
+    'Full Funeral Arrangement'
   ];
   const url = buildWhatsAppUrl({
     basePhone: '233262626181',

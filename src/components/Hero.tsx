@@ -89,7 +89,7 @@ export const Hero: React.FC<HeroProps> = ({
               onClick={onDiscussClick}
               className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer whitespace-nowrap active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
             >
-              <span>Discuss a Bespoke Plan</span>
+              <span>Discuss a Plan</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
 

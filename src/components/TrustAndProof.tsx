@@ -29,7 +29,9 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
   return (
     <section id="trust" className="py-16 sm:py-24 bg-tint border-b border-hairline scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-20">
-        {/* Section Header */}
+        {/* Section Header — commented out 2026-10-26 with the rest of section 6;
+            the reviews marquee below stays visible. */}
+        {/*
         <Reveal>
           <div className="max-w-3xl mx-auto text-center space-y-3">
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
@@ -41,8 +43,10 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
             </p>
           </div>
         </Reveal>
+        */}
 
-        {/* Process Proof Pillars */}
+        {/* Process Proof Pillars — commented out 2026-10-26 */}
+        {/*
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <Reveal delay={0}>
             <div className="bg-white rounded-card p-6 sm:p-7 border border-hairline space-y-4 h-full">
@@ -86,11 +90,13 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
             </div>
           </Reveal>
         </div>
+        */}
 
-        {/* Facility Photo + Team: one dark forest panel */}
+        {/* Facility Photo + Team: one dark forest panel — commented out 2026-10-26 */}
+        {/*
         <Reveal>
           <div className="bg-forest rounded-card overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-            {/* Facility photo, flush left edge */}
+            Facility photo, flush left edge
             <figure className="lg:col-span-5 relative min-h-[240px] lg:min-h-full">
               <img
                 src={cloudinary(facilityBuildingImage, 'w_1200,f_auto,q_auto')}
@@ -103,7 +109,7 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
               </figcaption>
             </figure>
 
-            {/* Team + CTA */}
+            Team + CTA
             <div className="lg:col-span-7 p-7 sm:p-10 space-y-6">
               <div className="space-y-2">
                 <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">
@@ -130,12 +136,13 @@ export const TrustAndProof: React.FC<TrustAndProofProps> = ({ onDiscussClick }) 
                 onClick={onDiscussClick}
                 className="mx-auto px-6 py-3 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm transition-colors flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
               >
-                <span>Discuss a Bespoke Plan</span>
+                <span>Discuss a Plan</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
         </Reveal>
+        */}
       </div>
 
       {/* Permissioned customer reviews: full-bleed marquee below the container */}

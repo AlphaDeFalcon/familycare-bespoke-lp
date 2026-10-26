@@ -143,73 +143,52 @@ export const TESTIMONIALS: Testimonial[] = [
 
 const GOOGLE_REVIEWS_URL = 'https://maps.app.goo.gl/RwtNcH661TzYbdE19?g_st=ic';
 
-type CardVariant = 'standard' | 'featured';
-
-function TestimonialCard({ testimonial, variant = 'standard' }: { testimonial: Testimonial; variant?: CardVariant }) {
-  const isFeatured = variant === 'featured';
-
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <figure
-      className={`${isFeatured ? 'w-[20rem]' : 'w-[16rem]'} h-56 shrink-0 bg-white rounded-card border border-hairline border-l-2 border-l-accent p-5 flex flex-col shadow-[0_8px_24px_rgba(11,61,38,0.08)]`}
+      className="w-[18rem] sm:w-[20rem] h-56 shrink-0 bg-white rounded-card border border-hairline border-t border-t-accent p-5 flex flex-col shadow-[0_8px_24px_rgba(11,61,38,0.08)]"
     >
       <div className="flex items-start justify-between gap-3">
         <span className="font-display text-4xl leading-none text-accent" aria-hidden="true">
           &ldquo;
         </span>
-        {isFeatured ? (
-          <span className="block text-sm leading-none" aria-label={`${testimonial.rating} out of 5 stars`}>
-            <span className="text-amber-400">{'★'.repeat(testimonial.rating)}</span>
-            <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
-          </span>
-        ) : (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent-deep text-[10px] font-semibold shrink-0">
-            <BadgeCheck className="w-3 h-3" aria-hidden="true" />
-            {testimonial.context}
-          </span>
-        )}
+        <span className="block text-sm leading-none" aria-label={`${testimonial.rating} out of 5 stars`}>
+          <span className="text-amber-400">{'★'.repeat(testimonial.rating)}</span>
+          <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
+        </span>
       </div>
 
       <blockquote
-        className={`${isFeatured ? 'text-sm line-clamp-5' : 'text-xs line-clamp-4'} leading-relaxed mt-1 text-body`}
+        className="text-xs sm:text-sm line-clamp-5 leading-relaxed mt-1 text-body"
       >
         {testimonial.quote}
       </blockquote>
 
       <figcaption className="mt-auto pt-3 border-t border-hairline">
         <span className="font-semibold text-ink block text-xs">{testimonial.name}</span>
-        {isFeatured ? (
-          <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent-deep text-[10px] font-semibold">
-            <BadgeCheck className="w-3 h-3" aria-hidden="true" />
-            {testimonial.context}
-          </span>
-        ) : (
-          <span className="block text-sm leading-none mt-1" aria-label={`${testimonial.rating} out of 5 stars`}>
-            <span className="text-amber-400">{'★'.repeat(testimonial.rating)}</span>
-            <span className="text-hairline">{'★'.repeat(5 - testimonial.rating)}</span>
-          </span>
-        )}
+        <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent-deep text-[10px] font-semibold">
+          <BadgeCheck className="w-3 h-3" aria-hidden="true" />
+          {testimonial.context}
+        </span>
       </figcaption>
     </figure>
   );
 }
 
 function MarqueeRow({ testimonials, reverse = false }: { testimonials: Testimonial[]; reverse?: boolean }) {
-  const VARIANTS: CardVariant[] = ['standard', 'featured'];
-
   return (
     <div className="marquee-viewport relative overflow-hidden">
       <div className={`marquee-track ${reverse ? 'marquee-reverse' : ''}`}>
-        {testimonials.map((testimonial, index) => (
+        {testimonials.map((testimonial) => (
           <TestimonialCard
             key={testimonial.name}
             testimonial={testimonial}
-            variant={VARIANTS[index % VARIANTS.length]}
           />
         ))}
         {/* Duplicate set for the seamless loop; hidden from screen readers */}
-        {testimonials.map((testimonial, index) => (
+        {testimonials.map((testimonial) => (
           <div key={`${testimonial.name}-dup`} aria-hidden="true" className="marquee-duplicate">
-            <TestimonialCard testimonial={testimonial} variant={VARIANTS[index % VARIANTS.length]} />
+            <TestimonialCard testimonial={testimonial} />
           </div>
         ))}
       </div>
@@ -233,10 +212,13 @@ export const Testimonials: React.FC = () => {
 
   const midPoint = Math.ceil(TESTIMONIALS.length / 2);
   const rowOne = TESTIMONIALS.slice(0, midPoint);
-  const rowTwo = TESTIMONIALS.slice(midPoint);
+  // Second marquee row commented out 2026-10-26: keep one row of reviews.
+  // const rowTwo = TESTIMONIALS.slice(midPoint);
 
+  // Section 6 content above this block is commented out (2026-10-26), so the
+  // standalone top margin is gone; restore `mt-16 sm:mt-20` with the section.
   return (
-    <div className="mt-16 sm:mt-20 space-y-8">
+    <div className="space-y-8">
       <div className="text-center max-w-2xl mx-auto px-4 space-y-2">
         <h3 className="font-display text-2xl sm:text-3xl font-bold text-ink">
           What families say
@@ -248,7 +230,7 @@ export const Testimonials: React.FC = () => {
 
       <div className="marquee-paused space-y-6">
         <MarqueeRow testimonials={rowOne} />
-        <MarqueeRow testimonials={rowTwo} reverse />
+        {/* <MarqueeRow testimonials={rowTwo} reverse /> — second row commented out 2026-10-26 */}
       </div>
 
       <div className="text-center">

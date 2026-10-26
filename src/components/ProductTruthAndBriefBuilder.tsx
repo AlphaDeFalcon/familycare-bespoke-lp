@@ -95,7 +95,7 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
             </h2>
 
             <p className="max-w-2xl mx-auto text-base sm:text-lg text-muted leading-relaxed">
-              Fixed funeral packages force families to pay for inclusions they do not want, or compromise on traditions that are sacred to them. FamilyCare&rsquo;s Contract / Bespoke service begins with an open conversation: we listen first, then shape the tribute with precision, empathy, and transparency.
+              Fixed funeral packages force families to pay for inclusions they do not want, or compromise on traditions that are sacred to them. FamilyCare&rsquo;s Contract / Custom service begins with an open conversation: we listen first, then shape the tribute with precision, empathy, and transparency.
             </p>
           </div>
         </Reveal>
@@ -142,11 +142,11 @@ export const ProductTruthAndBriefBuilder: React.FC<ProductTruthAndBriefBuilderPr
           })}
         </div>
 
-        {/* Live Bespoke Brief Summary Banner */}
+        {/* Live Brief Summary Banner */}
         <div className="mt-14 p-8 sm:p-10 rounded-card bg-deep text-white flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
             <span className="text-xs uppercase font-bold tracking-wider text-[#7FDDAB]">
-              Your Bespoke Brief Summary
+              Your Brief Summary
             </span>
             <h4 className="font-display text-2xl font-bold">
               {selectedDimensions.length === 0

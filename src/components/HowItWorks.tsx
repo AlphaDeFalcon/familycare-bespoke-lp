@@ -41,7 +41,7 @@ const STEPS: Step[] = [
     num: '04',
     title: 'We Carry It Through',
     shortCopy: 'FamilyCare carries out the approved service process.',
-    microCta: 'Request a Bespoke Plan'
+    microCta: 'Request a Plan'
   }
 ];
 
@@ -87,7 +87,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStepClick }) => {
             </h2>
 
             <p className="text-base sm:text-lg text-muted leading-relaxed">
-              Planning a bespoke funeral does not have to be overwhelming. FamilyCare guides you through a clear four-step process where you retain complete control over every decision.
+              Planning a tailored funeral does not have to be overwhelming. FamilyCare guides you through a clear four-step process where you retain complete control over every decision.
             </p>
           </div>
         </Reveal>

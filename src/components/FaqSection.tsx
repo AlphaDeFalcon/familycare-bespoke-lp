@@ -18,8 +18,8 @@ interface FaqItem {
 export const FAQS: FaqItem[] = [
   {
     id: 'faq-1',
-    question: 'What is Contract / Bespoke?',
-    answer: 'Unlike conventional fixed funeral packages that force families into rigid inclusions or hidden costs, FamilyCare Contract / Bespoke has no set package. Our team listens first to your specific requirements, then builds the funeral arrangement around what truly matters to you, including scale, cultural traditions, caskets, logistics, and transparent budget alignment.',
+    question: 'What is Contract / Custom?',
+    answer: 'Unlike conventional fixed funeral packages that force families into rigid inclusions or hidden costs, FamilyCare Contract / Custom has no set package. Our team listens first to your specific requirements, then builds the funeral arrangement around what truly matters to you, including scale, cultural traditions, caskets, logistics, and transparent budget alignment.',
     conversionRole: 'Clarifies product proposition'
   },
   {
@@ -37,7 +37,7 @@ export const FAQS: FaqItem[] = [
   {
     id: 'faq-4',
     question: 'How do I get a price?',
-    answer: 'Because every bespoke arrangement is uniquely shaped around your family\'s desires, pricing is determined after an advisor understands your brief. We prepare a fully itemized, transparent quotation outlining every service element clearly.',
+    answer: 'Because every custom arrangement is uniquely shaped around your family\'s desires, pricing is determined after an advisor understands your brief. We prepare a fully itemized, transparent quotation outlining every service element clearly.',
     conversionRole: 'Sets clear commercial expectations'
   },
   {
@@ -107,7 +107,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
             </h2>
 
             <p className="text-base sm:text-lg text-muted leading-relaxed">
-              Clear, honest answers about how FamilyCare shapes bespoke arrangements, pricing, and timing.
+              Clear, honest answers about how FamilyCare shapes custom arrangements, pricing, and timing.
             </p>
           </div>
         </Reveal>
