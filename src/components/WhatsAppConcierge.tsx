@@ -33,13 +33,13 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
         </div>
 
         <p className="text-xs text-[#A9C6B6] leading-relaxed">
-          Prefer a direct chat? Start a private conversation with a FamilyCare advisor right now. Your tailoring brief and enquiry intent are pre-formatted automatically.
+          Prefer to chat? Message a FamilyCare advisor now. We pre-fill the message with your name, region, and selected requirements.
         </p>
 
         {/* Live Message Preview Bubble */}
         <div className="space-y-1.5">
           <div className="text-[11px] font-semibold text-[#7FDDAB] uppercase tracking-wider">
-            Live pre-filled message preview
+            Your message, ready to send
           </div>
           <div className="p-3.5 rounded-card bg-tint border border-white/20 text-xs text-ink leading-relaxed">
             &ldquo;{whatsAppMessage}&rdquo;
@@ -55,7 +55,7 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
           className="w-full py-3.5 px-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
         >
           <MessageCircle className="w-5 h-5" />
-          <span>WhatsApp FamilyCare Now</span>
+          <span>Chat on WhatsApp</span>
         </a>
       </div>
 
@@ -68,9 +68,9 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
             </div>
             <div>
               <h4 className="font-display text-lg font-bold text-white">
-                Direct Telephone Line
+                Prefer to call?
               </h4>
-              <div className="text-xs text-[#A9C6B6]">24/7 care line, every day</div>
+              <div className="text-xs text-[#A9C6B6]">Available 24/7</div>
             </div>
           </div>
           <div className="text-center sm:text-right">
@@ -82,7 +82,7 @@ export const WhatsAppConcierge: React.FC<WhatsAppConciergeProps> = ({
               onClick={onPhoneClick}
               className="text-xs font-sans text-[#7FDDAB] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
             >
-              Tap to Call
+              Call now
             </a>
           </div>
         </div>

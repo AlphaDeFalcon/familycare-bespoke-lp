@@ -13,6 +13,7 @@ import {
 import { EnquiryForm } from './EnquiryForm';
 import { WhatsAppConcierge } from './WhatsAppConcierge';
 import { Reveal } from './Reveal';
+import { needTypeLabel } from '../utils/enquiryOptions';
 
 interface Draft {
   name: string;
@@ -48,7 +49,9 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
   // Single source of truth for the pre-filled message: the same options
   // build both the URL and the live preview, so they can never drift.
   const messageOptions = {
-    tailoringBrief: draft.needTypes,
+    // The WhatsApp message is visitor-facing, so it uses display labels.
+    // The CRM payload keeps the stable values from form state.
+    tailoringBrief: draft.needTypes.map(needTypeLabel),
     location: draft.location || undefined,
     channel: attribution.utm_source,
     name: draft.name || undefined
@@ -66,13 +69,13 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <Reveal>
-          <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
+          <div className="max-w-6xl mx-auto text-center space-y-3 mb-12">
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-              Start your consultation
+              Discuss a Plan
             </h2>
 
-            <p className="text-base sm:text-lg text-muted leading-relaxed">
-              There is no obligation. We clarify options, check location coverage, and prepare a calm, transparent proposal tailored strictly to your wishes.
+            <p className="max-w-3xl mx-auto text-base sm:text-lg text-muted leading-relaxed">
+              No set package. Tell us what matters, and a FamilyCare advisor will shape the arrangement with you, then prepare a clear, itemized proposal. No obligation.
             </p>
           </div>
         </Reveal>

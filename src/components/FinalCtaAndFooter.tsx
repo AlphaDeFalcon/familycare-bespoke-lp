@@ -104,7 +104,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
             <div className="space-y-4 max-w-xl">
               <BrandLogo variant="white" className="h-30 w-auto" />
               <p className="text-zinc-400 text-xs leading-relaxed max-w-sm pt-2">
-                FamilyCare Funeral Trust provides consultative, custom funeral arrangements. We protect family dignity and provide peace of mind through careful planning and clear communication.
+                FamilyCare Funeral Trust plans and coordinates custom funerals across Ghana, shaped around each family&rsquo;s wishes, traditions, and budget.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <a
@@ -283,25 +283,22 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               {modalType === 'privacy' ? (
                 <>
                   <p>
-                    FamilyCare Funeral Trust collects personal information (such as your name, telephone/WhatsApp contact, and event requirements) strictly for the purpose of communicating with you regarding your funeral arrangement brief and preparing customized proposals.
+                    FamilyCare collects your name, phone or WhatsApp number, optional email, and funeral requirements to respond to your enquiry and prepare a proposal. Enquiry records are kept in our CRM.
                   </p>
                   <p>
-                    We respect the emotional gravity and sensitivity of bereavement. We never sell, rent, or trade family contact data with third-party advertisers. All lead and attribution metadata is retained securely in our confidential CRM pipeline.
-                  </p>
-                  <p>
-                    You have the right to request deletion of your consultation record at any time by contacting FamilyCare directly.
+                    We also record how you reached this page, such as campaign and referral data, and use analytics and advertising measurement tools to understand which campaigns bring enquiries. We do not sell your personal information. You can ask us to delete your record at any time by contacting FamilyCare directly.
                   </p>
                 </>
               ) : (
                 <>
                   <p>
-                    FamilyCare Contract / Custom service operates on a consultative basis with no fixed package. Submitting an enquiry or WhatsApp message does not constitute a legally binding commercial contract until a written, itemized proposal is approved and signed by both parties.
+                    FamilyCare Contract / Custom is a consultative service with no fixed package. Sending an enquiry or WhatsApp message does not create a contract. A contract begins only when both parties approve and sign a written, itemized proposal.
                   </p>
                   <p>
-                    All services, including hearse transit, floral tributes, casket delivery, and cemetery protocol, are subject to formal confirmation of schedules, municipal cemetery availability, and mutual agreement on itemized costs.
+                    Service depends on confirmed schedules, cemetery availability, and agreed costs.
                   </p>
                   <p>
-                    FamilyCare complies with all public health guidelines and funeral regulatory frameworks in the Republic of Ghana.
+                    FamilyCare follows public health guidelines and funeral regulations in Ghana.
                   </p>
                 </>
               )}

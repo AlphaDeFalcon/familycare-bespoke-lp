@@ -156,23 +156,23 @@ export function createCrmLeadPayload(
   }
 
   if (!formData.location) {
-    return { payload: null, error: 'Please select a location.' };
+    return { payload: null, error: 'Please select a region.' };
   }
 
   if (!formData.need_type || formData.need_type.length === 0) {
-    return { payload: null, error: 'Please select at least one requirement area.' };
+    return { payload: null, error: 'Please select at least one option.' };
   }
 
   if (!formData.timing) {
-    return { payload: null, error: 'Please indicate when assistance is needed.' };
+    return { payload: null, error: 'Please select when you need support.' };
   }
 
   if (!formData.preferred_next_step) {
-    return { payload: null, error: 'Please choose your preferred next step.' };
+    return { payload: null, error: 'Please select how you would like us to reach you.' };
   }
 
   if (!formData.decision_process) {
-    return { payload: null, error: 'Please indicate who else needs to approve this decision.' };
+    return { payload: null, error: 'Please tell us who else is involved in the decision.' };
   }
 
   if (!formData.consent_granted) {
@@ -253,25 +253,25 @@ export function getEnquiryFieldError(field: string, value: unknown): string | nu
       return null;
     }
     case 'location': {
-      if (!value) return 'Please select the primary location for the service.';
+      if (!value) return 'Please select the location where the funeral will take place.';
       return null;
     }
     case 'timing': {
-      if (!value) return 'Please indicate when you require assistance.';
+      if (!value) return 'Please select when you need support.';
       return null;
     }
     case 'need_type': {
       if (!Array.isArray(value) || value.length === 0) {
-        return 'Please select at least one requirement area.';
+        return 'Please select at least one option.';
       }
       return null;
     }
     case 'preferred_next_step': {
-      if (!value) return 'Please select your preferred next contact step.';
+      if (!value) return 'Please select how you would like us to reach you.';
       return null;
     }
     case 'decision_process': {
-      if (!value) return 'Please indicate who else needs to approve this decision.';
+      if (!value) return 'Please tell us who else is involved in the decision.';
       return null;
     }
     case 'consent_granted': {

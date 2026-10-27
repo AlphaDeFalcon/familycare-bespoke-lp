@@ -14,6 +14,14 @@ import {
 } from '../utils/conversion';
 import { EnquirySuccess } from './EnquirySuccess';
 import { GHANA_REGIONS } from '../utils/regions';
+import {
+  NEED_TYPE_OPTIONS,
+  TIMING_OPTIONS,
+  NEXT_STEP_OPTIONS,
+  DECISION_OPTIONS,
+  DEFAULT_NEED_TYPE,
+  DEFAULT_PREFERRED_NEXT_STEP
+} from '../utils/enquiryOptions';
 
 interface EnquiryFormProps {
   initialNeedTypes: string[];
@@ -43,47 +51,14 @@ const INITIAL_FORM: FormData = {
   name: '',
   phone_whatsapp: '',
   location: '',
-  need_type: ['Full Funeral Arrangement'],
+  need_type: [DEFAULT_NEED_TYPE],
   timing: '',
-  preferred_next_step: 'WhatsApp conversation',
+  preferred_next_step: DEFAULT_PREFERRED_NEXT_STEP,
   decision_process: '',
   consent_granted: false,
   email: '',
   notes: ''
 };
-
-const NEED_TYPE_OPTIONS = [
-  'Full Funeral Arrangement',
-  'Scale & Venue',
-  'Cultural Traditions',
-  'Caskets',
-  'Logistics & Transport',
-  'Catering / Hospitality',
-  'Repatriation',
-  'Cemetery Support',
-  'Budget Guidance'
-];
-
-const TIMING_OPTIONS = [
-  'Immediate need (Within days)',
-  'Near term (Within 1-3 months)',
-  'Future planning / Pre-need',
-  'Just gathering information'
-];
-
-const NEXT_STEP_OPTIONS = [
-  'WhatsApp conversation',
-  'Phone call from an advisor',
-  'Private 1-on-1 consultation'
-];
-
-const DECISION_OPTIONS = [
-  'I am the sole decision maker',
-  'Spouse / partner needs to approve',
-  'Siblings / family members need to approve',
-  'Elders / family council need to approve',
-  'Other decision process'
-];
 
 /** Which fields each step validates before allowing the visitor to advance. */
 const STEP_FIELDS: Record<number, (keyof FormData)[]> = {
@@ -93,7 +68,7 @@ const STEP_FIELDS: Record<number, (keyof FormData)[]> = {
 };
 
 const STEP_TITLES: Record<number, string> = {
-  1: 'Your contact details',
+  1: 'How we can reach you',
   2: 'What needs to be arranged',
   3: 'Next steps'
 };
@@ -322,10 +297,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     >
       <div className="border-b border-hairline pb-4">
         <h3 className="font-display text-2xl font-bold text-ink">
-          Request a Consultation
+          Talk to Us
         </h3>
         <p className="text-xs text-muted mt-1">
-          Three short steps. An advisor uses your answers to prepare the next step.
+          Three short steps. Your answers help your advisor prepare for the conversation.
         </p>
       </div>
 
@@ -353,7 +328,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label htmlFor="form-name" className="block text-xs font-semibold text-body">
-                  Full Name <span className="text-red-500">*</span>
+                  Full name <span className="text-red-500">*</span>
                 </label>
                 {touched.name && !errors.name && formData.name.trim().length >= 2 && (
                   <span className="text-[11px] text-accent font-medium flex items-center gap-1">
@@ -381,14 +356,14 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                   <span>{errors.name}</span>
                 </p>
               ) : (
-                <p className="text-[10px] text-muted">Enter first and family name</p>
+                <p className="text-[10px] text-muted">First name and family name.</p>
               )}
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label htmlFor="form-phone" className="block text-xs font-semibold text-body">
-                  Phone / WhatsApp Number <span className="text-red-500">*</span>
+                  Phone or WhatsApp number <span className="text-red-500">*</span>
                 </label>
                 {touched.phone_whatsapp && !errors.phone_whatsapp && formData.phone_whatsapp.trim() && (
                   <span className="text-[11px] text-accent font-medium flex items-center gap-1">
@@ -416,14 +391,14 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                   <span>{errors.phone_whatsapp}</span>
                 </p>
               ) : (
-                <p className="text-[10px] text-muted">Accepts Ghana 020/024/050/054/055 or +233 international</p>
+                <p className="text-[10px] text-muted">Ghana numbers (020, 024, 050, 054, 055) or +233 international.</p>
               )}
             </div>
           </div>
 
           <div className="space-y-1.5">
             <label htmlFor="form-location" className="block text-xs font-semibold text-body">
-              Location (Region) <span className="text-red-500">*</span>
+              Where will the funeral take place? <span className="text-red-500">*</span>
             </label>
             <select
               id="form-location"
@@ -435,7 +410,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 touched.location && errors.location ? 'border-red-400 bg-red-50/20' : 'border-hairline'
               }`}
             >
-              <option value="">Select your region...</option>
+              <option value="">Select a region...</option>
               {GHANA_REGIONS.map((loc) => (
                 <option key={loc} value={loc}>
                   {loc}
@@ -448,7 +423,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 <span>{errors.location}</span>
               </p>
             ) : (
-              <p className="text-[10px] text-muted">We coordinate across all 16 regions; branches in Accra, Tema, Kumasi, and Koforidua</p>
+              <p className="text-[10px] text-muted">We work across all 16 regions. Branches in Accra, Tema, Kumasi, and Koforidua.</p>
             )}
           </div>
         </>
@@ -463,18 +438,18 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 What needs to be arranged? <span className="text-red-500">*</span>
               </label>
               <span className="text-[11px] text-muted">
-                Synced with your selections above
+                Choose all that apply
               </span>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-1">
-              {NEED_TYPE_OPTIONS.map((opt) => {
-                const isSelected = formData.need_type.includes(opt);
+              {NEED_TYPE_OPTIONS.map((option) => {
+                const isSelected = formData.need_type.includes(option.value);
                 return (
                   <button
-                    key={opt}
+                    key={option.value}
                     type="button"
-                    onClick={() => toggleNeedType(opt)}
+                    onClick={() => toggleNeedType(option.value)}
                     aria-pressed={isSelected}
                     aria-describedby={
                       touched.need_type && errors.need_type ? 'form-need-type-error' : undefined
@@ -486,7 +461,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                     }`}
                   >
                     {isSelected && '✓ '}
-                    {opt}
+                    {option.label}
                   </button>
                 );
               })}
@@ -499,14 +474,14 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             ) : (
               <p className="text-[11px] text-accent flex items-center gap-1.5 pt-1 font-medium">
                 <Check className="w-3.5 h-3.5 shrink-0" />
-                <span>{formData.need_type.length} requirement area{formData.need_type.length > 1 ? 's' : ''} selected</span>
+                <span>{formData.need_type.length} area{formData.need_type.length > 1 ? 's' : ''} selected</span>
               </p>
             )}
           </div>
 
           <div className="space-y-1.5">
             <label htmlFor="form-timing" className="block text-xs font-semibold text-body">
-              When do you need assistance? <span className="text-red-500">*</span>
+              When do you need support? <span className="text-red-500">*</span>
             </label>
             <select
               id="form-timing"
@@ -518,10 +493,10 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 touched.timing && errors.timing ? 'border-red-400 bg-red-50/20' : 'border-hairline'
               }`}
             >
-              <option value="">Select urgency / timeline...</option>
-              {TIMING_OPTIONS.map((time) => (
-                <option key={time} value={time}>
-                  {time}
+              <option value="">Select a timeline...</option>
+              {TIMING_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -531,7 +506,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 <span>{errors.timing}</span>
               </p>
             ) : (
-              <p className="text-[10px] text-muted">Helps assign the right advisor for your timeline</p>
+              <p className="text-[10px] text-muted">This helps us assign the right advisor.</p>
             )}
           </div>
         </>
@@ -542,7 +517,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
         <>
           <div className="space-y-1.5">
             <label htmlFor="form-next-step" className="block text-xs font-semibold text-body">
-              Preferred Next Step <span className="text-red-500">*</span>
+              How would you like us to reach you? <span className="text-red-500">*</span>
             </label>
             <select
               id="form-next-step"
@@ -556,9 +531,9 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                   : 'border-hairline'
               }`}
             >
-              {NEXT_STEP_OPTIONS.map((stepOption) => (
-                <option key={stepOption} value={stepOption}>
-                  {stepOption}
+              {NEXT_STEP_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -572,7 +547,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
           <div className="space-y-1.5">
             <label htmlFor="form-decision" className="block text-xs font-semibold text-body">
-              Who else needs to approve this decision? <span className="text-red-500">*</span>
+              Who else is involved in the decision? <span className="text-red-500">*</span>
             </label>
             <select
               id="form-decision"
@@ -585,9 +560,9 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
               }`}
             >
               <option value="">Select who is involved...</option>
-              {DECISION_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
+              {DECISION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
@@ -597,14 +572,14 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 <span>{errors.decision_process}</span>
               </p>
             ) : (
-              <p className="text-[10px] text-muted">Helps the advisor prepare a proposal the whole family can approve</p>
+              <p className="text-[10px] text-muted">This helps your advisor prepare a proposal the whole family can approve.</p>
             )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div className="space-y-1.5">
               <label htmlFor="form-email" className="block text-xs font-semibold text-body">
-                Email Address <span className="text-muted font-normal">(Optional)</span>
+                Email <span className="text-muted font-normal">(optional)</span>
               </label>
               <input
                 id="form-email"
@@ -624,23 +599,23 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                   <span>{errors.email}</span>
                 </p>
               ) : (
-                <p className="text-[10px] text-muted">Required only if requesting a written email proposal</p>
+                <p className="text-[10px] text-muted">Add an email if you would like the proposal sent in writing.</p>
               )}
             </div>
 
             <div className="space-y-1.5">
               <label htmlFor="form-notes" className="block text-xs font-semibold text-body">
-                Additional Notes / Custom Wishes <span className="text-muted font-normal">(Optional)</span>
+                Anything else we should know? <span className="text-muted font-normal">(optional)</span>
               </label>
               <input
                 id="form-notes"
                 type="text"
                 value={formData.notes}
                 onChange={(e) => handleFieldChange('notes', e.target.value)}
-                placeholder="e.g. Traditional Akan rites, diaspora kin"
+                placeholder="e.g. traditional Akan rites, family travelling from abroad"
                 className={`${inputBaseClass} border-hairline`}
               />
-              <p className="text-[10px] text-muted">Share any family customs or diaspora attendee considerations</p>
+              <p className="text-[10px] text-muted">Family customs, guests from abroad, or anything that matters to you.</p>
             </div>
           </div>
 
@@ -657,7 +632,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-hairline accent-[#00A859] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               />
               <span className="text-xs text-body leading-relaxed">
-                I consent to FamilyCare contacting me about this enquiry and processing the details I have provided. <span className="text-red-500">*</span>
+                I agree to FamilyCare contacting me about this enquiry and using the details I have shared. <span className="text-red-500">*</span>
               </span>
             </label>
             {touched.consent_granted && errors.consent_granted ? (
@@ -670,7 +645,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
           {/* Privacy & Consent Notice */}
           <p className="text-[11px] text-muted leading-relaxed">
-            FamilyCare treats your family&rsquo;s bereavement details with strict confidentiality. Your contact information is never shared or used for spam.
+            Your details stay private. FamilyCare uses them to respond to this enquiry and improve the service. We do not sell your personal information.
           </p>
         </>
       )}
@@ -701,7 +676,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             className="flex-1 py-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-base transition-colors flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-75 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           >
             {isSubmitting ? (
-              <span>Sending...</span>
+              <span>Sending your request...</span>
             ) : (
               <>
                 <span>Request My Consultation</span>

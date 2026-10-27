@@ -60,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="px-2 sm:px-5 py-2.5 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-[10px] sm:text-xs md:text-sm transition-colors flex items-center gap-1 sm:gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               <span className="hidden sm:inline">Discuss a Plan</span>
-              <span className="sm:hidden">Discuss Plan</span>
+              <span className="sm:hidden">Talk to Us</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>

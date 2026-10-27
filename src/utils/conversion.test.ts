@@ -76,7 +76,7 @@ test('createCrmLeadPayload requires qualification fields, decision process, and 
   // Invalid: missing location
   const badLocation = createCrmLeadPayload({ ...baseForm, location: '' }, defaultUtm);
   assert.equal(badLocation.payload, null);
-  assert.match(badLocation.error || '', /location/i);
+  assert.match(badLocation.error || '', /location|region/i);
 
   // Invalid: missing decision process
   const badDecision = createCrmLeadPayload({ ...baseForm, decision_process: '' }, defaultUtm);
@@ -106,12 +106,12 @@ test('createCrmLeadPayload requires qualification fields, decision process, and 
 test('getEnquiryFieldError validates each enquiry field', () => {
   assert.match(getEnquiryFieldError('name', 'a') || '', /name/i);
   assert.match(getEnquiryFieldError('phone_whatsapp', '123') || '', /phone|number/i);
-  assert.match(getEnquiryFieldError('location', '') || '', /location/i);
+  assert.match(getEnquiryFieldError('location', '') || '', /location|region/i);
   assert.match(getEnquiryFieldError('timing', '') || '', /when|timing/i);
-  assert.match(getEnquiryFieldError('need_type', []) || '', /requirement/i);
-  assert.match(getEnquiryFieldError('preferred_next_step', '') || '', /next/i);
+  assert.match(getEnquiryFieldError('need_type', []) || '', /option|requirement/i);
+  assert.match(getEnquiryFieldError('preferred_next_step', '') || '', /reach|next/i);
   assert.match(getEnquiryFieldError('email', 'not-an-email') || '', /email/i);
-  assert.match(getEnquiryFieldError('decision_process', '') || '', /decision|approve/i);
+  assert.match(getEnquiryFieldError('decision_process', '') || '', /decision|involved/i);
   assert.match(getEnquiryFieldError('consent_granted', false) || '', /consent/i);
   assert.equal(getEnquiryFieldError('email', ''), null);
   assert.equal(getEnquiryFieldError('name', 'Ama Serwaa'), null);

@@ -21,27 +21,27 @@ interface Step {
 const STEPS: Step[] = [
   {
     num: '01',
-    title: 'Share Your Needs',
+    title: 'Share your needs',
     shortCopy: 'Tell us what you are planning and what matters to your family.',
     microCta: 'Start your enquiry'
   },
   {
     num: '02',
-    title: 'We Shape the Service',
-    shortCopy: 'A dedicated FamilyCare advisor works with you to define the arrangement.',
+    title: 'We shape the service',
+    shortCopy: 'Your advisor helps you define the arrangement around your traditions, guests, and budget.',
     microCta: 'Speak with an advisor'
   },
   {
     num: '03',
-    title: 'You Review & Approve',
-    shortCopy: 'You review the proposed arrangement and decide how to proceed.',
+    title: 'You review and approve',
+    shortCopy: 'You review an itemized proposal with your family and approve what works.',
     microCta: 'Discuss your requirements'
   },
   {
     num: '04',
-    title: 'We Carry It Through',
-    shortCopy: 'FamilyCare carries out the approved service process.',
-    microCta: 'Request a Plan'
+    title: 'We carry it through',
+    shortCopy: 'Our team coordinates the service on the day, down to the last detail.',
+    microCta: 'Request a Consultation'
   }
 ];
 
@@ -83,11 +83,11 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStepClick }) => {
         <Reveal>
           <div className="max-w-3xl mx-auto text-center space-y-3 mb-14">
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-              A calm, structured path from first conversation to final tribute.
+              A clear path from first conversation to final tribute.
             </h2>
 
             <p className="text-base sm:text-lg text-muted leading-relaxed">
-              Planning a tailored funeral does not have to be overwhelming. FamilyCare guides you through a clear four-step process where you retain complete control over every decision.
+              You do not have to plan alone. FamilyCare guides you through four clear steps, and every decision stays with your family.
             </p>
           </div>
         </Reveal>

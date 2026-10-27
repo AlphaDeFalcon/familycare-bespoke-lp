@@ -1,6 +1,6 @@
-# FamilyCare Contract & Bespoke Landing Page
+# FamilyCare Contract & Custom Landing Page
 
-Single-page React + Vite site for FamilyCare Funeral Trust's contract and bespoke funeral service. It includes the three-step enquiry form, WhatsApp concierge, capability proof, FAQ, and conversion tracking.
+Single-page React + Vite site for FamilyCare Funeral Trust's contract and custom funeral service. It includes the three-step enquiry form, WhatsApp concierge, capability proof, FAQ, and conversion tracking.
 
 ## Run locally
 

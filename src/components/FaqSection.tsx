@@ -18,57 +18,63 @@ interface FaqItem {
 export const FAQS: FaqItem[] = [
   {
     id: 'faq-1',
-    question: 'What is Contract / Custom?',
-    answer: 'Unlike conventional fixed funeral packages that force families into rigid inclusions or hidden costs, FamilyCare Contract / Custom has no set package. Our team listens first to your specific requirements, then builds the funeral arrangement around what truly matters to you, including scale, cultural traditions, caskets, logistics, and transparent budget alignment.',
+    question: 'What does Contract / Custom mean?',
+    answer: 'It means there is no fixed package. FamilyCare starts with your family\'s wishes, then builds the arrangement around them: the scale of the service, cultural traditions, caskets, transport, catering, cemetery arrangements, and budget. You approve an itemized proposal before anything is confirmed.',
     conversionRole: 'Clarifies product proposition'
   },
   {
     id: 'faq-2',
     question: 'How does the process work?',
-    answer: 'We guide you along a clear, consultative 4-step journey: (1) Share Your Needs via phone, WhatsApp, or form; (2) We Shape the Service in an unhurried advisor consultation; (3) You Review & Approve a transparent, itemized proposal with zero pressure; and (4) We Carry It Through, executing every detail with care and dignity.',
+    answer: 'You share what you need by form, WhatsApp, or phone. An advisor helps you shape the service. You review and approve an itemized proposal with your family. Then FamilyCare coordinates the service from start to finish.',
     conversionRole: 'Reduces process uncertainty'
   },
   {
     id: 'faq-3',
-    question: 'What can be tailored?',
-    answer: 'Every essential operational dimension can be tailored to your family\'s wishes: gathering scale (from private family remembrances to large public ceremonies), cultural traditions, curated caskets and urns, hearse fleet logistics across Ghana, professional ceremonial pallbearing, guest catering and hospitality, and cemetery coordination.',
+    question: 'What can we customize?',
+    answer: 'Almost every part of the arrangement: the scale and venue, cultural and religious traditions, caskets and urns, hearse and transport, pallbearing, catering and hospitality, repatriation, and cemetery coordination.',
     conversionRole: 'Demonstrates flexibility'
   },
   {
     id: 'faq-4',
-    question: 'How do I get a price?',
-    answer: 'Because every custom arrangement is uniquely shaped around your family\'s desires, pricing is determined after an advisor understands your brief. We prepare a fully itemized, transparent quotation outlining every service element clearly.',
+    question: 'How much will it cost?',
+    answer: 'Pricing depends on what the arrangement includes. After a short conversation, your advisor prepares an itemized quotation so you can see the cost of each element before you commit.',
     conversionRole: 'Sets clear commercial expectations'
   },
   {
     id: 'faq-5',
-    question: 'What information should I have ready?',
-    answer: 'You do not need everything finalized to speak with us. It is helpful to know: (a) approximate timing (immediate need or future pre-planning), (b) intended location or region in Ghana, (c) preferred religious or cultural traditions, and (d) any budget guidance you feel comfortable sharing.',
+    question: 'What should we have ready before we talk?',
+    answer: 'Nothing needs to be final. It helps to know the timing, the region where the funeral will take place, any religious or cultural traditions, and a rough budget if you have one.',
     conversionRole: 'Improves consultation readiness'
   },
   {
     id: 'faq-6',
-    question: 'What happens after I submit the form?',
-    answer: 'A FamilyCare advisor reviews your submission, checks regional logistics, and connects with you through your selected preferred route (WhatsApp conversation, phone call, or in-person consultation) to begin defining your family\'s custom plan.',
+    question: 'What happens after we send the form?',
+    answer: 'An advisor reviews your enquiry, checks coverage for your region, and contacts you through your preferred route to arrange a consultation.',
     conversionRole: 'Reduces post-submission anxiety'
   },
   {
     id: 'faq-7',
-    question: 'Can I use WhatsApp to start planning?',
-    answer: 'Yes, absolutely. WhatsApp is a primary conversational route at FamilyCare. You can message the FamilyCare desk to ask questions, share preliminary wishes, and receive advisor guidance.',
+    question: 'Can we plan over WhatsApp?',
+    answer: 'Yes. Many families start on WhatsApp. You can ask questions, share your wishes, and send documents. An advisor will guide you from there.',
     conversionRole: 'Enables low-friction contact'
   },
   {
     id: 'faq-8',
-    question: 'Do I need to visit a branch in person?',
-    answer: 'An in-person visit is not required. Many families, especially those in the diaspora or busy professionals, complete their entire arrangement via WhatsApp, phone, and written proposals. However, if you prefer meeting face-to-face, you are welcome at our branches in Accra, Tema, Kumasi, and Koforidua.',
+    question: 'Do we need to visit a branch?',
+    answer: 'No. Most arrangements can be completed by WhatsApp, phone, and email, including from abroad. If you prefer to meet in person, our branches are in Accra, Tema, Kumasi, and Koforidua.',
     conversionRole: 'Removes physical friction'
   },
   {
     id: 'faq-9',
-    question: 'Can I plan ahead for a future need?',
-    answer: 'Yes. Many families choose to plan ahead so decisions are made calmly rather than under pressure. Your wishes, traditions, and budget guidance are documented in a written brief, and nothing is committed until your family approves a proposal.',
+    question: 'Can we plan ahead?',
+    answer: 'Yes. Some families plan ahead so decisions are made calmly rather than under pressure. We document your wishes, traditions, and budget guidance, and nothing is committed until your family approves a proposal.',
     conversionRole: 'Opens the pre-planning audience'
+  },
+  {
+    id: 'faq-10',
+    question: 'Is there any obligation to proceed?',
+    answer: 'No. The consultation and proposal are there for your family to consider. You decide whether to proceed.',
+    conversionRole: 'Removes commitment anxiety'
   }
 ];
 
@@ -103,11 +109,11 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
             <span className="block w-12 h-1 rounded-full bg-accent mx-auto" aria-hidden="true" />
 
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-              Frequently Asked Questions
+              Questions families ask
             </h2>
 
             <p className="text-base sm:text-lg text-muted leading-relaxed">
-              Clear, honest answers about how FamilyCare shapes custom arrangements, pricing, and timing.
+              Straight answers about the process, pricing, and planning ahead.
             </p>
           </div>
         </Reveal>
@@ -168,7 +174,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
               Have a question not answered here?
             </div>
             <div className="text-xs sm:text-sm text-[#A9C6B6] mt-1">
-              Our advisors can clarify any logistical or cultural detail.
+              An advisor can answer any question about logistics, traditions, or timing.
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -183,7 +189,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
               onClick={onDiscussClick}
               className="px-5 py-2.5 rounded-full border border-white/40 text-white hover:bg-white/10 text-xs font-semibold transition-colors flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
             >
-              <span>Consult an Advisor</span>
+              <span>Talk to an advisor</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

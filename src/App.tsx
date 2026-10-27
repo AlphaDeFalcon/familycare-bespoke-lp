@@ -31,6 +31,7 @@ import { EnquiryAndWhatsApp } from './components/EnquiryAndWhatsApp';
 import { FaqSection } from './components/FaqSection';
 import { FinalCtaAndFooter } from './components/FinalCtaAndFooter';
 import { MobileStickyBar } from './components/MobileStickyBar';
+import { needTypeLabel } from './utils/enquiryOptions';
 
 const DebugTools = lazy(() =>
   import('./components/DebugTools').then((module) => ({ default: module.DebugTools }))
@@ -165,7 +166,7 @@ export default function App() {
     logWhatsAppClick(sourceSection);
     const url = buildWhatsAppUrl({
       basePhone: '233597434114',
-      tailoringBrief: selectedDimensions,
+      tailoringBrief: selectedDimensions.map(needTypeLabel),
       channel: attribution.utm_source,
       name: undefined
     });
@@ -248,6 +249,10 @@ export default function App() {
       />
 
       <main className="flex-1">
+        {/* Page-level heading for screen readers and search engines; the first
+            visible section is How It Works. */}
+        <h1 className="sr-only">FamilyCare custom arrangements in Ghana</h1>
+
         {/* 3. Wireframe 02: Hero with Real Facility Photography — commented out 2026-10-26 */}
         {/*
         <Hero

@@ -4,7 +4,7 @@ How to connect the enquiry form to a CRM or any endpoint that accepts the lead p
 
 ## How a submission is handled
 
-1. The visitor completes the three-step form and presses **Request My Bespoke Consultation** (`src/components/EnquiryForm.tsx`).
+1. The visitor completes the three-step form and presses **Request My Consultation** (`src/components/EnquiryForm.tsx`).
 2. The form validates every qualification field, then `createCrmLeadPayload` normalizes the phone number, generates a lead reference, and attaches first-touch attribution (`src/utils/conversion.ts`).
 3. `submitEnquiry` sends the payload to `VITE_LEAD_ENDPOINT` with `postLeadPayload`:
    - `POST` with `Content-Type: application/json`
@@ -104,7 +104,7 @@ Example (optional fields are omitted when blank):
     "consented_at": "2026-10-23T10:15:00.000Z"
   },
   "commercial": {
-    "product": "Contract / Bespoke Funeral Services",
+    "product": "Contract / Custom Funeral Services",
     "journeyStage": "Qualified Opportunity",
     "status": "New Enquiry Captured"
   },
@@ -119,6 +119,21 @@ Example (optional fields are omitted when blank):
 
 `attribution` falls back to `{ "utm_source": "direct", "utm_medium": "organic" }` when no campaign parameters were captured. Attribution is first-touch and persists in `sessionStorage` for the browser session.
 
+### Stable values and display labels
+
+The form keeps the value sent to the CRM separate from the label shown to visitors (`src/utils/enquiryOptions.ts`). The payload always contains the stable value. Display copy can change without changing the CRM contract.
+
+| Field | Allowed values |
+| --- | --- |
+| `qualification.need_type[]` | `Full Funeral Arrangement`, `Scale & Venue`, `Cultural Traditions`, `Caskets`, `Logistics & Transport`, `Catering / Hospitality`, `Repatriation`, `Cemetery Support`, `Budget Guidance` |
+| `qualification.timing` | `Immediate need (Within days)`, `Near term (Within 1-3 months)`, `Future planning / Pre-need`, `Just gathering information` |
+| `qualification.preferred_next_step` | `WhatsApp conversation`, `Phone call from an advisor`, `Private 1-on-1 consultation` |
+| `qualification.decision_process` | `I am the sole decision maker`, `Spouse / partner needs to approve`, `Siblings / family members need to approve`, `Elders / family council need to approve`, `Other decision process` |
+
+Map these exact strings in the CRM. Do not map the display labels shown on the page.
+
+`consent` records `permission_status` and `consented_at` only. The consent wording shown to the visitor is not part of the payload.
+
 ### Suggested CRM field mapping
 
 | Payload field | CRM use |
@@ -130,7 +145,7 @@ Example (optional fields are omitted when blank):
 | `identity.phone_whatsapp` | Original number as typed |
 | `identity.email` | Email (optional) |
 | `qualification.location` | Region / service area |
-| `qualification.need_type` | Service interests or tags |
+| `qualification.need_type` | Service interests or tags (stable values above) |
 | `qualification.timing` | Urgency / follow-up bucket |
 | `qualification.preferred_next_step` | Contact channel / task type |
 | `qualification.decision_process` | Approval context for the advisor |
@@ -239,7 +254,7 @@ curl -i -X POST https://crm.example.com/inbound/familycare \
     "identity": { "name": "Test Lead", "phone_whatsapp": "0244001122", "normalized_phone": "+233244001122" },
     "qualification": { "location": "Greater Accra", "need_type": ["Scale & Venue"], "timing": "Future planning / Pre-need", "preferred_next_step": "WhatsApp conversation", "decision_process": "I am the sole decision maker" },
     "consent": { "permission_status": "granted", "consented_at": "2026-10-23T10:15:00.000Z" },
-    "commercial": { "product": "Contract / Bespoke Funeral Services", "journeyStage": "Qualified Opportunity", "status": "New Enquiry Captured" },
+    "commercial": { "product": "Contract / Custom Funeral Services", "journeyStage": "Qualified Opportunity", "status": "New Enquiry Captured" },
     "attribution": { "utm_source": "direct", "utm_medium": "organic" }
   }'
 ```

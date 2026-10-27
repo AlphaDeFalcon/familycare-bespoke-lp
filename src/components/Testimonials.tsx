@@ -224,7 +224,7 @@ export const Testimonials: React.FC = () => {
           What families say
         </h3>
         <p className="text-xs sm:text-sm text-muted">
-          Reviews shared by families on Google Maps.
+          Real reviews from families on Google Maps.
         </p>
       </div>
 
