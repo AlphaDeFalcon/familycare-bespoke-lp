@@ -7,7 +7,7 @@
 import puppeteer from 'puppeteer-core';
 
 const EDGE = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
-const URL = 'http://localhost:3000/?debug=1&utm_source=google&utm_medium=cpc&utm_campaign=smoke';
+const URL = 'http://localhost:3000/?utm_source=google&utm_medium=cpc&utm_campaign=smoke';
 
 let failures = 0;
 

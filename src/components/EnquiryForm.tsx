@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertCircle, ArrowRight, Check, Send } from 'lucide-react';
 import {
   getEnquiryFieldError,
@@ -24,7 +24,6 @@ import {
 } from '../utils/enquiryOptions';
 
 interface EnquiryFormProps {
-  initialNeedTypes: string[];
   attribution: UtmParams;
   whatsAppUrl: string;
   onDraftChange: (draft: { name: string; location: string; needTypes: string[] }) => void;
@@ -76,7 +75,6 @@ const STEP_TITLES: Record<number, string> = {
 const inputBaseClass = 'w-full px-3.5 py-2.5 rounded-lg border text-sm transition-colors bg-white focus:outline-none focus:ring-2 focus:ring-accent';
 
 export const EnquiryForm: React.FC<EnquiryFormProps> = ({
-  initialNeedTypes,
   attribution,
   whatsAppUrl,
   onDraftChange,
@@ -86,42 +84,13 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
   onPhoneClick
 }) => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>(() => ({
-    ...INITIAL_FORM,
-    need_type: initialNeedTypes.length > 0 ? [...initialNeedTypes] : INITIAL_FORM.need_type
-  }));
+  const [formData, setFormData] = useState<FormData>(() => ({ ...INITIAL_FORM }));
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedLead, setSubmittedLead] = useState<CrmLeadPayload | null>(null);
-
-  // Sync brief-builder selections into the form. The builder is the source of
-  // truth for these chips: new dimensions flow in, deselected ones are removed,
-  // while need types picked directly in the form are preserved. The synced
-  // state is also emitted as the concierge draft so the WhatsApp preview and
-  // link never lag behind the builder.
-  const prevInitialRef = useRef<string[]>(initialNeedTypes);
-
-  useEffect(() => {
-    const prevInitial = prevInitialRef.current;
-    const removed = prevInitial.filter((x) => !initialNeedTypes.includes(x));
-    const merged = Array.from(
-      new Set([...formData.need_type.filter((x) => !removed.includes(x)), ...initialNeedTypes])
-    );
-    const changed =
-      merged.length !== formData.need_type.length ||
-      merged.some((x, index) => x !== formData.need_type[index]);
-
-    if (changed) {
-      const next = { ...formData, need_type: merged };
-      setFormData(next);
-      emitDraft(next);
-    }
-    prevInitialRef.current = initialNeedTypes;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialNeedTypes]);
 
   // Move focus to the step heading when the step changes, so keyboard and
   // screen-reader users land in the right place. Skipped on first mount.

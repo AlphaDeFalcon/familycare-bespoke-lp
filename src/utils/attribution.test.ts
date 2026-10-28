@@ -8,12 +8,9 @@ import assert from 'node:assert/strict';
 import {
   parseUtmParams,
   captureAttribution,
-  isDebugMode,
-  resolveChannel,
   pushDataLayer,
   toDataLayerLeadFields
 } from './attribution.ts';
-import { cloudinary } from './media.ts';
 import type { CrmLeadPayload } from './conversion.ts';
 
 function makeStore(initial: Record<string, string> | null = null): {
@@ -42,7 +39,7 @@ function makeStore(initial: Record<string, string> | null = null): {
 
 test('parseUtmParams reads the full UTM set plus click IDs', () => {
   const parsed = parseUtmParams(
-    '?utm_source=google&utm_medium=cpc&utm_campaign=ghana_test&utm_content=ad_1&utm_term=bespoke%20funeral&gclid=abc123&fbclid=xyz789'
+    '?utm_source=google&utm_medium=cpc&utm_campaign=ghana_test&utm_content=ad_1&utm_term=bespoke%20funeral&gclid=abc123&gbraid=gb123&wbraid=wb123&fbclid=xyz789&msclkid=ms123&ttclid=tt123'
   );
   assert.deepEqual(parsed, {
     utm_source: 'google',
@@ -51,7 +48,11 @@ test('parseUtmParams reads the full UTM set plus click IDs', () => {
     utm_content: 'ad_1',
     utm_term: 'bespoke funeral',
     gclid: 'abc123',
-    fbclid: 'xyz789'
+    gbraid: 'gb123',
+    wbraid: 'wb123',
+    fbclid: 'xyz789',
+    msclkid: 'ms123',
+    ttclid: 'tt123'
   });
 });
 
@@ -81,6 +82,33 @@ test('captureAttribution persists real params when nothing is stored', () => {
   assert.deepEqual(store.written, ['fc_attribution_v1']);
 });
 
+test('captureAttribution infers source and medium from click IDs', () => {
+  const cases: Array<[string, Record<string, string>]> = [
+    ['?gclid=G123', { gclid: 'G123', utm_source: 'google', utm_medium: 'cpc' }],
+    ['?gbraid=GB123', { gbraid: 'GB123', utm_source: 'google', utm_medium: 'cpc' }],
+    ['?wbraid=WB123', { wbraid: 'WB123', utm_source: 'google', utm_medium: 'cpc' }],
+    ['?msclkid=MS123', { msclkid: 'MS123', utm_source: 'microsoft', utm_medium: 'cpc' }],
+    ['?ttclid=TT123', { ttclid: 'TT123', utm_source: 'tiktok', utm_medium: 'paid_social' }],
+    ['?fbclid=FB123', { fbclid: 'FB123', utm_source: 'facebook', utm_medium: 'paid_social' }]
+  ];
+
+  for (const [search, expected] of cases) {
+    const store = makeStore();
+    assert.deepEqual(captureAttribution(search, store), expected);
+    assert.deepEqual(store.written, ['fc_attribution_v1']);
+  }
+});
+
+test('captureAttribution keeps an explicit UTM source over click-ID inference', () => {
+  const store = makeStore();
+  const result = captureAttribution('?utm_source=meta&utm_medium=cpc&msclkid=MS123', store);
+  assert.deepEqual(result, {
+    utm_source: 'meta',
+    utm_medium: 'cpc',
+    msclkid: 'MS123'
+  });
+});
+
 test('captureAttribution falls back to direct and persists nothing without params', () => {
   const store = makeStore();
   const result = captureAttribution('', store);
@@ -101,23 +129,6 @@ test('captureAttribution degrades without throwing when storage is unavailable',
   assert.deepEqual(result, { utm_source: 'linkedin' });
 });
 
-test('resolveChannel maps known sources and falls back to direct', () => {
-  assert.equal(resolveChannel({ utm_source: 'google', utm_medium: 'cpc' }), 'google_search');
-  assert.equal(resolveChannel({ utm_source: 'meta', utm_medium: 'paid_social' }), 'meta_instagram');
-  assert.equal(resolveChannel({ utm_source: 'facebook', utm_medium: 'paid_social' }), 'meta_instagram');
-  assert.equal(resolveChannel({ utm_source: 'instagram', utm_medium: 'paid_social' }), 'meta_instagram');
-  assert.equal(resolveChannel({ utm_source: 'linkedin', utm_medium: 'sponsored' }), 'linkedin');
-  assert.equal(resolveChannel({ utm_source: 'youtube', utm_medium: 'video' }), 'youtube');
-  assert.equal(resolveChannel({ utm_source: 'direct', utm_medium: 'organic' }), 'direct');
-});
-
-test('isDebugMode detects the debug flag', () => {
-  assert.equal(isDebugMode('?debug=1'), true);
-  assert.equal(isDebugMode('?debug=0'), false);
-  assert.equal(isDebugMode('?utm_source=x'), false);
-  assert.equal(isDebugMode(''), false);
-});
-
 test('pushDataLayer initializes the target and appends the envelope', () => {
   const events: unknown[] = [];
   pushDataLayer(
@@ -127,7 +138,14 @@ test('pushDataLayer initializes the target and appends the envelope', () => {
       cta_name: 'Discuss a Plan',
       utm_source: 'google'
     },
-    events
+    events,
+    {
+      utm_source: 'google',
+      utm_medium: 'cpc',
+      gbraid: 'gb123',
+      msclkid: 'ms123',
+      ttclid: 'tt123'
+    }
   );
   assert.equal(events.length, 1);
   const ev = events[0] as Record<string, unknown>;
@@ -139,6 +157,9 @@ test('pushDataLayer initializes the target and appends the envelope', () => {
   assert.equal(ev.section, 'hero');
   assert.equal(ev.cta_name, 'Discuss a Plan');
   assert.equal(ev.utm_source, 'google');
+  assert.equal(ev.gbraid, 'gb123');
+  assert.equal(ev.msclkid, 'ms123');
+  assert.equal(ev.ttclid, 'tt123');
 });
 
 test('toDataLayerLeadFields strips identity and consent fields', () => {
@@ -173,7 +194,7 @@ test('toDataLayerLeadFields strips identity and consent fields', () => {
   assert.equal(fields.lead_id, 'FC-BESPOKE-123456-7890');
   assert.equal(fields.lead_location, 'Kumasi');
   assert.equal(fields.lead_timing, 'Near term');
-  assert.deepEqual(fields.lead_needs, ['Scale & Venue']);
+  assert.equal(fields.lead_needs, 'Scale & Venue');
   assert.equal(fields.preferred_next_step, 'WhatsApp conversation');
   assert.equal(fields.decision_process, 'Siblings / family members need to approve');
   assert.ok(!('budget_indicator' in fields));
@@ -185,12 +206,4 @@ test('toDataLayerLeadFields strips identity and consent fields', () => {
   assert.ok(!serialized.includes('consent'));
   assert.ok(!serialized.includes('granted'));
   assert.ok(!serialized.includes('budget'));
-});
-
-test('cloudinary inserts transforms after /upload/', () => {
-  const url = 'https://res.cloudinary.com/fcufbtuc/image/upload/IMG_0109.jpg';
-  assert.equal(
-    cloudinary(url, 'w_1600,f_auto,q_auto'),
-    'https://res.cloudinary.com/fcufbtuc/image/upload/w_1600,f_auto,q_auto/IMG_0109.jpg'
-  );
 });

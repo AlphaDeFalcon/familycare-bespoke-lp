@@ -2,6 +2,8 @@
 
 How to connect the enquiry form to a CRM or any endpoint that accepts the lead payload.
 
+The enquiry form is the only source of lead data. There is no separate brief builder or pre-form selector feeding the payload; the visitor's selections in the form are what reach the CRM.
+
 ## How a submission is handled
 
 1. The visitor completes the three-step form and presses **Request My Consultation** (`src/components/EnquiryForm.tsx`).
@@ -12,7 +14,7 @@ How to connect the enquiry form to a CRM or any endpoint that accepts the lead p
    - a response is accepted only when `response.ok` is true (2xx)
 4. On success, the visitor sees the confirmation panel with their reference, preferred contact route, and WhatsApp/call actions.
 5. On failure (non-2xx, network error, or timeout), the form stays filled and shows a retry message with WhatsApp and phone alternatives.
-6. A `form_submit` event is pushed to the GTM `dataLayer`. Identity fields (name, phone, email) are excluded (`src/utils/attribution.ts`).
+6. A `form_submit` event is pushed to the GTM `dataLayer`. Identity fields (name, phone, email) are excluded (`src/utils/attribution.ts`). `lead_needs` arrives as a comma-separated string so it can be used directly as a GA4 event parameter; the CRM payload keeps the array.
 
 If `VITE_LEAD_ENDPOINT` is blank, the client waits 400 ms and reports success without sending anything. This is useful for design review, but no lead reaches FamilyCare.
 
@@ -117,11 +119,17 @@ Example (optional fields are omitted when blank):
 }
 ```
 
-`attribution` falls back to `{ "utm_source": "direct", "utm_medium": "organic" }` when no campaign parameters were captured. Attribution is first-touch and persists in `sessionStorage` for the browser session.
+`attribution` falls back to `{ "utm_source": "direct", "utm_medium": "organic" }` only when neither UTM parameters nor a recognised click ID were captured. Attribution is first-touch and persists in `sessionStorage` for the browser session.
+
+A click-ID-only arrival gets source and medium inferred so paid traffic is not recorded as Direct: `gclid`/`gbraid`/`wbraid` → `google`/`cpc`, `msclkid` → `microsoft`/`cpc`, `ttclid` → `tiktok`/`paid_social`, `fbclid` → `facebook`/`paid_social`. Explicit UTM parameters always win over the inferred values.
+
+Attribution captures `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, and `utm_term`, plus the platform click IDs `gclid` and `gbraid`/`wbraid` (Google Ads), `fbclid` (Meta), `msclkid` (Microsoft), and `ttclid` (TikTok). All captured values are forwarded to the CRM and the GTM dataLayer.
 
 ### Stable values and display labels
 
 The form keeps the value sent to the CRM separate from the label shown to visitors (`src/utils/enquiryOptions.ts`). The payload always contains the stable value. Display copy can change without changing the CRM contract.
+
+`qualification.need_type[]` is the multi-select in form step 2 ("Choose all that apply"). The form starts with `Full Funeral Arrangement` selected and validation requires at least one value. The WhatsApp concierge mirrors the same draft using display labels, but only the form posts to the CRM.
 
 | Field | Allowed values |
 | --- | --- |

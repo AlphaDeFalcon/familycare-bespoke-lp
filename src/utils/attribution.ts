@@ -5,11 +5,41 @@
 
 import type { CrmLeadPayload, UtmParams } from './conversion';
 
-export interface CapturedAttribution extends UtmParams {}
-
 export const ATTRIBUTION_SESSION_KEY = 'fc_attribution_v1';
 
 const DIRECT_UTMS: UtmParams = { utm_source: 'direct', utm_medium: 'organic' };
+
+const CLICK_ID_KEYS = ['gclid', 'gbraid', 'wbraid', 'msclkid', 'ttclid', 'fbclid'] as const;
+type ClickIdKey = (typeof CLICK_ID_KEYS)[number];
+
+const CLICK_ID_ATTRIBUTION: Record<ClickIdKey, { source: string; medium: string }> = {
+  gclid: { source: 'google', medium: 'cpc' },
+  gbraid: { source: 'google', medium: 'cpc' },
+  wbraid: { source: 'google', medium: 'cpc' },
+  msclkid: { source: 'microsoft', medium: 'cpc' },
+  ttclid: { source: 'tiktok', medium: 'paid_social' },
+  fbclid: { source: 'facebook', medium: 'paid_social' }
+};
+
+/**
+ * Fills source and medium from a recognised click ID when the URL carried no
+ * UTM source. Explicit UTM parameters always win.
+ */
+function applyClickIdAttribution(parsed: UtmParams): UtmParams {
+  if (parsed.utm_source) {
+    return parsed;
+  }
+  for (const key of CLICK_ID_KEYS) {
+    if (parsed[key]) {
+      return {
+        ...parsed,
+        utm_source: CLICK_ID_ATTRIBUTION[key].source,
+        utm_medium: CLICK_ID_ATTRIBUTION[key].medium
+      };
+    }
+  }
+  return parsed;
+}
 
 export interface AttributionStore {
   getItem(key: string): string | null;
@@ -45,7 +75,11 @@ export function parseUtmParams(search: string): UtmParams {
     'utm_content',
     'utm_term',
     'gclid',
-    'fbclid'
+    'gbraid',
+    'wbraid',
+    'fbclid',
+    'msclkid',
+    'ttclid'
   ];
   for (const key of keys) {
     const value = params.get(key);
@@ -69,7 +103,7 @@ export function captureAttribution(search: string, store?: AttributionStore): Ut
     if (stored) {
       return JSON.parse(stored) as UtmParams;
     }
-    const parsed = parseUtmParams(search);
+    const parsed = applyClickIdAttribution(parseUtmParams(search));
     const hasAttribution = Object.keys(parsed).length > 0;
     if (hasAttribution) {
       target.setItem(ATTRIBUTION_SESSION_KEY, JSON.stringify(parsed));
@@ -77,71 +111,8 @@ export function captureAttribution(search: string, store?: AttributionStore): Ut
     }
     return { ...DIRECT_UTMS };
   } catch {
-    const parsed = parseUtmParams(search);
+    const parsed = applyClickIdAttribution(parseUtmParams(search));
     return Object.keys(parsed).length > 0 ? parsed : { ...DIRECT_UTMS };
-  }
-}
-
-/**
- * Debug gate: the QA console renders only when ?debug=1 is present.
- */
-export function isDebugMode(search: string): boolean {
-  return new URLSearchParams(search).get('debug') === '1';
-}
-
-export type ChannelSource = 'google_search' | 'meta_instagram' | 'linkedin' | 'youtube' | 'direct';
-
-export interface HeroCopy {
-  name: string;
-  heroBadge: string;
-  heroEmphasis: string;
-}
-
-export const HERO_COPY: Record<ChannelSource, HeroCopy> = {
-  google_search: {
-    name: 'Google Search (High Intent)',
-    heroBadge: 'Direct Consultation • Immediate & Planned Assistance',
-    heroEmphasis: 'Custom funeral services in Ghana. Transparent planning, coordination, and a quote shaped around your requirements.'
-  },
-  meta_instagram: {
-    name: 'Meta / Instagram (Visual & Coordination)',
-    heroBadge: 'Dignified Ceremonial Care • Coordinated by FamilyCare',
-    heroEmphasis: 'Experience the calm assurance of having every detail and tradition respectfully shaped.'
-  },
-  linkedin: {
-    name: 'LinkedIn (Professional / Pre-Planning)',
-    heroBadge: 'Structured Executive Planning • Trusted Family Protocol',
-    heroEmphasis: 'A consultative, unhurried planning process built for family leaders and decision-makers.'
-  },
-  youtube: {
-    name: 'YouTube (Process & Explanation)',
-    heroBadge: 'The FamilyCare Method • Step-by-Step Coordination',
-    heroEmphasis: 'Learn how our advisors carry your family through initial wishes to the final tribute.'
-  },
-  direct: {
-    name: 'Direct / Organic Visit',
-    heroBadge: 'FamilyCare Funeral Trust • Today\'s Wisdom, Tomorrow\'s Peace of Mind',
-    heroEmphasis: 'There is no set package. We listen, then build the funeral around what matters to you.'
-  }
-};
-
-/**
- * Maps a detected utm_source to a channel copy profile.
- */
-export function resolveChannel(utms: UtmParams): ChannelSource {
-  switch (utms.utm_source) {
-    case 'google':
-      return 'google_search';
-    case 'meta':
-    case 'facebook':
-    case 'instagram':
-      return 'meta_instagram';
-    case 'linkedin':
-      return 'linkedin';
-    case 'youtube':
-      return 'youtube';
-    default:
-      return 'direct';
   }
 }
 
@@ -156,7 +127,11 @@ export interface DataLayerEvent {
   utm_content?: string;
   utm_term?: string;
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
   fbclid?: string;
+  msclkid?: string;
+  ttclid?: string;
   section?: string;
   cta_name?: string;
   form_id?: string;
@@ -233,7 +208,9 @@ export function toDataLayerLeadFields(lead: CrmLeadPayload): Record<string, unkn
     lead_id: lead.leadId,
     lead_location: lead.qualification.location,
     lead_timing: lead.qualification.timing,
-    lead_needs: lead.qualification.need_type,
+    // GA4 event parameters are strings; join the multi-select so GTM does not
+    // have to serialise an array. The CRM payload keeps the array.
+    lead_needs: lead.qualification.need_type.join(', '),
     preferred_next_step: lead.qualification.preferred_next_step,
     decision_process: lead.qualification.decision_process
   };

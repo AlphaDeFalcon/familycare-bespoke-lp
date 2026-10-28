@@ -7,7 +7,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Phone,
   MessageCircle,
-  ArrowRight,
   Mail,
   Facebook,
   Instagram,
@@ -15,16 +14,13 @@ import {
   Twitter,
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
-import { Reveal } from './Reveal';
 
 interface FinalCtaAndFooterProps {
-  onDiscussClick: () => void;
   onWhatsAppClick: () => void;
   onPhoneClick: () => void;
 }
 
 export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
-  onDiscussClick,
   onWhatsAppClick,
   onPhoneClick
 }) => {
@@ -61,41 +57,6 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
 
   return (
     <>
-      {/* Final Conversion Banner — commented out per request */}
-      {/*
-      <section className="bg-forest text-white py-16 sm:py-20 relative overflow-hidden">
-        <Reveal>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={onDiscussClick}
-              className="w-full sm:w-auto px-7 py-4 rounded-full bg-accent hover:bg-accent-deep text-white font-semibold text-base transition-colors flex items-center justify-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
-            >
-              <span>Discuss a Plan</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <button
-              onClick={onWhatsAppClick}
-              className="w-full sm:w-auto px-6 py-4 rounded-full bg-white hover:bg-zinc-100 text-ink font-semibold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
-            >
-              <MessageCircle className="w-5 h-5 text-accent" />
-              <span>WhatsApp FamilyCare</span>
-            </button>
-
-            <button
-              onClick={onPhoneClick}
-              className="w-full sm:w-auto px-5 py-4 rounded-full border border-white/30 hover:border-white text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
-            >
-              <Phone className="w-4 h-4 text-[#7FDDAB]" />
-              <span>Call an Advisor</span>
-            </button>
-          </div>
-          </div>
-        </Reveal>
-      </section>
-      */}
-
       {/* Global Footer */}
       <footer className="bg-forest text-zinc-400 pt-16 pb-24 md:pb-16 border-t border-white/10 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -146,60 +107,6 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               </div>
             </div>
 
-            {/* Services & Navigation — commented out per request */}
-            {/*
-            <div className="space-y-3">
-              <div className="font-semibold text-white uppercase text-xs tracking-wider">
-                Services &amp; Navigation
-              </div>
-              <ul className="space-y-2 text-xs">
-                <li>
-                  <a href="#tailoring" className="hover:text-white transition-colors">Contract / Custom</a>
-                </li>
-                <li>
-                  <a href="#truth" className="hover:text-white transition-colors">Our Product Truth</a>
-                </li>
-                <li>
-                  <a href="#process" className="hover:text-white transition-colors">How It Works (4 Steps)</a>
-                </li>
-                <li>
-                  <a href="#capabilities" className="hover:text-white transition-colors">Operational Capabilities</a>
-                </li>
-                <li>
-                  <a href="#trust" className="hover:text-white transition-colors">Trust &amp; Proof</a>
-                </li>
-                <li>
-                  <a href="#faq" className="hover:text-white transition-colors">Frequently Asked Questions</a>
-                </li>
-              </ul>
-            </div>
-            */}
-
-            {/* Branches — commented out per request */}
-            {/*
-            <div className="space-y-3">
-              <div className="font-semibold text-white uppercase text-xs tracking-wider">
-                Branches
-              </div>
-              <ul className="space-y-2 text-xs">
-                {BRANCHES.map((branch) => (
-                  <BranchAccordionItem
-                    key={branch.id}
-                    branch={branch}
-                    isOpen={openBranches.includes(branch.id)}
-                    onToggle={() =>
-                      setOpenBranches((prev) =>
-                        prev.includes(branch.id)
-                          ? prev.filter((id) => id !== branch.id)
-                          : [...prev, branch.id]
-                      )
-                    }
-                  />
-                ))}
-              </ul>
-            </div>
-            */}
-
             {/* Direct Contact */}
             <div className="space-y-3">
               <div className="font-semibold text-white uppercase text-xs tracking-wider">
@@ -208,7 +115,11 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               <ul className="space-y-2 text-xs">
                 <li className="flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5 text-[#7FDDAB] shrink-0" />
-                  <a href="tel:+233597434114" className="hover:text-white font-mono">
+                  <a
+                    href="tel:+233597434114"
+                    onClick={onPhoneClick}
+                    className="hover:text-white font-mono"
+                  >
                     +233 59 743 4114
                   </a>
                 </li>

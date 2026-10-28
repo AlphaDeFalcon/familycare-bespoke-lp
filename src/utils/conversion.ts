@@ -10,7 +10,11 @@ export interface UtmParams {
   utm_content?: string;
   utm_term?: string;
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
   fbclid?: string;
+  msclkid?: string;
+  ttclid?: string;
 }
 
 /**
@@ -219,16 +223,6 @@ export function createCrmLeadPayload(
   };
 
   return { payload };
-}
-
-export interface AnalyticsEvent {
-  id: string;
-  event: 'page_view' | 'cta_click' | 'whatsapp_click' | 'phone_click' | 'form_start' | 'form_submit' | 'brief_tailor_toggle';
-  label: string;
-  timestamp: string;
-  section?: string;
-  channel: string;
-  metadata?: Record<string, any>;
 }
 
 /**

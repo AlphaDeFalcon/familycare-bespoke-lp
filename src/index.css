@@ -14,10 +14,6 @@
   --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --radius-card: 12px;
-  /* Strong custom easing curves (easing.dev): ease-out for UI entrances,
-     ease-in-out for on-screen movement. */
-  --ease-strong: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-move: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @layer base {
@@ -27,43 +23,8 @@
   }
 }
 
-/* Card hover accent lines: top and bottom rules scale in from the
-   center on hover, inset to respect the rounded-card corners.
-   Disabled for touch-only and reduced-motion users. */
-.card-hover-lines {
-  position: relative;
-}
-.card-hover-lines::before,
-.card-hover-lines::after {
-  content: '';
-  position: absolute;
-  left: 0.75rem;
-  right: 0.75rem;
-  height: 2px;
-  border-radius: 9999px;
-  background: var(--color-accent);
-  transform: scaleX(0);
-  opacity: 0;
-  transition: transform 300ms ease, opacity 300ms ease;
-  pointer-events: none;
-}
-.card-hover-lines::before {
-  top: 0;
-}
-.card-hover-lines::after {
-  bottom: 0;
-}
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .card-hover-lines:hover::before,
-  .card-hover-lines:hover::after {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-}
-
-/* Testimonials marquee: slow, calm drift; one row reversed.
-   Pauses on hover, collapses to a scrollable static row under
-   reduced motion. */
+/* Testimonials marquee: slow, calm drift. Pauses on hover,
+   collapses to a scrollable static row under reduced motion. */
 @keyframes marquee-left {
   from {
     transform: translateX(0);
@@ -77,9 +38,6 @@
   gap: 1.5rem;
   width: max-content;
   animation: marquee-left 70s linear infinite;
-}
-.marquee-track.marquee-reverse {
-  animation-direction: reverse;
 }
 .marquee-paused:hover .marquee-track {
   animation-play-state: paused;

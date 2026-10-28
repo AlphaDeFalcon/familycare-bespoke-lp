@@ -6,7 +6,7 @@
 import React from 'react';
 import { BadgeCheck } from 'lucide-react';
 
-export interface Testimonial {
+interface Testimonial {
   quote: string;
   name: string;
   context: string;
@@ -18,7 +18,7 @@ export interface Testimonial {
  * (https://maps.app.goo.gl/RwtNcH661TzYbdE19), lightly trimmed for
  * length; full reviews remain on Google Maps.
  */
-export const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS: Testimonial[] = [
   {
     quote: 'Very prompt in attending to issues and trustworthy. My father\'s funeral was organized very flamboyantly by them. Am grateful.',
     name: 'Samuel Agini',
@@ -78,66 +78,6 @@ export const TESTIMONIALS: Testimonial[] = [
     name: 'CALEB AMENKU',
     context: 'Google Maps review',
     rating: 5
-  },
-  {
-    quote: "In the beginning I thought it was one of those, but 5 years on I can say it is here to stay with us. This is a reliable package you can invest in for tomorrow's peace of mind.",
-    name: 'WHITE BEAM CONCEPTS',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'The best funeral policy in Ghana with excellent services that guarantees client satisfaction and peace of mind during the most difficult time.',
-    name: 'MICHAEL ODUETEY',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'Well, very nice people especially Cynthia Osei Osafo. She really cares for her customers.',
-    name: 'Isaac Mante Acquah',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'Familycare provides great funeral and burial services. You can check out our testimonials on our YouTube account.',
-    name: 'Michelle Y. Deri',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'I really enjoy your customer relationship, especially from my relationship officer Foster Asomani. Thanks for this assistance.',
-    name: 'Jesse Addo',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: "The service was okay, first time seeing such a thing in Ghana and it's a good thing. Keep it up.",
-    name: 'Abigail Nortey',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'Irrespective of the location of your hometown or religion, FamilyCare delivers up to your standards. FamilyCare all the way.',
-    name: 'Owusu-Ansah Paul',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'Great customer service, affable staff! Simply the best at what they do.',
-    name: 'Benjamin PKC Danquah',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'No need to worry about how to organize funerals. Ask me how? Don\'t borrow money.',
-    name: 'M Anochi',
-    context: 'Google Maps review',
-    rating: 5
-  },
-  {
-    quote: 'The burden and stress of planning and executing a funeral when you lose a loved one is greatly reduced with FamilyCare! Thank you for what you do.',
-    name: 'Colouredby PKC',
-    context: 'Google Maps review',
-    rating: 5
   }
 ];
 
@@ -175,10 +115,10 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   );
 }
 
-function MarqueeRow({ testimonials, reverse = false }: { testimonials: Testimonial[]; reverse?: boolean }) {
+function MarqueeRow({ testimonials }: { testimonials: Testimonial[] }) {
   return (
     <div className="marquee-viewport relative overflow-hidden">
-      <div className={`marquee-track ${reverse ? 'marquee-reverse' : ''}`}>
+      <div className="marquee-track">
         {testimonials.map((testimonial) => (
           <TestimonialCard
             key={testimonial.name}
@@ -206,17 +146,6 @@ function MarqueeRow({ testimonials, reverse = false }: { testimonials: Testimoni
 }
 
 export const Testimonials: React.FC = () => {
-  if (TESTIMONIALS.length === 0) {
-    return null;
-  }
-
-  const midPoint = Math.ceil(TESTIMONIALS.length / 2);
-  const rowOne = TESTIMONIALS.slice(0, midPoint);
-  // Second marquee row commented out 2026-10-26: keep one row of reviews.
-  // const rowTwo = TESTIMONIALS.slice(midPoint);
-
-  // Section 6 content above this block is commented out (2026-10-26), so the
-  // standalone top margin is gone; restore `mt-16 sm:mt-20` with the section.
   return (
     <div className="space-y-8">
       <div className="text-center max-w-2xl mx-auto px-4 space-y-2">
@@ -229,8 +158,7 @@ export const Testimonials: React.FC = () => {
       </div>
 
       <div className="marquee-paused space-y-6">
-        <MarqueeRow testimonials={rowOne} />
-        {/* <MarqueeRow testimonials={rowTwo} reverse /> — second row commented out 2026-10-26 */}
+        <MarqueeRow testimonials={TESTIMONIALS} />
       </div>
 
       <div className="text-center">

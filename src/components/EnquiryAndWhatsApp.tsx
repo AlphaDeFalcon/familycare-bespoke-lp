@@ -13,7 +13,7 @@ import {
 import { EnquiryForm } from './EnquiryForm';
 import { WhatsAppConcierge } from './WhatsAppConcierge';
 import { Reveal } from './Reveal';
-import { needTypeLabel } from '../utils/enquiryOptions';
+import { needTypeLabel, DEFAULT_NEED_TYPE } from '../utils/enquiryOptions';
 
 interface Draft {
   name: string;
@@ -22,28 +22,26 @@ interface Draft {
 }
 
 interface EnquiryAndWhatsAppProps {
-  selectedDimensions: string[];
   attribution: UtmParams;
-  onLeadCaptured: (lead: CrmLeadPayload) => void;
-  onFormStart: (field: string) => void;
+  onFormStart: () => void;
   onFormSubmit: (lead: CrmLeadPayload) => void;
   onWhatsAppClick: (section: string) => void;
   onPhoneClick: (section: string) => void;
 }
 
 export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
-  selectedDimensions,
   attribution,
-  onLeadCaptured,
   onFormStart,
   onFormSubmit,
   onWhatsAppClick,
   onPhoneClick
 }) => {
+  // Mirrors the form's initial selection so the concierge preview matches
+  // what the visitor sees before they touch any field.
   const [draft, setDraft] = useState<Draft>({
     name: '',
     location: '',
-    needTypes: selectedDimensions
+    needTypes: [DEFAULT_NEED_TYPE]
   });
 
   // Single source of truth for the pre-filled message: the same options
@@ -85,15 +83,11 @@ export const EnquiryAndWhatsApp: React.FC<EnquiryAndWhatsAppProps> = ({
           {/* Left Column (7 Columns): Qualification Form or Success State */}
           <div className="order-1 lg:order-1 lg:col-span-7 bg-white rounded-card border border-hairline border-t-[3px] border-t-accent p-6 sm:p-9">
             <EnquiryForm
-              initialNeedTypes={selectedDimensions}
               attribution={attribution}
               whatsAppUrl={whatsAppUrl}
               onDraftChange={setDraft}
-              onFormStart={() => onFormStart('enquiry-form')}
-              onSubmitSuccess={(lead) => {
-                onLeadCaptured(lead);
-                onFormSubmit(lead);
-              }}
+              onFormStart={onFormStart}
+              onSubmitSuccess={onFormSubmit}
               onWhatsAppClick={() => onWhatsAppClick('enquiry_form')}
               onPhoneClick={() => onPhoneClick('enquiry_form')}
             />
