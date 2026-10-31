@@ -3,6 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Consent Mode v2: deny optional storage before GTM loads. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+      try {
+        var savedConsent = window.localStorage.getItem('fc_consent_v1');
+        if (savedConsent === 'granted' || savedConsent === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: savedConsent,
+            ad_user_data: savedConsent,
+            ad_personalization: savedConsent,
+            analytics_storage: savedConsent
+          });
+        }
+      } catch (_) {}
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

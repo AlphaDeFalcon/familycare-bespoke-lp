@@ -14,6 +14,7 @@ import {
   Twitter,
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import { openConsentPreferences } from '../utils/consent';
 
 interface FinalCtaAndFooterProps {
   onWhatsAppClick: () => void;
@@ -154,6 +155,13 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 className="hover:text-zinc-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
               >
                 Privacy Policy &amp; Data Consent
+              </button>
+              <span>•</span>
+              <button
+                onClick={openConsentPreferences}
+                className="hover:text-zinc-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm"
+              >
+                Cookie preferences
               </button>
               <span>•</span>
               <button

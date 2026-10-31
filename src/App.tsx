@@ -21,6 +21,7 @@ import { TrustAndProof } from './components/TrustAndProof';
 import { EnquiryAndWhatsApp } from './components/EnquiryAndWhatsApp';
 import { FinalCtaAndFooter } from './components/FinalCtaAndFooter';
 import { MobileStickyBar } from './components/MobileStickyBar';
+import { CookieConsent } from './components/CookieConsent';
 
 type ConversionEvent =
   | 'cta_click'
@@ -172,6 +173,8 @@ export default function App() {
         onWhatsAppClick={() => handleWhatsAppAction('mobile_sticky')}
         onPhoneClick={() => handlePhoneAction('mobile_sticky')}
       />
+
+      <CookieConsent />
     </div>
   );
 }
